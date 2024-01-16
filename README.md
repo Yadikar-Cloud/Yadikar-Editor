@@ -1,1 +1,1 @@
-Online text editor based on TinyCMS
+Online text editor based on TinyMCE
