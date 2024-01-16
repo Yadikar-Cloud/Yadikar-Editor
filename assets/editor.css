@@ -1,4 +1,5 @@
-/* For other boilerplate styles, see: https://www.tiny.cloud/docs/tinymce/6/editor-content-css/ */
+
+/* For other boilerplate styles, see: /docs/general-configuration-guide/boilerplate-content-css/ */
 /*
 * For rendering images inserted using the image plugin.
 * Includes image captions using the HTML5 figure element.
@@ -28,6 +29,7 @@ figure.image figcaption {
   text-align: center;
 }
 
+
 /*
  Alignment using classes rather than inline styles
  check out the "formats" option
@@ -41,7 +43,7 @@ img.align-right {
   float: right;
 }
 
-/* Basic styles for Table of Contents plugin (tableofcontents) */
+/* Basic styles for Table of Contents plugin (toc) */
 .mce-toc {
   border: 1px solid gray;
 }
@@ -53,3 +55,4 @@ img.align-right {
 .mce-toc li {
   list-style-type: none;
 }
+
