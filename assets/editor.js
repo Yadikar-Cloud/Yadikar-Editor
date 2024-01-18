@@ -325,7 +325,7 @@ async function openFile() {
 	const file = await fileHandle.getFile();
 	const content = await file.text();
 	
-	document.getElementById("tinymce").innerHTML = content;
+	tinymce.get("mytextarea").setContent(content);
 	
 	return content;
 }
@@ -346,7 +346,7 @@ async function saveFile() {
  const handle = await window.showSaveFilePicker(options);
  const writable = await handle.createWritable();
  
- const content = document.getElementById("tinymce").innerHTML;
+ const content = tinymce.get("mytextarea").getContent();
  await writable.write(content);
  await writable.close();
  
