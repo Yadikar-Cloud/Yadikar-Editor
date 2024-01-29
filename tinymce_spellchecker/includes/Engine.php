@@ -76,7 +76,7 @@ class TinyMCE_SpellChecker_Engine {
 		$method = self::getParam("method", "spellcheck");
 		$lang = self::getParam("lang", "en_US");
 		$text = self::getParam("text");
-		error_log("The lang and words are: $lang;$text;");
+		//error_log("The lang and words are: $lang;$text;");
 		if ($method == "spellcheck") {
 			try {
 				if (!$text) {
