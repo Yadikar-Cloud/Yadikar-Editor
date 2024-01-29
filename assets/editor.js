@@ -245,7 +245,7 @@ tinymce.init({
     editor.ui.registry.addMenuItem('English', {
       text: 'English',
       onAction: function () {
-        window.open("https://editor.yadikar.it/","_self")
+        window.open("https://editor.yadikar.it/English","_self")
       }
     });	
     editor.ui.registry.addMenuItem('Uyghur', {
