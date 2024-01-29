@@ -24,7 +24,7 @@ tinymce.init({
   content_css: useDarkMode ? 'dark' : 'default',
   content_style: "@import url('https://fontlibrary.org//face/ukij-ekran'); @import url('https://fontlibrary.org//face/ukij-chiwer-kesme'); @import url('https://fontlibrary.org//face/ukij-cjk'); @import url('https://fontlibrary.org//face/ukij-kufi'); body { font-family: Verdana,UKIJ,sans-serif; }",
 	spellchecker_languages: 'English=en,Uyghur=ug,Danish=da,Dutch=nl,French=fr_FR,' + 'German=de,Italian=it,Polish=pl,Portuguese=pt_PT,Spanish=es,Swedish=sv,Turkish=tr,Ukrainian=uk',
-	spellchecker_rpc_url: 'http://tinyeditor.com/tinymce_spellchecker/spellchecker.php',
+	spellchecker_rpc_url: 'https://editor.yadikar.it/tinymce_spellchecker/spellchecker.php',
 	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJEkranRegular=UKIJEkranRegular; UKIJChiwerKesmeRegular=UKIJChiwerKesmeRegular; UKIJCJKRegular=UKIJCJKRegular; UKIJKufiRegular=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
 	language: 'en',
   setup: function(editor) {
@@ -47,259 +47,259 @@ tinymce.init({
     editor.ui.registry.addMenuItem('Arabic', {
       text: 'Arabic',
       onAction: function () {
-        window.open("http://tinyeditor.com/Arabic","_self")
+        window.open("https://editor.yadikar.it/Arabic","_self")
       }
     });
     editor.ui.registry.addMenuItem('Albanian', {
       text: 'Albanian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Albanian","_self")
+        window.open("https://editor.yadikar.it/Albanian","_self")
       }
     });		
     editor.ui.registry.addMenuItem('Azerbaijani', {
       text: 'Azerbaijani',
       onAction: function () {
-        window.open("http://tinyeditor.com/Azerbaijani","_self")
+        window.open("https://editor.yadikar.it/Azerbaijani","_self")
       }
     });
     editor.ui.registry.addMenuItem('Bulgarian', {
       text: 'Bulgarian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Bulgarian","_self")
+        window.open("https://editor.yadikar.it/Bulgarian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Catalan', {
       text: 'Catalan',
       onAction: function () {
-        window.open("http://tinyeditor.com/Catalan","_self")
+        window.open("https://editor.yadikar.it/Catalan","_self")
       }
     });		
     editor.ui.registry.addMenuItem('Czech', {
       text: 'Czech',
       onAction: function () {
-        window.open("http://tinyeditor.com/Czech","_self")
+        window.open("https://editor.yadikar.it/Czech","_self")
       }
     });
     editor.ui.registry.addMenuItem('Danish', {
       text: 'Danish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Danish","_self")
+        window.open("https://editor.yadikar.it/Danish","_self")
       }
     });
     editor.ui.registry.addMenuItem('German', {
       text: 'German',
       onAction: function () {
-        window.open("http://tinyeditor.com/German","_self")
+        window.open("https://editor.yadikar.it/German","_self")
       }
     });
     editor.ui.registry.addMenuItem('Greek', {
       text: 'Greek',
       onAction: function () {
-        window.open("http://tinyeditor.com/Greek","_self")
+        window.open("https://editor.yadikar.it/Greek","_self")
       }
     });
     editor.ui.registry.addMenuItem('Spanish', {
       text: 'Spanish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Spanish","_self")
+        window.open("https://editor.yadikar.it/Spanish","_self")
       }
     });		
     editor.ui.registry.addMenuItem('Persian', {
       text: 'Persian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Persian","_self")
+        window.open("https://editor.yadikar.it/Persian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Finnish', {
       text: 'Finnish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Finnish","_self")
+        window.open("https://editor.yadikar.it/Finnish","_self")
       }
     });	
     editor.ui.registry.addMenuItem('Hebrew', {
       text: 'Hebrew',
       onAction: function () {
-        window.open("http://tinyeditor.com/Hebrew","_self")
+        window.open("https://editor.yadikar.it/Hebrew","_self")
       }
     });
     editor.ui.registry.addMenuItem('Croatian', {
       text: 'Croatian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Croatian","_self")
+        window.open("https://editor.yadikar.it/Croatian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Hungarian', {
       text: 'Hungarian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Hungarian","_self")
+        window.open("https://editor.yadikar.it/Hungarian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Indonesian', {
       text: 'Indonesian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Indonesian","_self")
+        window.open("https://editor.yadikar.it/Indonesian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Japanese', {
       text: 'Japanese',
       onAction: function () {
-        window.open("http://tinyeditor.com/Japanese","_self")
+        window.open("https://editor.yadikar.it/Japanese","_self")
       }
     });
     editor.ui.registry.addMenuItem('Georgian', {
       text: 'Georgian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Georgian","_self")
+        window.open("https://editor.yadikar.it/Georgian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Kabyle', {
       text: 'Kabyle',
       onAction: function () {
-        window.open("http://tinyeditor.com/Kabyle","_self")
+        window.open("https://editor.yadikar.it/Kabyle","_self")
       }
     });
     editor.ui.registry.addMenuItem('Kazakh', {
       text: 'Kazakh',
       onAction: function () {
-        window.open("http://tinyeditor.com/Kazakh","_self")
+        window.open("https://editor.yadikar.it/Kazakh","_self")
       }
     });
     editor.ui.registry.addMenuItem('Korean', {
       text: 'Korean',
       onAction: function () {
-        window.open("http://tinyeditor.com/Korean","_self")
+        window.open("https://editor.yadikar.it/Korean","_self")
       }
     });
     editor.ui.registry.addMenuItem('Lithuanian', {
       text: 'Lithuanian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Lithuanian","_self")
+        window.open("https://editor.yadikar.it/Lithuanian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Polish', {
       text: 'Polish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Polish","_self")
+        window.open("https://editor.yadikar.it/Polish","_self")
       }
     });
     editor.ui.registry.addMenuItem('Portuguese', {
       text: 'Portuguese',
       onAction: function () {
-        window.open("http://tinyeditor.com/Portuguese","_self")
+        window.open("https://editor.yadikar.it/Portuguese","_self")
       }
     });
     editor.ui.registry.addMenuItem('Romanian', {
       text: 'Romanian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Romanian","_self")
+        window.open("https://editor.yadikar.it/Romanian","_self")
       }
     });		
     editor.ui.registry.addMenuItem('Russian', {
       text: 'Russian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Russian","_self")
+        window.open("https://editor.yadikar.it/Russian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Slovak', {
       text: 'Slovak',
       onAction: function () {
-        window.open("http://tinyeditor.com/Slovak","_self")
+        window.open("https://editor.yadikar.it/Slovak","_self")
       }
     });
     editor.ui.registry.addMenuItem('Slovenian', {
       text: 'Slovenian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Slovenian","_self")
+        window.open("https://editor.yadikar.it/Slovenian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Swedish', {
       text: 'Swedish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Swedish","_self")
+        window.open("https://editor.yadikar.it/Swedish","_self")
       }
     });	
     editor.ui.registry.addMenuItem('Tamil', {
       text: 'Tamil',
       onAction: function () {
-        window.open("http://tinyeditor.com/Tamil","_self")
+        window.open("https://editor.yadikar.it/Tamil","_self")
       }
     });
     editor.ui.registry.addMenuItem('Tajik', {
       text: 'Tajik',
       onAction: function () {
-        window.open("http://tinyeditor.com/Tajik","_self")
+        window.open("https://editor.yadikar.it/Tajik","_self")
       }
     });		
     editor.ui.registry.addMenuItem('Thai', {
       text: 'Thai',
       onAction: function () {
-        window.open("http://tinyeditor.com/Thai","_self")
+        window.open("https://editor.yadikar.it/Thai","_self")
       }
     });
     editor.ui.registry.addMenuItem('Uzbek', {
       text: 'Uzbek',
       onAction: function () {
-        window.open("http://tinyeditor.com/Uzbek","_self")
+        window.open("https://editor.yadikar.it/Uzbek","_self")
       }
     });		
     editor.ui.registry.addMenuItem('English', {
       text: 'English',
       onAction: function () {
-        window.open("http://tinyeditor.com/","_self")
+        window.open("https://editor.yadikar.it/","_self")
       }
     });	
     editor.ui.registry.addMenuItem('Uyghur', {
       text: 'Uyghur',
       onAction: function () {
-        window.open("http://tinyeditor.com/Uyghur","_self")
+        window.open("https://editor.yadikar.it/Uyghur","_self")
       }
     });
     editor.ui.registry.addMenuItem('French', {
       text: 'French',
       onAction: function () {
-        window.open("http://tinyeditor.com/French","_self")
+        window.open("https://editor.yadikar.it/French","_self")
       }
     });
     editor.ui.registry.addMenuItem('Italian', {
       text: 'Italian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Italian","_self")
+        window.open("https://editor.yadikar.it/Italian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Dutch', {
       text: 'Dutch',
       onAction: function () {
-        window.open("http://tinyeditor.com/Dutch","_self")
+        window.open("https://editor.yadikar.it/Dutch","_self")
       }
     });
     editor.ui.registry.addMenuItem('Turkish', {
       text: 'Turkish',
       onAction: function () {
-        window.open("http://tinyeditor.com/Turkish","_self")
+        window.open("https://editor.yadikar.it/Turkish","_self")
       }
     });
     editor.ui.registry.addMenuItem('Ukrainian', {
       text: 'Ukrainian',
       onAction: function () {
-        window.open("http://tinyeditor.com/Ukrainian","_self")
+        window.open("https://editor.yadikar.it/Ukrainian","_self")
       }
     });
     editor.ui.registry.addMenuItem('Welsh', {
       text: 'Welsh',
       onAction: function () {
-        window.open("http://tinyeditor.com/Welsh","_self")
+        window.open("https://editor.yadikar.it/Welsh","_self")
       }
     });
     editor.ui.registry.addMenuItem('Chinese_Simplified', {
       text: 'Chinese Simplified',
       onAction: function () {
-        window.open("http://tinyeditor.com/Chinese_Simplified","_self")
+        window.open("https://editor.yadikar.it/Chinese_Simplified","_self")
       }
     });
     editor.ui.registry.addMenuItem('Chinese_Traditional', {
       text: 'ChineseTraditional',
       onAction: function () {
-        window.open("http://tinyeditor.com/Chinese_Traditional","_self")
+        window.open("https://editor.yadikar.it/Chinese_Traditional","_self")
       }
     });		
   }	
