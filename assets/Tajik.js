@@ -24,7 +24,7 @@ tinymce.init({
   content_css: useDarkMode ? 'dark' : 'default',
   content_style: "@import url('https://fontlibrary.org//face/ukij-ekran'); @import url('https://fontlibrary.org//face/ukij-chiwer-kesme'); @import url('https://fontlibrary.org//face/ukij-cjk'); @import url('https://fontlibrary.org//face/ukij-kufi'); body { font-family: Verdana,UKIJ,sans-serif; }",
 	spellchecker_languages: 'Bulgarian=bg,Catalan=ca,Czech=cs,Croatian=hr,Danish=da,Dutch=nl,English=en,French=fr_FR,German=de,Georgian=ka,Greek=el,Hebrew=he,Hungarian=hu,Italian=it,Korean=ko,Lithuanian=lt,Polish=pl,Portuguese=pt_PT,Persian=fa,Romanian=ro,Russian=ru,Spanish=es,Swedish=sv,Slovak=sk,Slovenian=sl,Turkish=tr,Uyghur=ug,Ukrainian=uk',
-	spellchecker_rpc_url: 'http://tinyeditor.com/tinymce_spellchecker/spellchecker.php',
+	spellchecker_rpc_url: 'https://editor.yadikar.it/tinymce_spellchecker/spellchecker.php',
 	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJEkranRegular=UKIJEkranRegular; UKIJChiwerKesmeRegular=UKIJChiwerKesmeRegular; UKIJCJKRegular=UKIJCJKRegular; UKIJKufiRegular=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
 	language: 'tg',
   setup: function(editor) {
