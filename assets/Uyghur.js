@@ -29,10 +29,55 @@ tinymce.init({
 	language: 'ug',
 	templates : [
 			{
+							title : "تۇنۇشتۇرۇش",
+							url : "templates/Uyghur/تونۇشتۇرۇش.html",
+							description : ""
+			},
+			{
+							title : "تەبرىك كارتىسى",
+							url : "templates/Uyghur/تەبرىك_كارتىسى.html",
+							description : ""
+			},
+			{
+							title : "تەبرىكنامە",
+							url : "templates/Uyghur/تەبرىكنامە.html",
+							description : ""
+			},
+			{
+							title : "تەكلىپ قىلىش خېتى",
+							url : "templates/Uyghur/تەكلىپ_قىلىش_خېتى.html",
+							description : ""
+			},
+			{
 							title : "تەكلىپنامە",
-							url : "templates/Uyghur/keyboard.html",
-							description : "چۈشەندۈرۈلۈشى: توي-تۆكۈن ياكى يىغىلىشلارغا قاتناشقۇچىلارغا ئەۋەتىلىدۇ."
-			}
+							url : "templates/Uyghur/تەكلىپنامە.html",
+							description : ""
+			},
+			{
+							title : "سالام خەت",
+							url : "templates/Uyghur/سالام_خەت.html",
+							description : ""
+			},
+			{
+							title : "كۈندىلىك خاتىرە",
+							url : "templates/Uyghur/كۈندىلىك_خاتىرە.html",
+							description : ""
+			},
+			{
+							title : "ئارىيەت ئېلىش خېتى",
+							url : "templates/Uyghur/ئارىيەت_ئېلىش_خېتى.html",
+							description : ""
+			},
+			{
+							title : "ئۇقتۈرۈش",
+							url : "templates/Uyghur/ئۇقتۈرۈش.html",
+							description : ""
+			},
+			{
+							title : "ئىلتىماس",
+							url : "templates/Uyghur/ئىلتىماس.html",
+							description : ""
+			}			
 	],
 	setup: function(editor) {
     editor.ui.registry.addToggleMenuItem('open', {
