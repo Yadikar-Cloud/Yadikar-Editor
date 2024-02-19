@@ -29,6 +29,11 @@ tinymce.init({
 	language: 'ug',
 	templates : [
 			{
+							title : "باغاق",
+							url : "templates/Uyghur/باغاق.html",
+							description : ""
+			},	
+			{
 							title : "تۇنۇشتۇرۇش",
 							url : "templates/Uyghur/تونۇشتۇرۇش.html",
 							description : ""
