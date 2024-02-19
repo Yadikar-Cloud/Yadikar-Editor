@@ -4,7 +4,7 @@ tinymce.init({
   selector: 'textarea#mytextarea',
   plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker',
   imagetools_cors_hosts: ['picsum.photos'],
-	menu: { custom: { title: 'File', items: 'newdocument | open | save | saveImage | preview | print' },languages: { title: 'Language', items: 'Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional'}},
+	menu: { custom: { title: 'File', items: 'newdocument | open | save | screenshot | preview | print' },languages: { title: 'Language', items: 'Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional'}},
 	menubar: 'custom edit view insert format tools table languages help',
   toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | outdent indent | numlist bullist',
   toolbar_sticky: true,
@@ -43,9 +43,9 @@ tinymce.init({
         saveFile();
       },
     });
-    editor.ui.registry.addToggleMenuItem('saveImage', {
-      text: 'Save As PNG',
-      icon: 'save',
+    editor.ui.registry.addToggleMenuItem('screenshot', {
+      text: 'Screenshot',
+      icon: 'edit-image',
       onAction: function() {
         saveAsImage();
       },
@@ -363,30 +363,18 @@ async function saveFile() {
 var FileSaver = require('file-saver');
 var htmlToImage = require('html-to-image');
 async function saveAsImage() {
-	const options = {
-	 types: [
-		 {
-			 description: "Text files",
-			 accept: {
-				 "Image Files": [".png"],
-			 },
-		 },
-	 ],
-	};
+	// add empty line offset
+	var content = tinymce.get("mytextarea").getContent()+'<p>&nbsp;</p>';
+	tinymce.get("mytextarea").setContent(content);
 	
 	var elem = tinymce.get("mytextarea").contentDocument.body;
-	var blob = htmlToImage.toBlob(elem,{backgroundColor:'white'})
-	  .then(function (blob) {			
-		//const handle = await window.showSaveFilePicker(options);
-		//const writable = await handle.createWritable();		
-    if (window.saveAs) {
-      window.saveAs(blob, 'my-node.png');			
-			//await writable.write(blob);
-			//await writable.close();	
-			//return handle;
-    } else {
-     FileSaver.saveAs(blob, 'my-node.png');
-   }
-  });
+	htmlToImage.toBlob(elem,{backgroundColor:'white'})
+		.then(function (blob) {
+			if (window.saveAs) {
+				window.saveAs(blob, 'my-doc.png');
+			} else {
+			 FileSaver.saveAs(blob, 'my-doc.png');
+		 }
+		});
  
 }
