@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "tinymce": "^5.10.9"
+  },
+  "scripts": {
+    "build": "esbuild assets/editor.js --bundle --outfile=assets/out.js"
   }
 }

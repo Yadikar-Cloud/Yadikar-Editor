@@ -4,7 +4,10 @@ tinymce.init({
   selector: 'textarea#mytextarea',
   plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker',
   imagetools_cors_hosts: ['picsum.photos'],
-	menu: { custom: { title: 'File', items: 'newdocument | open | save | preview | print' },languages: { title: 'Language', items: 'Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional'}},
+	menu: { custom: { title: 'File', items: 'newdocument | open | save | preview | print' },
+					tools: { title: 'Tools', items: 'spellchecker | screenshot | code wordcount' },
+					languages: { title: 'Language', items: 'Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional'}
+	},
 	menubar: 'custom edit view insert format tools table languages help',
   toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | outdent indent | numlist bullist',
   toolbar_sticky: true,
@@ -42,7 +45,14 @@ tinymce.init({
       onAction: function() {
         saveFile();
       },
-    });	
+    });
+    editor.ui.registry.addToggleMenuItem('screenshot', {
+      text: 'Screenshot',
+      icon: 'edit-image',
+      onAction: function() {
+        saveAsImage();
+      },
+    });		
 		// language menu items registry
     editor.ui.registry.addMenuItem('Arabic', {
       text: 'Arabic',
@@ -351,4 +361,22 @@ async function saveFile() {
  await writable.close();
  
  return handle;
+}
+
+var FileSaver = require('file-saver');
+var htmlToImage = require('html-to-image');
+async function saveAsImage() {
+	// add empty line offset
+	var content = tinymce.get("mytextarea").getContent()+'<p>&nbsp;</p>';
+	tinymce.get("mytextarea").setContent(content);
+	
+	var elem = tinymce.get("mytextarea").contentDocument.body;
+	htmlToImage.toBlob(elem,{backgroundColor:'white'})
+		.then(function (blob) {
+			if (window.saveAs) {
+				window.saveAs(blob, 'my-doc.png');
+			} else {
+			 FileSaver.saveAs(blob, 'my-doc.png');
+		 }
+		});
 }
