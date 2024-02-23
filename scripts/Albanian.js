@@ -102,6 +102,7 @@ async function saveFile() {
  return handle;
 }
 
+var FileSaver = require('file-saver');
 var html2canvas = require('html2canvas');
 async function saveAsImage() {
 	// add empty line offset
