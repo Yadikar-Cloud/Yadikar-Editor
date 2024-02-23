@@ -100,6 +100,13 @@ tinymce.init({
       onAction: function() {
         saveFile();
       },
+    });
+    editor.ui.registry.addToggleMenuItem('screenshot', {
+      text: 'Screenshot',
+      icon: 'edit-image',
+      onAction: function() {
+        saveAsImage();
+      },
     });		
   }	
  });
