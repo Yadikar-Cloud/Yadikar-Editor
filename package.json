@@ -44,6 +44,6 @@
 		"build": "esbuild scripts/Turkish.js --bundle --outfile=assets/Turkish.js",
 		"build": "esbuild scripts/Ukrainian.js --bundle --outfile=assets/Ukrainian.js",
 		"build": "esbuild scripts/Uyghur.js --bundle --outfile=assets/Uyghur.js",
-		"build": "esbuild scripts/Uzbek.js --bundle --outfile=assets/Uzbek.js",
+		"build": "esbuild scripts/Uzbek.js --bundle --outfile=assets/Uzbek.js"
   }
 }
