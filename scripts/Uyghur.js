@@ -160,19 +160,16 @@ async function saveFile() {
 }
 
 var FileSaver = require('file-saver');
-var htmlToImage = require('html-to-image');
+var html2canvas = require('html2canvas');
 async function saveAsImage() {
 	// add empty line offset
 	var content = tinymce.get("mytextarea").getContent()+'<p>&nbsp;</p>';
 	tinymce.get("mytextarea").setContent(content);
 	
 	var elem = tinymce.get("mytextarea").contentDocument.body;
-	htmlToImage.toBlob(elem,{backgroundColor:'white'})
-		.then(function (blob) {
-			if (window.saveAs) {
-				window.saveAs(blob, 'my-doc.png');
-			} else {
-			 FileSaver.saveAs(blob, 'my-doc.png');
-		 }
-		});
+	html2canvas(elem).then(function(canvas) {
+			canvas.toBlob(function(blob) {
+					saveAs(blob, "pretty image.png");
+			});
+	});
 }
