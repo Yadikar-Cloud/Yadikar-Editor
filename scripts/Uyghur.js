@@ -159,7 +159,6 @@ async function saveFile() {
  return handle;
 }
 
-var FileSaver = require('file-saver');
 var html2canvas = require('html2canvas');
 async function saveAsImage() {
 	// add empty line offset
@@ -169,7 +168,7 @@ async function saveAsImage() {
 	var elem = tinymce.get("mytextarea").contentDocument.body;
 	html2canvas(elem).then(function(canvas) {
 			canvas.toBlob(function(blob) {
-					saveAs(blob, "pretty image.png");
+					saveAs(blob, "my-doc.png");
 			});
 	});
 }
