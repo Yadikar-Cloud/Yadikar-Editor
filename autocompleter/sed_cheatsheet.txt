@@ -1,0 +1,28 @@
+# converting json data to PHP array example
+# json data
+# ["a","b","c"]
+# php array
+# $wordlist="a b c";
+
+# print first 50 bytes 
+head -c 50 filename.txt
+
+# print last 50 bytes
+tail -c 50 filename.txt
+
+# replace regular character
+sed -i 's/","/ /g' filename.txt
+
+# replace special character
+sed -i 's/[/$wordlist=/g' filename.txt
+
+# add a new first line with string
+sed -i '1s/^/<?php\n/' filename.txt
+
+# sort an php array and write to a filename
+<?php
+require_once('./unique.php');
+
+array_multisort(array_map('strlen', $wordlist), $wordlist);
+
+file_put_contents('./filename.txt', print_r(json_encode(array_values($wordlist),JSON_UNESCAPED_UNICODE), true));

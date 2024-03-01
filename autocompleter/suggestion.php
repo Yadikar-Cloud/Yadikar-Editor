@@ -1,14 +1,12 @@
 <?php
 // Assume the string is passed as a GET parameter named 'q'
-require_once('./unique.php');
+require_once('./sortedwords.php');
 
 $q = $_GET['keyword'];
 
 // Initialize an empty array to store the matching results
-$results = array();
-$results = preg_grep("/^$q/i", $wordlist);
+$results = preg_match("/$q+[^ ]+/i", $wordlist, $matches);
 
 // Encode the results array as a json string and print it
-echo json_encode($results,JSON_UNESCAPED_UNICODE);
-
+echo json_encode($matches,JSON_UNESCAPED_UNICODE);
 ?>
