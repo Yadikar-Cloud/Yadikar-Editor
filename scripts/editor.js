@@ -2,8 +2,17 @@ var useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 tinymce.init({
   selector: 'textarea#mytextarea',
-  plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker',
-  imagetools_cors_hosts: ['picsum.photos'],
+  plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions',
+	search_function: async ( keyword ) => {
+			const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
+			if(response.ok){
+					const jsonResponse = await response.json();
+					return Object.values(jsonResponse)[0]['name'];
+			}else{
+				 throw new Error("ERR")
+			}
+	},  
+	imagetools_cors_hosts: ['picsum.photos'],
 	menu: { custom: { title: 'File', items: 'newdocument | open | save | preview | print' },
 					tools: { title: 'Tools', items: 'spellchecker | screenshot | code wordcount' },
 					languages: { title: 'Language', items: 'Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional'}
