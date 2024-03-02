@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "esbuild": "^0.20.1",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "tinymce": "^5.10.9"
   },
   "scripts": {
