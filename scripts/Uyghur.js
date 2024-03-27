@@ -4,7 +4,7 @@ tinymce.init({
   selector: 'textarea#mytextarea',
   plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions',
 	search_function: async ( keyword ) => {
-			const response = await fetch(`https://editor.yadikar.it/autocompleter/suggestion.php?keyword=${keyword}`);
+			const response = await fetch(window.location.origin+`/autocompleter/suggestion.php?keyword=${keyword}`);
 			if(response.ok){
 					const jsonResponse = await response.json();
 					return Object.values(jsonResponse);
