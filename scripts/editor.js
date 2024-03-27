@@ -66,301 +66,301 @@ tinymce.init({
     editor.ui.registry.addMenuItem('Arabic', {
       text: 'Arabic',
       onAction: function () {
-				const url = window.location.href+'Arabic';
+				const url = window.location.origin+'/Arabic';
         window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Albanian', {
       text: 'Albanian',
       onAction: function () {
-				const url = window.location.href+'Albanian';
+				const url = window.location.origin+'/Albanian';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('Azerbaijani', {
       text: 'Azerbaijani',
       onAction: function () {
-				const url = window.location.href+'Azerbaijani';
+				const url = window.location.origin+'/Azerbaijani';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Bulgarian', {
       text: 'Bulgarian',
       onAction: function () {
-				const url = window.location.href+'Bulgarian';
+				const url = window.location.origin+'/Bulgarian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Catalan', {
       text: 'Catalan',
       onAction: function () {
-				const url = window.location.href+'Catalan';
+				const url = window.location.origin+'/Catalan';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('Czech', {
       text: 'Czech',
       onAction: function () {
-				const url = window.location.href+'Czech';
+				const url = window.location.origin+'/Czech';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Danish', {
       text: 'Danish',
       onAction: function () {
-				const url = window.location.href+'Danish';
+				const url = window.location.origin+'/Danish';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('German', {
       text: 'German',
       onAction: function () {
-				const url = window.location.href+'German';
+				const url = window.location.origin+'/German';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Greek', {
       text: 'Greek',
       onAction: function () {
-				const url = window.location.href+'Greek';
+				const url = window.location.origin+'/Greek';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Spanish', {
       text: 'Spanish',
       onAction: function () {
-				const url = window.location.href+'Spanish';
+				const url = window.location.origin+'/Spanish';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('Persian', {
       text: 'Persian',
       onAction: function () {
-				const url = window.location.href+'Persian';
+				const url = window.location.origin+'/Persian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Finnish', {
       text: 'Finnish',
       onAction: function () {
-				const url = window.location.href+'Finnish';
+				const url = window.location.origin+'/Finnish';
 				window.open(url,"_self")
       }
     });	
     editor.ui.registry.addMenuItem('Hebrew', {
       text: 'Hebrew',
       onAction: function () {
-				const url = window.location.href+'Hebrew';
+				const url = window.location.origin+'/Hebrew';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Croatian', {
       text: 'Croatian',
       onAction: function () {
-				const url = window.location.href+'Croatian';
+				const url = window.location.origin+'/Croatian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Hungarian', {
       text: 'Hungarian',
       onAction: function () {
-				const url = window.location.href+'Hungarian';
+				const url = window.location.origin+'/Hungarian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Indonesian', {
       text: 'Indonesian',
       onAction: function () {
-				const url = window.location.href+'Indonesian';
+				const url = window.location.origin+'/Indonesian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Japanese', {
       text: 'Japanese',
       onAction: function () {
-				const url = window.location.href+'Japanese';
+				const url = window.location.origin+'/Japanese';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Georgian', {
       text: 'Georgian',
       onAction: function () {
-				const url = window.location.href+'Georgian';
+				const url = window.location.origin+'/Georgian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Kabyle', {
       text: 'Kabyle',
       onAction: function () {
-				const url = window.location.href+'Kabyle';
+				const url = window.location.origin+'/Kabyle';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Kazakh', {
       text: 'Kazakh',
       onAction: function () {
-				const url = window.location.href+'Kazakh';
+				const url = window.location.origin+'/Kazakh';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Korean', {
       text: 'Korean',
       onAction: function () {
-				const url = window.location.href+'Korean';
+				const url = window.location.origin+'/Korean';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Lithuanian', {
       text: 'Lithuanian',
       onAction: function () {
-				const url = window.location.href+'Lithuanian';
+				const url = window.location.origin+'/Lithuanian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Polish', {
       text: 'Polish',
       onAction: function () {
-				const url = window.location.href+'Polish';
+				const url = window.location.origin+'/Polish';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Portuguese', {
       text: 'Portuguese',
       onAction: function () {
-				const url = window.location.href+'Portuguese';
+				const url = window.location.origin+'/Portuguese';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Romanian', {
       text: 'Romanian',
       onAction: function () {
-				const url = window.location.href+'Romanian';
+				const url = window.location.origin+'/Romanian';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('Russian', {
       text: 'Russian',
       onAction: function () {
-				const url = window.location.href+'Russian';
+				const url = window.location.origin+'/Russian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Slovak', {
       text: 'Slovak',
       onAction: function () {
-				const url = window.location.href+'Slovak';
+				const url = window.location.origin+'/Slovak';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Slovenian', {
       text: 'Slovenian',
       onAction: function () {
-				const url = window.location.href+'Slovenian';
+				const url = window.location.origin+'/Slovenian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Swedish', {
       text: 'Swedish',
       onAction: function () {
-				const url = window.location.href+'Swedish';
+				const url = window.location.origin+'/Swedish';
 				window.open(url,"_self")
       }
     });	
     editor.ui.registry.addMenuItem('Tamil', {
       text: 'Tamil',
       onAction: function () {
-				const url = window.location.href+'Tamil';
+				const url = window.location.origin+'/Tamil';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Tajik', {
       text: 'Tajik',
       onAction: function () {
-				const url = window.location.href+'Tajik';
+				const url = window.location.origin+'/Tajik';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('Thai', {
       text: 'Thai',
       onAction: function () {
-				const url = window.location.href+'Thai';
+				const url = window.location.origin+'/Thai';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Uzbek', {
       text: 'Uzbek',
       onAction: function () {
-				const url = window.location.href+'Uzbek';
+				const url = window.location.origin+'/Uzbek';
 				window.open(url,"_self")
       }
     });		
     editor.ui.registry.addMenuItem('English', {
       text: 'English',
       onAction: function () {
-				const url = window.location.href+'English';
+				const url = window.location.origin+'/English';
 				window.open(url,"_self")
       }
     });	
     editor.ui.registry.addMenuItem('Uyghur', {
       text: 'Uyghur',
       onAction: function () {
-				const url = window.location.href+'Uyghur';
+				const url = window.location.origin+'/Uyghur';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('French', {
       text: 'French',
       onAction: function () {
-				const url = window.location.href+'French';
+				const url = window.location.origin+'/French';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Italian', {
       text: 'Italian',
       onAction: function () {
-				const url = window.location.href+'Italian';
+				const url = window.location.origin+'/Italian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Dutch', {
       text: 'Dutch',
       onAction: function () {
-				const url = window.location.href+'Dutch';
+				const url = window.location.origin+'/Dutch';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Turkish', {
       text: 'Turkish',
       onAction: function () {
-				const url = window.location.href+'Turkish';
+				const url = window.location.origin+'/Turkish';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Ukrainian', {
       text: 'Ukrainian',
       onAction: function () {
-				const url = window.location.href+'Ukrainian';
+				const url = window.location.origin+'/Ukrainian';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Welsh', {
       text: 'Welsh',
       onAction: function () {
-				const url = window.location.href+'Welsh';
+				const url = window.location.origin+'/Welsh';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Chinese_Simplified', {
       text: 'Chinese Simplified',
       onAction: function () {
-				const url = window.location.href+'Chinese_Simplified';
+				const url = window.location.origin+'/Chinese_Simplified';
 				window.open(url,"_self")
       }
     });
     editor.ui.registry.addMenuItem('Chinese_Traditional', {
       text: 'ChineseTraditional',
       onAction: function () {
-				const url = window.location.href+'Chinese_Traditional';
+				const url = window.location.origin+'/Chinese_Traditional';
 				window.open(url,"_self")
       }
     });		
