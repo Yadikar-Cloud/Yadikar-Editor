@@ -8,8 +8,6 @@ tinymce.init({
 			if(response.ok){
 					const jsonResponse = await response.json();
 					return Object.values(jsonResponse)[0]['name'];
-			}else{
-				 throw new Error("ERR")
 			}
 	},  
 	imagetools_cors_hosts: ['picsum.photos'],

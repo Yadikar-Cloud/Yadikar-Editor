@@ -7923,8 +7923,6 @@
       if (response.ok) {
         const jsonResponse = await response.json();
         return Object.values(jsonResponse);
-      } else {
-        throw new Error("ERR");
       }
     },
     imagetools_cors_hosts: ["picsum.photos"],
