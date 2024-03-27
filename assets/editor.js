@@ -7980,259 +7980,302 @@
       editor.ui.registry.addMenuItem("Arabic", {
         text: "Arabic",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Arabic", "_self");
+          const url = window.location.href + "Arabic";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Albanian", {
         text: "Albanian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Albanian", "_self");
+          const url = window.location.href + "Albanian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Azerbaijani", {
         text: "Azerbaijani",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Azerbaijani", "_self");
+          const url = window.location.href + "Azerbaijani";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Bulgarian", {
         text: "Bulgarian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Bulgarian", "_self");
+          const url = window.location.href + "Bulgarian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Catalan", {
         text: "Catalan",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Catalan", "_self");
+          const url = window.location.href + "Catalan";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Czech", {
         text: "Czech",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Czech", "_self");
+          const url = window.location.href + "Czech";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Danish", {
         text: "Danish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Danish", "_self");
+          const url = window.location.href + "Danish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("German", {
         text: "German",
         onAction: function() {
-          window.open("https://editor.yadikar.it/German", "_self");
+          const url = window.location.href + "German";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Greek", {
         text: "Greek",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Greek", "_self");
+          const url = window.location.href + "Greek";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Spanish", {
         text: "Spanish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Spanish", "_self");
+          const url = window.location.href + "Spanish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Persian", {
         text: "Persian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Persian", "_self");
+          const url = window.location.href + "Persian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Finnish", {
         text: "Finnish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Finnish", "_self");
+          const url = window.location.href + "Finnish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Hebrew", {
         text: "Hebrew",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Hebrew", "_self");
+          const url = window.location.href + "Hebrew";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Croatian", {
         text: "Croatian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Croatian", "_self");
+          const url = window.location.href + "Croatian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Hungarian", {
         text: "Hungarian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Hungarian", "_self");
+          const url = window.location.href + "Hungarian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Indonesian", {
         text: "Indonesian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Indonesian", "_self");
+          const url = window.location.href + "Indonesian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Japanese", {
         text: "Japanese",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Japanese", "_self");
+          const url = window.location.href + "Japanese";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Georgian", {
         text: "Georgian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Georgian", "_self");
+          const url = window.location.href + "Georgian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Kabyle", {
         text: "Kabyle",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Kabyle", "_self");
+          const url = window.location.href + "Kabyle";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Kazakh", {
         text: "Kazakh",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Kazakh", "_self");
+          const url = window.location.href + "Kazakh";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Korean", {
         text: "Korean",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Korean", "_self");
+          const url = window.location.href + "Korean";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Lithuanian", {
         text: "Lithuanian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Lithuanian", "_self");
+          const url = window.location.href + "Lithuanian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Polish", {
         text: "Polish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Polish", "_self");
+          const url = window.location.href + "Polish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Portuguese", {
         text: "Portuguese",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Portuguese", "_self");
+          const url = window.location.href + "Portuguese";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Romanian", {
         text: "Romanian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Romanian", "_self");
+          const url = window.location.href + "Romanian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Russian", {
         text: "Russian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Russian", "_self");
+          const url = window.location.href + "Russian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Slovak", {
         text: "Slovak",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Slovak", "_self");
+          const url = window.location.href + "Slovak";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Slovenian", {
         text: "Slovenian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Slovenian", "_self");
+          const url = window.location.href + "Slovenian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Swedish", {
         text: "Swedish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Swedish", "_self");
+          const url = window.location.href + "Swedish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Tamil", {
         text: "Tamil",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Tamil", "_self");
+          const url = window.location.href + "Tamil";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Tajik", {
         text: "Tajik",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Tajik", "_self");
+          const url = window.location.href + "Tajik";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Thai", {
         text: "Thai",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Thai", "_self");
+          const url = window.location.href + "Thai";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Uzbek", {
         text: "Uzbek",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Uzbek", "_self");
+          const url = window.location.href + "Uzbek";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("English", {
         text: "English",
         onAction: function() {
-          window.open("https://editor.yadikar.it/English", "_self");
+          const url = window.location.href + "English";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Uyghur", {
         text: "Uyghur",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Uyghur", "_self");
+          const url = window.location.href + "Uyghur";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("French", {
         text: "French",
         onAction: function() {
-          window.open("https://editor.yadikar.it/French", "_self");
+          const url = window.location.href + "French";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Italian", {
         text: "Italian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Italian", "_self");
+          const url = window.location.href + "Italian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Dutch", {
         text: "Dutch",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Dutch", "_self");
+          const url = window.location.href + "Dutch";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Turkish", {
         text: "Turkish",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Turkish", "_self");
+          const url = window.location.href + "Turkish";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Ukrainian", {
         text: "Ukrainian",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Ukrainian", "_self");
+          const url = window.location.href + "Ukrainian";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Welsh", {
         text: "Welsh",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Welsh", "_self");
+          const url = window.location.href + "Welsh";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Chinese_Simplified", {
         text: "Chinese Simplified",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Chinese_Simplified", "_self");
+          const url = window.location.href + "Chinese_Simplified";
+          window.open(url, "_self");
         }
       });
       editor.ui.registry.addMenuItem("Chinese_Traditional", {
         text: "ChineseTraditional",
         onAction: function() {
-          window.open("https://editor.yadikar.it/Chinese_Traditional", "_self");
+          const url = window.location.href + "Chinese_Traditional";
+          window.open(url, "_self");
         }
       });
     }

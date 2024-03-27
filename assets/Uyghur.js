@@ -7917,7 +7917,7 @@
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   tinymce.init({
     selector: "textarea#mytextarea",
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools noneditable help charmap quickbars emoticons spellchecker suggestions",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions",
     search_function: async (keyword) => {
       const response = await fetch(`https://editor.yadikar.it/autocompleter/suggestion.php?keyword=${keyword}`);
       if (response.ok) {
