@@ -7913,7 +7913,9 @@
     }
   });
 
+function initializeTinyMCE() {
   // scripts/Uyghur.js
+  const editorHeight = window.innerHeight - 20;
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   tinymce.init({
     selector: "textarea#mytextarea",
@@ -7939,7 +7941,7 @@
     autosave_restore_when_empty: false,
     autosave_retention: "2m",
     image_advtab: true,
-    height: 600,
+    height: editorHeight,
     image_caption: true,
     quickbars_selection_toolbar: "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
     noneditable_noneditable_class: "mceNonEditable",
@@ -8033,6 +8035,15 @@
       });
     }
   });
+ }
+ // Run the function when the document is ready
+document.addEventListener('DOMContentLoaded', initializeTinyMCE);
+
+// Optional: Reinitialize TinyMCE when the window is resized
+window.addEventListener('resize', function() {
+  tinymce.remove(); // Remove the existing instance
+  initializeTinyMCE(); // Reinitialize with the new height
+});  
   var fileHandle;
   async function openFile() {
     const options = {
