@@ -7919,7 +7919,7 @@ function initializeTinyMCE() {
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   tinymce.init({
     selector: "textarea#mytextarea",
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker",
     search_function: async (keyword) => {
       const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
       if (response.ok) {
@@ -7930,7 +7930,7 @@ function initializeTinyMCE() {
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "newdocument | open | save | preview | print" },
-      tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" },
+      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount" },
       languages: { title: "Language", items: "Albanian Arabic Azerbaijani Bulgarian Catalan Czech Danish German Greek Spanish Persian Finnish French Hebrew Croatian Hungarian Indonesian Italian Japanese Georgian Kabyle Kazakh Korean Lithuanian Dutch Polish Portuguese Romanian Russian Slovak Slovenian Swedish Tamil Tajik Thai Turkish Uzbek Uyghur Ukrainian Chinese_Simplified Chinese_Traditional" }
     },
     menubar: "custom edit view insert format tools table languages help",
@@ -7947,13 +7947,15 @@ function initializeTinyMCE() {
     quickbars_selection_toolbar: "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
     noneditable_noneditable_class: "mceNonEditable",
     toolbar_mode: "sliding",
-    contextmenu: "link image imagetools table spellchecker",
+    contextmenu: "link image imagetools table spellchecker grammerchecker",
     skin: useDarkMode ? "oxide-dark" : "oxide",
     content_css: useDarkMode ? "dark" : "default",
     content_style: "body { font-family: Verdana,UKIJ,sans-serif; }",
     spellchecker_languages: "Bulgarian=bg,Catalan=ca,Czech=cs,Croatian=hr,Danish=da,Dutch=nl,English=en,French=fr_FR,German=de,Georgian=ka,Greek=el,Hebrew=he,Hungarian=hu,Italian=it,Korean=ko,Lithuanian=lt,Polish=pl,Portuguese=pt_PT,Persian=fa,Romanian=ro,Russian=ru,Spanish=es,Swedish=sv,Slovak=sk,Slovenian=sl,Turkish=tr,Uyghur=ug,Ukrainian=uk",
     spellchecker_rpc_url: window.location.origin+'/tinymce_spellchecker/spellchecker.php',
-    font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+    grammerchecker_language: "auto",
+	grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
+	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
     language: "en",
     setup: function(editor) {
       editor.ui.registry.addToggleMenuItem("open", {
