@@ -7919,6 +7919,11 @@ function initializeTinyMCE() {
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   tinymce.init({
     selector: "textarea#mytextarea",
+    mobile: {
+        menubar: true,
+        plugins: 'autosave lists autolink',
+        toolbar: 'undo bold italic styles'
+    },    
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker",
     search_function: async (keyword) => {
       const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
