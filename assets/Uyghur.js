@@ -7921,8 +7921,6 @@ function initializeTinyMCE() {
     selector: "textarea#mytextarea",
     mobile: {
         menubar: true,
-        plugins: 'autosave lists autolink',
-        toolbar: 'undo bold italic styles'
     },    
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions",
     search_function: async (keyword) => {
@@ -8045,10 +8043,11 @@ function initializeTinyMCE() {
 document.addEventListener('DOMContentLoaded', initializeTinyMCE);
 
 // Optional: Reinitialize TinyMCE when the window is resized
-window.addEventListener('resize', function() {
+window.addEventListener('load', function() { 
   tinymce.remove(); // Remove the existing instance
   initializeTinyMCE(); // Reinitialize with the new height
 });  
+
   var fileHandle;
   async function openFile() {
     const options = {

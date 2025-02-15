@@ -8292,7 +8292,7 @@ function initializeTinyMCE() {
 document.addEventListener('DOMContentLoaded', initializeTinyMCE);
 
 // Optional: Reinitialize TinyMCE when the window is resized
-window.addEventListener('resize', function() {
+window.addEventListener('load', function() {
   tinymce.remove(); // Remove the existing instance
   initializeTinyMCE(); // Reinitialize with the new height
 });
