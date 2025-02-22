@@ -8008,6 +8008,7 @@ window.addEventListener('load', function() {
   }
   async function saveFile() {
     const options = {
+      suggestedName: "file.txt",
       types: [
         {
           description: "Text files",
