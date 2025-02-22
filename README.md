@@ -12,13 +12,13 @@ The editor is based on HTML/JavaScript/PHP. So it should be served from web serv
 
 1. Install Web Server
 Install web server on your prefered Operating System. On Ubuntu:
-apt -y install apache2
+`apt -y install apache2`
 or
-apt -y install nginx
+`apt -y install nginx`
 
 2. Enable PHP Modules
 The Editor mostly works as a static page except for one case in which the spellchecking plugin is enabled. To enable the spell checking plugin, enable the following php modules:
-apt -y install php php-common php-enchant (installed prefered php version such as 7.4, 8.3 etc)
+`apt -y install php php-common php-enchant #install prefered php version such as 7.4, 8.3 etc`
 
 3. Spellchecking Dictionaries
 The Editor needs spellchecking dictionaries to enable spellchecking. The dictionaries are installed from the following source by default:
