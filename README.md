@@ -6,6 +6,7 @@ Freatures:
   3. Grammer checker
   4. Autocomplete
   5. Screenshot the editor area (Absolute)
+  6. Local file storage (no cloud)
 
 # Dependency
 The editor is based on HTML/JavaScript/PHP. So it should be served from web server such as Apache, Nginx. If these servers are insalled on local machine, It can also be served locally.
