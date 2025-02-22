@@ -12,13 +12,14 @@ The editor is based on HTML/JavaScript/PHP. So it should be served from web serv
 
 1. Install Web Server
 Install web server on your prefered Operating System. On Ubuntu:
+
 `apt -y install apache2` or `apt -y install nginx`
 
-2. Enable PHP Modules
+3. Enable PHP Modules
 The Editor mostly works as a static page except for one case in which the spellchecking plugin is enabled. To enable the spell checking plugin, enable the following php modules:
 `apt -y install php php-common php-enchant #install prefered php version such as 7.4, 8.3 etc`
 
-3. Spellchecking Dictionaries
+4. Spellchecking Dictionaries
 The Editor needs spellchecking dictionaries to enable spellchecking. The dictionaries are installed from the following source by default:
 1. for Uyghur language: https://extensions.libreoffice.org/en/extensions/show/42016
 2. for all the other languages: https://github.com/wooorm/dictionaries
