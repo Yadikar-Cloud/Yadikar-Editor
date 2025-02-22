@@ -1,5 +1,5 @@
 # Yadikar Text Editor
-Online text editor based on TinyMCE. There are more plugins in this text editor than the ones which is provided by TineMCE. The Screenshot, Spell/Grammer checker, Autocomplete plugins are custome developed or more custom codes are added to public codes available on Github.
+Online text editor based on TinyMCE. There are more plugins in this text editor than the ones which are provided by TineMCE. The Screenshot, Spell/Grammer checker, Autocomplete plugins are custome developed or more custom codes are added on top of public codes available on Github.
 Freatures:
   1. File Open/Save
   2. Splelling checker
