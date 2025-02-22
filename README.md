@@ -29,3 +29,6 @@ Update the dictionaries located in tinymce_spellchecker/dics/ directory. The dic
 
 # Bug reports
 Please use the [issue tracker](https://github.com/Yadikar-Cloud/Yadikar-Editor/issues) provided by GitHub to send us bug reports or feature requests. Follow the template's instructions or the issue will likely be ignored or closed as invalid.
+
+# License
+GPLv2 "or later" by default, LGPLv2.1 "or later" with -Dgpl=false. See [details](https://github.com/Yadikar-Cloud/Yadikar-Editor?tab=AGPL-3.0-1-ov-file#readme).
