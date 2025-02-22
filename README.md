@@ -12,7 +12,6 @@ The editor is based on HTML/JavaScript/PHP. So it should be served from web serv
 
 1. Install Web Server
 Install web server on your prefered Operating System. On Ubuntu:
-
 `apt -y install apache2` or `apt -y install nginx`
 
 3. Enable PHP Modules
