@@ -26,7 +26,7 @@ The Editor needs spellchecking dictionaries to enable spellchecking. The diction
 1. for Uyghur language: https://extensions.libreoffice.org/en/extensions/show/42016
 2. for all the other languages: https://github.com/wooorm/dictionaries
 
-Update the dictionaries located in tinymce_spellchecker/dics/ directory. The dictionaries are based un Hunspell format. So each dictionary is consisted upon two files: .aff and .dic;
+Update the dictionaries located in tinymce_spellchecker/dics/ directory if you want to use latest version of the dictionaries or for regular update. The dictionaries are based un Hunspell format. So each dictionary is consisted upon two files: .aff and .dic;
 
 # Bug reports
 Please use the [issue tracker](https://github.com/Yadikar-Cloud/Yadikar-Editor/issues) provided by GitHub to send us bug reports or feature requests. Follow the template's instructions or the issue will likely be ignored or closed as invalid.
