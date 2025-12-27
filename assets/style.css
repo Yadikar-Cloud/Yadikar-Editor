@@ -1,0 +1,109 @@
+
+/* For other boilerplate styles, see: /docs/general-configuration-guide/boilerplate-content-css/ */
+/*
+* For rendering images inserted using the image plugin.
+* Includes image captions using the HTML5 figure element.
+*/
+
+figure.image {
+  display: inline-block;
+  border: 1px solid gray;
+  margin: 0 2px 0 1px;
+  background: #f5f2f0;
+}
+
+figure.align-left {
+  float: left;
+}
+
+figure.align-right {
+  float: right;
+}
+
+figure.image img {
+  margin: 8px 8px 0 8px;
+}
+
+figure.image figcaption {
+  margin: 6px 8px 6px 8px;
+  text-align: center;
+}
+
+
+/*
+ Alignment using classes rather than inline styles
+ check out the "formats" option
+*/
+
+img.align-left {
+  float: left;
+}
+
+img.align-right {
+  float: right;
+}
+
+/* Basic styles for Table of Contents plugin (toc) */
+.mce-toc {
+  border: 1px solid gray;
+}
+
+.mce-toc h2 {
+  margin: 4px;
+}
+
+.mce-toc li {
+  list-style-type: none;
+}
+
+/* style for pageview plugin */
+body {
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+}
+
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    background: white;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    position: relative;
+    page-break-after: always;
+}
+
+.page:last-child {
+    page-break-after: avoid;
+}
+
+.page::after {
+    content: attr(data-page);
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10pt;
+    color: #666;
+}
+
+.page-break {
+    display: none;
+}
+
+@media print {
+    body {
+        background: white;
+    }
+    .page {
+        margin: 0;
+        box-shadow: none;
+        border: none;
+        width: 100%;
+    }
+}

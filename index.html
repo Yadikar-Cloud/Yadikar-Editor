@@ -3,28 +3,31 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Yadikar Text Editor</title>
-		<link rel="icon" type="image/png" href="assets/image/yadikar-editor.png" sizes="48x48">
-    <script src="node_modules/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="assets/editor.js?v=1.1"></script>
+	<title>Yadikar Text Editor</title>
+	<link rel="icon" type="image/png" href="/editor/assets/image/yadikar-editor.png" sizes="48x48">
+	<!-- File conversion libraries -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+	<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+	<!-- Replace html-docx-js with docx -->
+	<script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>    
+	<!-- Shared utilities -->
+	<script src="/editor/assets/file-types.js"></script>
+	<script src="/editor/assets/file-converter.js"></script>   
+	<!-- TinyMCE and plugins last -->
+    <script src="/editor/node_modules/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/editor/assets/editor.js?v=1.1"></script>	 
+	<!-- Google APIs -->
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script src="https://accounts.google.com/gsi/client"></script>   
+	<!-- html2canvas for screenshots -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
   </head>
 
   <body>
     <form method="post">
       <textarea id="mytextarea">
-		<h2>Welcome to the Yadikar Text Editor!</h2>
-		<p>You can change the demo content in this document or create new document by clicking File > New Document. Happy Editing!</p>
-		<h3>Key Features:</h3>
-		<ul>
-            <li>Mobile-friendly design</li>
-            <li>Save/Open documents</li>
-            <li>Spellcheck and grammar check</li>
-            <li>Auto-complete for quicker writing</li>
-            <li>Screenshot text area</li>
-            <li>Supports over 40 languages</li>
-            <li>Best for privacy and security</li>
-        </ul>
 	  </textarea>
     </form>
+    <script src="/editor/assets/google-auth.js"></script>
   </body>
 </html>
