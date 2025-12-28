@@ -1,3 +1,23 @@
+/* add several Uyghur fonts */
+@font-face {
+  font-family: UKIJEkranRegular;
+  src: url(./fonts/UKIJEkran.ttf);
+}
+
+@font-face {
+  font-family: UKIJChiwerKesmeRegular;
+  src: url(./fonts/UKIJChiK.ttf);
+}
+
+@font-face {
+  font-family: UKIJCJKRegular;
+  src: url(./fonts/UKIJCJK.ttf);
+}
+
+@font-face {
+  font-family: UKIJKufiRegular;
+  src: url(./fonts/UKIJKu.ttf);
+}
 
 /* For other boilerplate styles, see: /docs/general-configuration-guide/boilerplate-content-css/ */
 /*
@@ -57,15 +77,17 @@ img.align-right {
 }
 
 /* style for pageview plugin */
-body {
-    font-family: 'Times New Roman', serif;
-    font-size: 12pt;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
+html {
     background: #f0f0f0;
 }
 
+body {
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the TinyMCE container div in your main page */
 .page {
     width: 21cm;
     min-height: 29.7cm;

@@ -46,16 +46,16 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     spellchecker_rpc_url: window.location.origin+'/tinymce_spellchecker/spellchecker.php',
     grammerchecker_language: "auto",
 	  grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
-	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJEkranRegular=UKIJEkranRegular; UKIJChiwerKesmeRegular=UKIJChiwerKesmeRegular; UKIJCJKRegular=UKIJCJKRegular; UKIJKufiRegular=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
     language: settings.language !== 'en_US' ? settings.language : undefined,
     language_url: settings.language !== 'en_US' ? '/editor/langs/' + settings.language + '.js' : undefined,
-    search_function: async (keyword) => {
-      const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        return Object.values(jsonResponse)[0]["name"];
-      }
-    },    
+	search_function: settings.language === 'en_US' ? async (keyword) => {
+	  const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
+	  if (response.ok) {
+		const jsonResponse = await response.json();
+		return Object.values(jsonResponse)[0]["name"];
+	  }
+	} : undefined,    
     setup: function(editor) {
 			editor.ui.registry.addNestedMenuItem('opensubmenu', {
 					text: 'Open',
