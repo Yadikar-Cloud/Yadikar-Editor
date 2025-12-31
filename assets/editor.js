@@ -17,7 +17,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
         custom: { title: "File", items: "newdocument | open | save | preview | print" },
         tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" }
       }    
-    },    
+    },
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker openfromgdrive cloudsignin savetogdrive openfromcomputer savetocomputer screenshot settings pageview",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
@@ -41,7 +41,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     contextmenu: "link image imagetools table spellchecker grammerchecker",
     skin: settings.skin || 'oxide',
     content_css: [ useDarkMode ? "dark" : "default", '/editor/assets/style.css' ],
-    content_style: `body { font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } .page { padding: ${PAGE_MARGIN}px; }`,
+    content_style: `body { font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } .page { padding: ${(settings.topBottomPadding || 40) + 'px'} ${(settings.leftRightPadding || 40 ) + 'px'} } .page::after {left: ${settings.pageNumberPosition || '50%'} }`,
     spellchecker_languages: "Bulgarian=bg,Catalan=ca,Czech=cs,Croatian=hr,Danish=da,Dutch=nl,English=en,French=fr_FR,German=de,Georgian=ka,Greek=el,Hebrew=he,Hungarian=hu,Italian=it,Korean=ko,Lithuanian=lt,Polish=pl,Portuguese=pt_PT,Persian=fa,Romanian=ro,Russian=ru,Spanish=es,Swedish=sv,Slovak=sk,Slovenian=sl,Turkish=tr,Uyghur=ug,Ukrainian=uk",
     spellchecker_rpc_url: window.location.origin+'/tinymce_spellchecker/spellchecker.php',
     grammerchecker_language: "auto",
