@@ -19,12 +19,6 @@ const FILE_TYPES = [
         description: 'Markdown file'
     },
     {
-        extension: '.pdf',
-        name: 'PDF Document',
-        mimeType: 'application/pdf',
-        description: 'PDF file'
-    },
-    {
         extension: '.docx',
         name: 'Word Document',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

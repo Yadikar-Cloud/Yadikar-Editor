@@ -118,14 +118,50 @@ body {
     display: none;
 }
 
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
 @media print {
-    body {
+    html, body {
+        margin: 0;
+        padding: 0;
         background: white;
     }
+
     .page {
+        /* Printable height = 297mm - top/bottom margins */
+        min-height: 257mm;
+
         margin: 0;
+        padding-bottom: 15mm;
+
         box-shadow: none;
         border: none;
         width: 100%;
+
+        position: relative;
+
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+        min-height: 277mm;
+        position: relative;        
+    }
+
+    .page::after {
+        content: attr(data-page);
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10pt;
+        color: #666;
     }
 }
+

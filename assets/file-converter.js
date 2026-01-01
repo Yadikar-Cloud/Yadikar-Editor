@@ -13,14 +13,68 @@ window.fileConverter = {
             case '.md':
                 return this.htmlToMarkdown(htmlContent);
             
-            case '.pdf':
-                return await this.htmlToPDF(htmlContent);
-            
             case '.docx':
                 return this.htmlToDocx(htmlContent);
             
             default:
                 return htmlContent;
+        }
+    },
+    
+    // Convert back to HTML from different formats
+    async convertToHtml(content, sourceFormat) {
+        switch(sourceFormat) {
+            case '.html':
+            case '.htm':
+                return content; // Already HTML
+            
+            case '.txt':
+                return this.textToHtml(content);
+            
+            case '.md':
+                return this.markdownToHtml(content);
+            
+            case '.docx':
+                return await this.docxToHtml(content);
+            
+            default:
+                return content;
+        }
+    },
+    
+    // Plain Text to HTML
+    textToHtml(text) {
+        const lines = text.split('\n');
+        return lines.map(line => {
+            if (line.trim() === '') {
+                return '<p><br></p>';
+            }
+            // Escape HTML entities
+            const escaped = line.replace(/&/g, '&amp;')
+                               .replace(/</g, '&lt;')
+                               .replace(/>/g, '&gt;');
+            return '<p>' + escaped + '</p>';
+        }).join('');
+    },
+    
+    // Markdown to HTML
+    markdownToHtml(markdown) {
+        if (typeof marked !== 'undefined') {
+            return marked.parse(markdown);
+        } else {
+            // Fallback: treat as plain text
+            return this.textToHtml(markdown);
+        }
+    },
+    
+    // DOCX to HTML (placeholder - requires mammoth.js)
+    async docxToHtml(blob) {
+        if (typeof mammoth !== 'undefined') {
+            const arrayBuffer = await blob.arrayBuffer();
+            const result = await mammoth.convertToHtml({arrayBuffer: arrayBuffer});
+            return result.value; // The generated HTML
+        } else {
+            throw new Error('Mammoth.js library not loaded - cannot convert DOCX to HTML');
         }
     },
     
@@ -42,62 +96,27 @@ window.fileConverter = {
         });
         return turndown.turndown(html);
     },
-    
-    // HTML to PDF
-	async htmlToPDF(html) {
-		if (typeof html2pdf === 'undefined') {
-		    throw new Error('html2pdf not loaded');
-		}
-		
-		try {
-		    const tempDiv = document.createElement('div');
-		    tempDiv.innerHTML = html;
-		    tempDiv.style.width = '210mm';
-		    tempDiv.style.padding = '20px';
-		    document.body.appendChild(tempDiv);
-		    
-		    const worker = html2pdf();
-		    const configured = worker.set({
-		        margin: 10,
-		        filename: 'document.pdf',
-		        image: { type: 'jpeg', quality: 0.98 },
-		        html2canvas: { scale: 2 },
-		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-		    });
-		    const withSource = configured.from(tempDiv);
-		    const blob = await withSource.output('blob');
-		    
-		    document.body.removeChild(tempDiv);
-		    
-		    return blob;
-		    
-		} catch (error) {
-		    console.error('PDF conversion error:', error);
-		    throw error;
-		}
-	},
-    
+
     // HTML to DOCX
-	async htmlToDocx(html) {
-		if (typeof docx === 'undefined') {
-		    throw new Error('docx library not loaded');
-		}
-		
-		// Convert HTML to plain text for now (docx library needs structured data)
-		const plainText = this.htmlToText(html);
-		
-		const doc = new docx.Document({
-		    sections: [{
-		        children: [
-		            new docx.Paragraph({
-		                text: plainText
-		            })
-		        ]
-		    }]
-		});
-		
-		return await docx.Packer.toBlob(doc);
-	},
+    async htmlToDocx(html) {
+        if (typeof docx === 'undefined') {
+            throw new Error('docx library not loaded');
+        }
+        
+        const plainText = this.htmlToText(html);
+        
+        const doc = new docx.Document({
+            sections: [{
+                children: [
+                    new docx.Paragraph({
+                        text: plainText
+                    })
+                ]
+            }]
+        });
+        
+        return await docx.Packer.toBlob(doc);
+    },
     
     // Get MIME type
     getMimeType(extension) {
