@@ -43,7 +43,7 @@ function gapiLoaded() {
         }
         
         gapiInited = true;
-        console.log('Google auth initialized:', data.authenticated ? 'Authenticated' : 'Not authenticated');
+        //console.log('Google auth initialized:', data.authenticated ? 'Authenticated' : 'Not authenticated');
     });
 }
 
