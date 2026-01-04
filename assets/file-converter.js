@@ -98,25 +98,154 @@ window.fileConverter = {
     },
 
     // HTML to DOCX
-    async htmlToDocx(html) {
-        if (typeof docx === 'undefined') {
-            throw new Error('docx library not loaded');
-        }
-        
-        const plainText = this.htmlToText(html);
-        
-        const doc = new docx.Document({
-            sections: [{
-                children: [
-                    new docx.Paragraph({
-                        text: plainText
-                    })
-                ]
-            }]
-        });
-        
-        return await docx.Packer.toBlob(doc);
-    },
+	async htmlToDocx(html) {
+		if (typeof docx === 'undefined') {
+		    throw new Error('docx library not loaded - cannot convert to DOCX');
+		}
+		
+		// Parse HTML
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(html, 'text/html');
+		const body = doc.body;
+		
+		const children = [];
+		
+		// Process each element
+		const processNode = (node) => {
+		    if (node.nodeType === Node.TEXT_NODE) {
+		        const text = node.textContent.trim();
+		        if (text) {
+		            children.push(
+		                new docx.Paragraph({
+		                    text: text
+		                })
+		            );
+		        }
+		    } else if (node.nodeType === Node.ELEMENT_NODE) {
+		        const tagName = node.tagName.toLowerCase();
+		        const text = node.textContent.trim();
+		        
+		        if (!text) return; // Skip empty elements
+		        
+		        switch(tagName) {
+		            case 'h1':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_1
+		                    })
+		                );
+		                break;
+		                
+		            case 'h2':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_2
+		                    })
+		                );
+		                break;
+		                
+		            case 'h3':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_3
+		                    })
+		                );
+		                break;
+		                
+		            case 'h4':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_4
+		                    })
+		                );
+		                break;
+		                
+		            case 'h5':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_5
+		                    })
+		                );
+		                break;
+		                
+		            case 'h6':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text,
+		                        heading: docx.HeadingLevel.HEADING_6
+		                    })
+		                );
+		                break;
+		                
+		            case 'p':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: text
+		                    })
+		                );
+		                break;
+		                
+		            case 'ul':
+		            case 'ol':
+		                // Process list items
+		                Array.from(node.children).forEach(li => {
+		                    if (li.tagName.toLowerCase() === 'li') {
+		                        children.push(
+		                            new docx.Paragraph({
+		                                text: li.textContent.trim(),
+		                                bullet: tagName === 'ul' ? {
+		                                    level: 0
+		                                } : undefined,
+		                                numbering: tagName === 'ol' ? {
+		                                    reference: "default-numbering",
+		                                    level: 0
+		                                } : undefined
+		                            })
+		                        );
+		                    }
+		                });
+		                break;
+		                
+		            case 'br':
+		                children.push(
+		                    new docx.Paragraph({
+		                        text: ""
+		                    })
+		                );
+		                break;
+		                
+		            default:
+		                // For other elements, process children recursively
+		                Array.from(node.childNodes).forEach(processNode);
+		        }
+		    }
+		};
+		
+		// Process all body children
+		Array.from(body.childNodes).forEach(processNode);
+		
+		// If no children were created, add at least one empty paragraph
+		if (children.length === 0) {
+		    children.push(
+		        new docx.Paragraph({
+		            text: ""
+		        })
+		    );
+		}
+		
+		const document = new docx.Document({
+		    sections: [{
+		        children: children
+		    }]
+		});
+		
+		return await docx.Packer.toBlob(document);
+	},
     
     // Get MIME type
     getMimeType(extension) {
