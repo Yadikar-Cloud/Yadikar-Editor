@@ -100,146 +100,117 @@ window.fileConverter = {
     // HTML to DOCX
 	async htmlToDocx(html) {
 		if (typeof docx === 'undefined') {
-		    throw new Error('docx library not loaded - cannot convert to DOCX');
+		    throw new Error('docx library not loaded');
 		}
 		
-		// Parse HTML
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(html, 'text/html');
-		const body = doc.body;
-		
 		const children = [];
 		
-		// Process each element
 		const processNode = (node) => {
-		    if (node.nodeType === Node.TEXT_NODE) {
+		    if (node.nodeType === Node.ELEMENT_NODE) {
+		        const tag = node.tagName.toLowerCase();
+		        
+		        // Headings
+		        if (tag.match(/^h[1-6]$/)) {
+		            const level = parseInt(tag[1]);
+		            const text = node.textContent || ' ';
+		            children.push(new docx.Paragraph({
+		                text: text,
+		                heading: docx.HeadingLevel[`HEADING_${level}`]
+		            }));
+		        }
+		        // Paragraphs
+		        else if (tag === 'p') {
+		            const runs = processInlineElements(node);
+		            children.push(new docx.Paragraph({
+		                children: runs.length > 0 ? runs : [new docx.TextRun(' ')]
+		            }));
+		        }
+		        // Lists
+		        else if (tag === 'ul' || tag === 'ol') {
+		            const items = node.querySelectorAll('li');
+		            items.forEach(li => {
+		                const runs = processInlineElements(li);
+		                children.push(new docx.Paragraph({
+		                    children: runs.length > 0 ? runs : [new docx.TextRun(' ')],
+		                    bullet: tag === 'ul' ? { level: 0 } : undefined,
+		                    numbering: tag === 'ol' ? { reference: "default", level: 0 } : undefined
+		                }));
+		            });
+		        }
+		        // Line breaks
+		        else if (tag === 'br') {
+		            children.push(new docx.Paragraph({ children: [new docx.TextRun('')] }));
+		        }
+		        // Divs - process children
+		        else if (tag === 'div') {
+		            node.childNodes.forEach(child => processNode(child));
+		        }
+		    }
+		    else if (node.nodeType === Node.TEXT_NODE) {
 		        const text = node.textContent.trim();
 		        if (text) {
-		            children.push(
-		                new docx.Paragraph({
-		                    text: text
-		                })
-		            );
-		        }
-		    } else if (node.nodeType === Node.ELEMENT_NODE) {
-		        const tagName = node.tagName.toLowerCase();
-		        const text = node.textContent.trim();
-		        
-		        if (!text) return; // Skip empty elements
-		        
-		        switch(tagName) {
-		            case 'h1':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_1
-		                    })
-		                );
-		                break;
-		                
-		            case 'h2':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_2
-		                    })
-		                );
-		                break;
-		                
-		            case 'h3':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_3
-		                    })
-		                );
-		                break;
-		                
-		            case 'h4':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_4
-		                    })
-		                );
-		                break;
-		                
-		            case 'h5':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_5
-		                    })
-		                );
-		                break;
-		                
-		            case 'h6':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text,
-		                        heading: docx.HeadingLevel.HEADING_6
-		                    })
-		                );
-		                break;
-		                
-		            case 'p':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: text
-		                    })
-		                );
-		                break;
-		                
-		            case 'ul':
-		            case 'ol':
-		                // Process list items
-		                Array.from(node.children).forEach(li => {
-		                    if (li.tagName.toLowerCase() === 'li') {
-		                        children.push(
-		                            new docx.Paragraph({
-		                                text: li.textContent.trim(),
-		                                bullet: tagName === 'ul' ? {
-		                                    level: 0
-		                                } : undefined,
-		                                numbering: tagName === 'ol' ? {
-		                                    reference: "default-numbering",
-		                                    level: 0
-		                                } : undefined
-		                            })
-		                        );
-		                    }
-		                });
-		                break;
-		                
-		            case 'br':
-		                children.push(
-		                    new docx.Paragraph({
-		                        text: ""
-		                    })
-		                );
-		                break;
-		                
-		            default:
-		                // For other elements, process children recursively
-		                Array.from(node.childNodes).forEach(processNode);
+		            children.push(new docx.Paragraph({ text: text }));
 		        }
 		    }
 		};
 		
-		// Process all body children
-		Array.from(body.childNodes).forEach(processNode);
+		const processInlineElements = (node) => {
+		    const runs = [];
+		    
+		    const traverse = (n, formatting = {}) => {
+		        if (n.nodeType === Node.TEXT_NODE) {
+		            const text = n.textContent;
+		            if (text) {
+		                runs.push(new docx.TextRun({
+		                    text: text,
+		                    ...formatting
+		                }));
+		            }
+		        }
+		        else if (n.nodeType === Node.ELEMENT_NODE) {
+		            const tag = n.tagName.toLowerCase();
+		            const newFormatting = { ...formatting };
+		            
+		            // Add formatting based on tag
+		            if (tag === 'strong' || tag === 'b') newFormatting.bold = true;
+		            if (tag === 'em' || tag === 'i') newFormatting.italics = true;
+		            if (tag === 'u') newFormatting.underline = {};
+		            if (tag === 's' || tag === 'strike') newFormatting.strike = true;
+		            
+		            // Process children with accumulated formatting
+		            n.childNodes.forEach(child => traverse(child, newFormatting));
+		        }
+		    };
+		    
+		    node.childNodes.forEach(child => traverse(child));
+		    return runs;
+		};
 		
-		// If no children were created, add at least one empty paragraph
+		// Process all body children
+		doc.body.childNodes.forEach(node => processNode(node));
+		
+		// Ensure at least one paragraph
 		if (children.length === 0) {
-		    children.push(
-		        new docx.Paragraph({
-		            text: ""
-		        })
-		    );
+		    children.push(new docx.Paragraph({ text: ' ' }));
 		}
 		
+		// Create numbering for ordered lists
 		const document = new docx.Document({
+		    numbering: {
+		        config: [{
+		            reference: "default",
+		            levels: [{
+		                level: 0,
+		                format: docx.LevelFormat.DECIMAL,
+		                text: "%1.",
+		                alignment: docx.AlignmentType.START
+		            }]
+		        }]
+		    },
 		    sections: [{
+		        properties: {},
 		        children: children
 		    }]
 		});
