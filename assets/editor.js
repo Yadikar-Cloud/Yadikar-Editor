@@ -22,7 +22,8 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | preview | print" },
-      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | settings" }
+      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | settings" },
+      help: { title: "help", items: "help | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
     toolbar: "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | outdent indent | numlist bullist",
@@ -59,59 +60,72 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
 	  }
 	} : undefined,    
     setup: function(editor) {
-			editor.ui.registry.addNestedMenuItem('opensubmenu', {
-					text: 'Open',
-					icon: "browse",
-					getSubmenuItems: function() {
-						  return 'openfromcomputer googledriveopen onedriveopen';
-					}
-			});
-      // Save submenu
-      editor.ui.registry.addNestedMenuItem('savesubmenu', {
-          text: 'Save',
-          icon: "save",
-          getSubmenuItems: function() {
-              return 'savetocomputer googledrivesave onedrivesave';
-          }
-      });			      
-      editor.ui.registry.addToggleMenuItem("screenshot", {
-        text: "Screenshot",
-        icon: "edit-image",
-        onAction: function() {
-          saveAsImage();
-        }
-      });
-		  editor.on('init', function() {
-		      // Apply UI font size
-					// Remove old style if exists
-					const oldStyle = document.getElementById('tinymce-ui-fontsize');
-					if (oldStyle) oldStyle.remove();
+		editor.ui.registry.addNestedMenuItem('opensubmenu', {
+				text: 'Open',
+				icon: "browse",
+				getSubmenuItems: function() {
+					  return 'openfromcomputer googledriveopen onedriveopen';
+				}
+		});
+		// Save submenu
+		editor.ui.registry.addNestedMenuItem('savesubmenu', {
+		  text: 'Save',
+		  icon: "save",
+		  getSubmenuItems: function() {
+			  return 'savetocomputer googledrivesave onedrivesave';
+		  }
+		});			      
+		editor.ui.registry.addToggleMenuItem("screenshot", {
+		text: "Screenshot",
+		icon: "edit-image",
+		onAction: function() {
+		  saveAsImage();
+		}
+		});
+        editor.ui.registry.addMenuItem('privacy', {
+            text: 'Privacy Policy',
+            onAction: function() {
+                window.open('editor/privacy_policy.html', '_blank');
+            }
+        });
+        
+        editor.ui.registry.addMenuItem('terms', {
+            text: 'Terms and Conditions',
+            onAction: function() {
+                window.open('editor/terms_and_conditions.html', '_blank');
+            }
+        });		
+		editor.on('init', function() {
+		  // Apply UI font size
+				// Remove old style if exists
+				const oldStyle = document.getElementById('tinymce-ui-fontsize');
+				if (oldStyle) oldStyle.remove();
 
-					// Add new style
-					const style = document.createElement('style');
-					style.id = 'tinymce-ui-fontsize';
-					style.textContent = `
-							.tox .tox-toolbar,
-							.tox .tox-toolbar__primary,
-							.tox .tox-toolbar__group,
-							.tox .tox-menubar,
-							.tox .tox-statusbar,
-							.tox .tox-tbtn,
-							.tox .tox-dialog,
-							.tox .tox-menu,
-							.tox .tox-collection__item,
-							.tox .tox-collection__item-label,
-							.tox .tox-mbtn__select-label {
-									font-size: ${settings.fontSize} !important;
-							}
-					`;
-					document.head.appendChild(style);
-		      
-		      // Set initial content if provided
-		      if (initialContent) {
-		          editor.setContent(initialContent);
-		      }
-		  });      
+				// Add new style
+				const style = document.createElement('style');
+				style.id = 'tinymce-ui-fontsize';
+				style.textContent = `
+						.tox .tox-toolbar,
+						.tox .tox-toolbar__primary,
+						.tox .tox-toolbar__group,
+						.tox .tox-menubar,
+						.tox .tox-statusbar,
+						.tox .tox-tbtn,
+						.tox .tox-dialog,
+						.tox .tox-menu,
+						.tox .tox-collection__item,
+						.tox .tox-collection__item-label,
+						.tox .tox-mbtn__select-label {
+								font-size: ${settings.fontSize} !important;
+						}
+				`;
+				document.head.appendChild(style);
+		  
+		  // Set initial content if provided
+		  if (initialContent) {
+			  editor.setContent(initialContent);
+		  }
+		});      
     }
   });
  }
