@@ -18,7 +18,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
         tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" }
       }    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker openfromgdrive cloudsignin savetogdrive openfromonedrive savetoonedrive openfromcomputer savetocomputer screenshot settings pageview",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer openfromdrive savetocomputer savetogdrive savetoonedrive screenshot settings pageview",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | preview | print" },
@@ -63,7 +63,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
 					text: 'Open',
 					icon: "browse",
 					getSubmenuItems: function() {
-						  return 'openfromcomputer openfromgdrive openfromonedrive openfromdropbox';
+						  return 'openfromcomputer opengoogledrive openonedrive';
 					}
 			});
       // Save submenu
@@ -71,7 +71,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
           text: 'Save',
           icon: "save",
           getSubmenuItems: function() {
-              return 'savetocomputer savetogdrive savetoonedrive savetodropbox';
+              return 'savetocomputer savetogdrive savetoonedrive';
           }
       });			      
       editor.ui.registry.addToggleMenuItem("screenshot", {
