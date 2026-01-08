@@ -132,7 +132,7 @@ body {
 
     .page {
         /* Printable height = 297mm - top/bottom margins */
-        min-height: 257mm;
+        min-height: 297mm;
 
         margin: 0;
         padding-bottom: 15mm;
