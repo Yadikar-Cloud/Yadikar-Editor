@@ -12,13 +12,15 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
   tinymce.init({
     selector: "textarea#mytextarea",
     mobile: {
-      menubar: "custom edit insert format tools", // Mobile-specific menubar
+      plugins: "newdocument newdocument print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot givefeedback",
+      menubar: "custom edit insert format tools help", // Mobile-specific menubar
       menu: {
-        custom: { title: "File", items: "newdocument | open | save | preview | print" },
-        tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" }
+        custom: { title: "File", items: "newdocument | opensubmenu | savesubmenu | preview | print" },
+        tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" },
+        help: { title: "help", items: "help givefeedback | privacy terms" },
       }    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback",
+    plugins: "newdocument print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | preview | print" },
