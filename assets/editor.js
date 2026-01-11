@@ -12,11 +12,11 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
   tinymce.init({
     selector: "textarea#mytextarea",
     mobile: {
-      plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot givefeedback",
+      plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot givefeedback settings",
       menubar: "custom edit insert format tools help", // Mobile-specific menubar
       menu: {
         custom: { title: "File", items: "newdocument | opensubmenu | savesubmenu | preview | print" },
-        tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount" },
+        tools: { title: "Tools", items: "spellchecker | screenshot | code wordcount | settings" },
         help: { title: "help", items: "help givefeedback | privacy terms" },
       },
       content_style: `html {background: #ffffff; margin: 0;} body {padding: 0 10px;}`,    
