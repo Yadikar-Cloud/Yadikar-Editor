@@ -6,6 +6,7 @@ tinymce.addI18n('es_419',{
 "Paste": "Pegar",
 "Select all": "Seleccionar todo",
 "New document": "Nuevo documento",
+"Open": "Abierta",
 "Ok": "Ok",
 "Cancel": "Cancelar",
 "Visual aids": "Ayudas visuales",
@@ -193,8 +194,10 @@ tinymce.addI18n('es_419',{
 "Match case": "Match case",
 "Find whole words only": "Find whole words only",
 "Find in selection": "Encontrar en la selecci\u00f3n",
-"Spellcheck": "Spellcheck",
-"Spellcheck Language": "Spellcheck Language",
+"Screenshot": "Captura de pantalla",
+"Settings": "Ajustes",
+"Spellcheck": "corrector ortográfico",
+"Spellcheck Language": "Idioma del corrector ortográfico",
 "No misspellings found.": "No se encontraron errores ortogr\u00e1ficos.",
 "Ignore": "Ignore",
 "Ignore all": "Ignore all",
@@ -458,5 +461,6 @@ tinymce.addI18n('es_419',{
 "Prev": "Prev",
 "Find and replace": "Find and replace",
 "Whole words": "Whole words",
-"Insert template": "Insert template"
+"Insert template": "Insert template",
+
 });
