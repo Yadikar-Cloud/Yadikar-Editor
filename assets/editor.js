@@ -148,3 +148,45 @@ window.addEventListener('load', function() {
   initializeTinyMCE(); // Reinitialize with the new height
 });
 
+// log all browswer console errors to find hidden bugs
+// Capture all console errors
+window.addEventListener('error', function(event) {
+  sendErrorToServer({
+    type: 'error',
+    message: event.message,
+    source: event.filename,
+    line: event.lineno,
+    column: event.colno,
+    stack: event.error?.stack,
+    url: window.location.href,
+    userAgent: navigator.userAgent,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Capture unhandled promise rejections
+window.addEventListener('unhandledrejection', function(event) {
+  sendErrorToServer({
+    type: 'unhandledRejection',
+    message: event.reason?.message || event.reason,
+    stack: event.reason?.stack,
+    url: window.location.href,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Send to server
+function sendErrorToServer(errorData) {
+  // Use beacon API - works even if page is closing
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('/api/log-error', JSON.stringify(errorData));
+  } else {
+    // Fallback
+    fetch('/api/log-error', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(errorData),
+      keepalive: true
+    }).catch(() => {}); // Silent fail
+  }
+}
