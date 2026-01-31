@@ -21,10 +21,10 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition pdfImport",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | preview | print" },
+      custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | preview | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
