@@ -62,7 +62,64 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
 		const jsonResponse = await response.json();
 		return Object.values(jsonResponse)[0]["name"];
 	  }
-	} : undefined,    
+	} : undefined,
+	file_picker_callback: async function(callback, value, meta) {
+		try {
+		    // Modern File System Access API (Chrome 86+, Edge 86+)
+		    const [fileHandle] = await window.showOpenFilePicker({
+		        types: [
+		            {
+		                description: 'PDF file',
+		                accept: { 'application/pdf': ['.pdf'] }
+		            },		        
+		            {
+		                description: 'PNG file',
+		                accept: { 'image/png': ['.png'] }
+		            },		        
+		            {
+		                description: 'JPEG file',
+		                accept: { 'image/jpeg': ['.jpeg'] }
+		            },
+		            {
+		                description: 'WebP file',
+		                accept: { 'image/webp': ['.webp'] }
+		            },
+		            {
+		                description: 'TIFF file',
+		                accept: { 'image/tiff': ['.tiff'] }
+		            }
+		        ],
+		        multiple: false,
+		        excludeAcceptAllOption: true
+		    });
+		    
+		    const file = await fileHandle.getFile();
+		    
+		    processedFileData = {
+		        name: file.name,
+		        path: fileHandle.name, // Still only filename
+		        size: file.size,
+		        type: file.type,
+		        file: file,
+		        handle: fileHandle // Keep handle for future access
+		    };
+		    
+		    // Read content
+		    const reader = new FileReader();
+		    reader.onload = function(e) {
+		        processedFileData.content = e.target.result;
+		    };
+		    reader.readAsBinaryString(file);
+		    
+		    callback(file.name, {
+		        title: file.name,
+		        text: file.name
+		    });
+		    
+		} catch (err) {
+		    console.log('User cancelled or API not supported');
+		}
+	},	    
     setup: function(editor) {
 		editor.ui.registry.addNestedMenuItem('opensubmenu', {
 				text: 'Open',
