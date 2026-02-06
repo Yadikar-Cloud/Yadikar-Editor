@@ -54,15 +54,15 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     spellchecker_languages: "Bulgarian=bg,Catalan=ca,Czech=cs,Croatian=hr,Danish=da,Dutch=nl,English=en,French=fr_FR,German=de,Georgian=ka,Greek=el,Hebrew=he,Hungarian=hu,Italian=it,Korean=ko,Lithuanian=lt,Polish=pl,Portuguese=pt_PT,Persian=fa,Romanian=ro,Russian=ru,Spanish=es,Swedish=sv,Slovak=sk,Slovenian=sl,Turkish=tr,Uyghur=ug,Ukrainian=uk",
     spellchecker_rpc_url: window.location.origin+'/editor/tinymce_spellchecker/spellchecker.php',
     webspeechapi_languages: stt_languages,
-    webspeechapi_language: 'es-UY',
+    webspeechapi_language: settings.sttlanguage || 'en_US',
     ocr_languages: ocr_languages,
-    ocr_language: 'est',
+    ocr_language: settings.ocrlanguage || 'eng',
     site_languages: site_languages,
     grammerchecker_language: "auto",
 	grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
 	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJ Ekran=UKIJEkranRegular; UKIJ Chiwer Kesme=UKIJChiwerKesmeRegular; UKIJ CJK=UKIJCJKRegular; UKIJ Kufi=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
-    language: settings.language !== 'en_US' ? settings.language : undefined,
-    language_url: settings.language !== 'en_US' ? '/editor/langs/' + settings.language + '.js' : undefined,
+    language: settings.language || 'en_US',
+    language_url: '/editor/langs/' + settings.language || 'en_US' + '.js',
 	search_function: settings.language === 'en_US' ? async (keyword) => {
 	  const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
 	  if (response.ok) {
