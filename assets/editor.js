@@ -27,8 +27,8 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition pdfImport",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | preview | print" },
-      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | sharefile | code wordcount | speechrecognition | settings" },
+      custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | sharefile | preview | print" },
+      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
@@ -216,7 +216,7 @@ window.addEventListener('load', function() {
 	if (params.get('q') === 'openfile') {
 		const filePath = params.get('file');
 		// Prompt user to open file with File System Access API
-		console.log("file path: " + filePath);
+		// console.log("file path: " + filePath);
 		tinymce.activeEditor.execCommand('cmdOpenFile', true, filePath);
 	}  
 });

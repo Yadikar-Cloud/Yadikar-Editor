@@ -5,8 +5,8 @@ window.fileConverter = {
     async convert(htmlContent, targetFormat) {
         switch(targetFormat) {
             case '.html':
-                return htmlContent;
-            
+            	const script = "<script>const filePath = window.location.href;window.location = '" + window.location.origin + "/editor?q=openfile&file=' + encodeURIComponent(filePath)</script>";
+                return htmlContent + '\n' + script;         
             case '.txt':
                 return this.htmlToText(htmlContent);
             
