@@ -28,7 +28,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | preview | print" },
-      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
+      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | sharefile | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
@@ -211,6 +211,14 @@ function changeLanguage(newLang) {
 window.addEventListener('load', function() {
   tinymce.remove(); // Remove the existing instance
   initializeTinyMCE(); // Reinitialize with the new height
+  // check for custom events
+  const params = new URLSearchParams(window.location.search);
+	if (params.get('q') === 'openfile') {
+		const filePath = params.get('file');
+		// Prompt user to open file with File System Access API
+		console.log("file path: " + filePath);
+		tinymce.activeEditor.execCommand('cmdOpenFile', true, filePath);
+	}  
 });
 
 // log all browswer console errors to find hidden bugs
