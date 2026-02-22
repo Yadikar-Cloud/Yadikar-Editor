@@ -1,12 +1,18 @@
 # Yadikar Text Editor
-Online text editor based on TinyMCE. There are more plugins in this text editor than the ones which are provided by TineMCE. The Screenshot, Spell/Grammer checker, Autocomplete plugins are custome developed or more custom codes are added on top of public codes available on Github.
+Yadikar Text Editor is a free, modern and privacy-first text editor with document generation and editing capabilities.
 Freatures:
-  1. File Open/Save
-  2. Splelling checker
-  3. Grammer checker
-  4. Autocomplete
-  5. Screenshot the editor area (Absolute)
-  6. Local file storage (no cloud)
+* Mobile-friendly design
+* Share document with others
+* Extract text from PDF/image using OCR
+* Write meeting/lecture notes with Speech Recognition
+* Supports HTML/TXT/Markdown/DOCX document formats
+* Supports upload/download to cloud drives
+* Save/Open documents on local device
+* Spellcheck and grammar check
+* Auto-complete for quicker writing
+* Screenshot text area
+* Supports over 40 languages
+* Best for privacy and security
 
 # Dependency
 The editor is based on HTML/JavaScript/PHP. So it should be served from web server such as Apache, Nginx. If these servers are insalled on local machine, It can also be served locally.
