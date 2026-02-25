@@ -39,6 +39,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     autosave_prefix: "{path}{query}-{id}-",
     autosave_restore_when_empty: false,
     autosave_retention: "2m",
+    save_onsavecallback: function () { tinymce.activeEditor.saveFile(); },
     help_version_major: '3',
     help_version_minor: '2.1',
     image_advtab: true,
