@@ -24,7 +24,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition pdfImport chart mathjax footnotes exportpdf",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition pdfImport chart mathjax footnotes",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | sharefile | exportpdf | preview | print" },
@@ -136,11 +136,11 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
 	},	    
     setup: function(editor) {
 		editor.ui.registry.addNestedMenuItem('opensubmenu', {
-				text: 'Open',
-				icon: "browse",
-				getSubmenuItems: function() {
-					  return 'openfromcomputer googledriveopen onedriveopen';
-				}
+			text: 'Open',
+			icon: "browse",
+			getSubmenuItems: function() {
+				  return 'openfromcomputer googledriveopen onedriveopen';
+			}
 		});
 		// Save submenu
 		editor.ui.registry.addNestedMenuItem('savesubmenu', {
@@ -151,12 +151,20 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
 		  }
 		});			      
 		editor.ui.registry.addToggleMenuItem("screenshot", {
-		text: "Screenshot",
-		icon: "edit-image",
-		onAction: function() {
-		  saveAsImage();
-		}
+			text: "Screenshot",
+			icon: "edit-image",
+			onAction: function() {
+			  saveAsImage();
+			}
 		});
+		editor.ui.registry.addToggleMenuItem("exportpdf", {
+		    text: 'Export as PDF',
+		    icon: 'image',
+			onAction: async function() {
+				var iframeWindow = editor.getWin();
+				await iframeWindow.generatePDF();
+			}
+		});		
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {
@@ -170,35 +178,46 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
             }
         });		
 		editor.on('init', function() {
-		  // Apply UI font size
-				// Remove old style if exists
-				const oldStyle = document.getElementById('tinymce-ui-fontsize');
-				if (oldStyle) oldStyle.remove();
+		    // Apply UI font size
+			// Remove old style if exists
+			const oldStyle = document.getElementById('tinymce-ui-fontsize');
+			if (oldStyle) oldStyle.remove();
 
-				// Add new style
-				const style = document.createElement('style');
-				style.id = 'tinymce-ui-fontsize';
-				style.textContent = `
-						.tox .tox-toolbar,
-						.tox .tox-toolbar__primary,
-						.tox .tox-toolbar__group,
-						.tox .tox-menubar,
-						.tox .tox-statusbar,
-						.tox .tox-tbtn,
-						.tox .tox-dialog,
-						.tox .tox-menu,
-						.tox .tox-collection__item,
-						.tox .tox-collection__item-label,
-						.tox .tox-mbtn__select-label {
-								font-size: ${settings.fontSize} !important;
-						}
-				`;
-				document.head.appendChild(style);
+			// Add new style
+			const style = document.createElement('style');
+			style.id = 'tinymce-ui-fontsize';
+			style.textContent = `
+					.tox .tox-toolbar,
+					.tox .tox-toolbar__primary,
+					.tox .tox-toolbar__group,
+					.tox .tox-menubar,
+					.tox .tox-statusbar,
+					.tox .tox-tbtn,
+					.tox .tox-dialog,
+					.tox .tox-menu,
+					.tox .tox-collection__item,
+					.tox .tox-collection__item-label,
+					.tox .tox-mbtn__select-label {
+							font-size: ${settings.fontSize} !important;
+					}
+			`;
+			document.head.appendChild(style);
 		  
 		  // Set initial content if provided
 		  if (initialContent) {
 			  editor.setContent(initialContent);
 		  }
+		  // inject export2pdf scripts to iframe body
+		  const doc = editor.getDoc();
+		  const script1 = doc.createElement('script');
+		  script1.src = 'https://html2canvas.hertzen.com/dist/html2canvas.js';
+		  doc.body.appendChild(script1);
+		  const script2 = doc.createElement('script');
+		  script2.src = '/editor/assets/jspdf.umd.min.js';
+		  doc.body.appendChild(script2);
+		  const script3 = doc.createElement('script');
+		  script3.src = '/editor/assets/export2pdf.js';
+		  doc.body.appendChild(script3);		  		  		  
 		});      
     }
   });
