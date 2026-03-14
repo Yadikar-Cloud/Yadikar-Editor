@@ -1,22 +1,22 @@
 /* add several Uyghur fonts */
 @font-face {
   font-family: UKIJEkranRegular;
-  src: url(./fonts/UKIJEkran.ttf);
+  src: url(/editor/assets/fonts/UKIJEkran.ttf);
 }
 
 @font-face {
   font-family: UKIJChiwerKesmeRegular;
-  src: url(./fonts/UKIJChiK.ttf);
+  src: url(/editor/assets/fonts/UKIJChiK.ttf);
 }
 
 @font-face {
   font-family: UKIJCJKRegular;
-  src: url(./fonts/UKIJCJK.ttf);
+  src: url(/editor/assets/fonts/UKIJCJK.ttf);
 }
 
 @font-face {
   font-family: UKIJKufiRegular;
-  src: url(./fonts/UKIJKu.ttf);
+  src: url(/editor/assets/fonts/UKIJKu.ttf);
 }
 
 /* For other boilerplate styles, see: /docs/general-configuration-guide/boilerplate-content-css/ */
