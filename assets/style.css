@@ -89,8 +89,8 @@ body {
 
 /* Style the TinyMCE container div in your main page */
 .page {
-    width: 21cm;
-    min-height: 29.7cm;
+    width: 794px;
+    min-height: 1122px;
     background: white;
     margin: 20px auto;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -131,18 +131,11 @@ body {
     }
 
     .page {
-        /* Printable height = 297mm - top/bottom margins */
-        min-height: 297mm;
-
         margin: 0;
-        padding-bottom: 15mm;
-
         box-shadow: none;
         border: none;
         width: 100%;
-
         position: relative;
-
         break-after: page;
         page-break-after: always;
     }
@@ -150,7 +143,7 @@ body {
     .page:last-child {
         break-after: auto;
         page-break-after: auto;
-        min-height: 277mm;
+        min-height: 1047px;
         position: relative;        
     }
 
