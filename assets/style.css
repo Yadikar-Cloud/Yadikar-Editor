@@ -129,32 +129,8 @@ body {
         padding: 0;
         background: white;
     }
-
     .page {
-        margin: 0;
-        box-shadow: none;
-        border: none;
-        width: 100%;
-        position: relative;
-        break-after: page;
-        page-break-after: always;
-    }
-
-    .page:last-child {
-        break-after: auto;
-        page-break-after: auto;
-        min-height: 1047px;
-        position: relative;        
-    }
-
-    .page::after {
-        content: attr(data-page);
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 10pt;
-        color: #666;
+        margin: 0 !important;
     }
 }
 
