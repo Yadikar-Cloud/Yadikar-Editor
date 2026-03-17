@@ -228,13 +228,13 @@ document.addEventListener('DOMContentLoaded', initializeTinyMCE);
 // used to change UI language dynamically
 function changeLanguage(newLang) {
   localStorage.setItem('tinymce_language', newLang);
-  tinymce.remove();
+  tinymce.remove("mytextarea");
   initializeTinyMCE(); // Reads from localStorage
 }
 
 // Optional: Reinitialize TinyMCE when the window is resized
 window.addEventListener('load', function() {
-  tinymce.remove(); // Remove the existing instance
+  tinymce.remove("mytextarea"); // Remove the existing instance
   initializeTinyMCE(); // Reinitialize with the new height
   // check for custom events
   const params = new URLSearchParams(window.location.search);
