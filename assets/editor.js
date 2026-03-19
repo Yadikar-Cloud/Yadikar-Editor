@@ -1,16 +1,57 @@
-const savedLang = localStorage.getItem('tinymce_language') || 'en_US';
 const stt_languages = "Afrikaans=af-ZA,አማርኛ=am-ET,Azərbaycanca=az-AZ,বাংলা - বাংলাদেশ=bn-BD,বাংলা - ভারত=bn-IN,Bahasa Indonesia=id-ID,Bahasa Melayu=ms-MY,Català=ca-ES,Čeština=cs-CZ,Dansk=da-DK,Deutsch=de-DE,English - Australia=en-AU,English - Canada=en-CA,English - India=en-IN,English - Kenya=en-KE,English - Tanzania=en-TZ,English - Ghana=en-GH,English - New Zealand=en-NZ,English - Nigeria=en-NG,English - South Africa=en-ZA,English - Philippines=en-PH,English - United Kingdom=en-GB,English - United States=en-US,Español - Argentina=es-AR,Español - Bolivia=es-BO,Español - Chile=es-CL,Español - Colombia=es-CO,Español - Costa Rica=es-CR,Español - Ecuador=es-EC,Español - El Salvador=es-SV,Español - España=es-ES,Español - Estados Unidos=es-US,Español - Guatemala=es-GT,Español - Honduras=es-HN,Español - México=es-MX,Español - Nicaragua=es-NI,Español - Panamá=es-PA,Español - Paraguay=es-PY,Español - Perú=es-PE,Español - Puerto Rico=es-PR,Español - República Dominicana=es-DO,Español - Uruguay=es-UY,Español - Venezuela=es-VE,Euskara=eu-ES,Filipino=fil-PH,Français=fr-FR,Basa Jawa=jv-ID,Galego=gl-ES,ગુજરાતી=gu-IN,Hrvatski=hr-HR,IsiZulu=zu-ZA,Íslenska=is-IS,Italiano - Italia=it-IT,Italiano - Svizzera=it-CH,ಕನ್ನಡ=kn-IN,ភាសាខ្មែរ=km-KH,Latviešu=lv-LV,Lietuvių=lt-LT,മലയാളം=ml-IN,मराठी=mr-IN,Magyar=hu-HU,ລາວ=lo-LA,Nederlands=nl-NL,नेपाली भाषा=ne-NP,Norsk bokmål=nb-NO,Polski=pl-PL,Português - Brasil=pt-BR,Português - Portugal=pt-PT,Română=ro-RO,සිංහල=si-LK,Slovenščina=sl-SI,Basa Sunda=su-ID,Slovenčina=sk-SK,Suomi=fi-FI,Svenska=sv-SE,Kiswahili - Tanzania=sw-TZ,Kiswahili - Kenya=sw-KE,ქართული=ka-GE,Հայերեն=hy-AM,தமிழ் - இந்தியா=ta-IN,தமிழ் - சிங்கப்பூர்=ta-SG,தமிழ் - இலங்கை=ta-LK,தமிழ் - மலேசியா=ta-MY,తెలుగు=te-IN,Tiếng Việt=vi-VN,Türkçe=tr-TR,اُردُو - پاکستان=ur-PK,اُردُو - بھارت=ur-IN,Ελληνικά=el-GR,български=bg-BG,Pусский=ru-RU,Српски=sr-RS,Українська=uk-UA,한국어=ko-KR,中文 - 普通话 (中国大陆)=cmn-Hans-CN,中文 - 普通话 (香港)=cmn-Hans-HK,中文 - 中文 (台灣)=cmn-Hant-TW,中文 - 粵語 (香港)=yue-Hant-HK,日本語=ja-JP,हिन्दी=hi-IN,ภาษาไทย=th-TH";
 const ocr_languages = "Afrikaans=afr,Amharic=amh,Arabic=ara,Assamese=asm,Azerbaijani=aze,Azerbaijani - Cyrillic=aze_cyrl,Belarusian=bel,Bengali=ben,Tibetan=bod,Bosnian=bos,Bulgarian=bul,Catalan - Valencian=cat,Cebuano=ceb,Czech=ces,Chinese - Simplified=chi_sim,Chinese - Traditional=chi_tra,Cherokee=chr,Welsh=cym,Danish=dan,German=deu,Dzongkha=dzo,Greek - Modern (1453-)=ell,English=eng,English - Middle (1100-1500)=enm,Esperanto=epo,Estonian=est,Basque=eus,Persian=fas,Finnish=fin,French=fra,German Fraktur=frk,French - Middle (ca. 1400-1600)=frm,Irish=gle,Galician=glg,Greek - Ancient (-1453)=grc,Gujarati=guj,Haitian - Haitian Creole=hat,Hebrew=heb,Hindi=hin,Croatian=hrv,Hungarian=hun,Inuktitut=iku,Indonesian=ind,Icelandic=isl,Italian=ita,Italian - Old=ita_old,Javanese=jav,Japanese=jpn,Kannada=kan,Georgian=kat,Georgian - Old=kat_old,Kazakh=kaz,Central Khmer=khm,Kirghiz - Kyrgyz=kir,Korean=kor,Kurdish=kur,Lao=lao,Latin=lat,Latvian=lav,Lithuanian=lit,Malayalam=mal,Marathi=mar,Macedonian=mkd,Maltese=mlt,Malay=msa,Burmese=mya,Nepali=nep,Dutch - Flemish=nld,Norwegian=nor,Oriya=ori,Panjabi - Punjabi=pan,Polish=pol,Portuguese=por,Pushto; Pashto=pus,Romanian - Moldavian - Moldovan=ron,Russian=rus,Sanskrit=san,Sinhala - Sinhalese=sin,Slovak=slk,Slovenian=slv,Spanish - Castilian=spa,Spanish - Castilian - Old=spa_old,Albanian=sqi,Serbian=srp,Serbian - Latin=srp_latn,Swahili=swa,Swedish=swe,Syriac=syr,Tamil=tam,Telugu=tel,Tajik=tgk,Tagalog=tgl,Thai=tha,Tigrinya=tir,Turkish=tur,Uighur - Uyghur=uig,Ukrainian=ukr,Urdu=urd,Uzbek=uzb,Uzbek - Cyrillic=uzb_cyrl,Vietnamese=vie,Yiddish=yid";
 const site_languages = "Albanian=sq,Arabic=ar,Azerbaijani=az,Bulgarian=bg_BG,Catalan=ca,Czech=cs_CZ,Danish=da,German=de,Greek=el,English=en_US,Spanish=es_419,Persian=fa,Finnish=fi,French=fr_FR,Hebrew=he_IL,Croatian=hr,Hungarian=hu_HU,Indonesian=id,Italian=it_IT,Japanese=ja,Georgian=ka_GE,Kabyle=kab,Kazakh=kk,Korean=ko_KR,Lithuanian=lt,Dutch=nl,Polish=pl,Portuguese=pt_BR,Romanian=ro,Russian=ru_RU,Slovak=sk,Slovenian=sl_SI,Swedish=sv_SE,Tamil=ta,Tajik=tg,Thai=th_TH,Turkish=tr_TR,Uzbek=uz,Uyghur=ug,Ukrainian=uk,Chinese (Simplified)=zh_CN,Chinese (Traditional)=zh_TW";
 
-function initializeTinyMCE(customSettings = {}, initialContent = '') {	
+window.settings = {
+	STORAGE_KEY: 'tinymce_settings',
+	// Default settings
+	defaults: {
+		language: 'en_US',
+		skin: 'oxide',
+		fontSize: '14px',
+		contentFontSize: '16px',
+		contentFontType: 'Georgia',
+		topBottomPadding: '40',
+		leftRightPadding: '40',
+		pageNumberPosition: '50%',
+		pageBackgroundColor: '#FFFFFF',
+		theme: 'silver',
+		sttlanguage: 'en-US',
+		ocrlanguage: 'eng',
+		loadSystemFonts: false,
+		systemFonts: '',
+	},
+
+	// Get saved settings from localStorage
+	getSettings: function () {
+		try {
+		    const saved = localStorage.getItem(this.STORAGE_KEY);
+		    //console.log("saved settings:",saved);
+		    return saved ? JSON.parse(saved) : this.defaults;
+		} catch (error) {
+		    console.error('Error loading settings:', error);
+		    return this.defaults;
+		}
+	},
+
+	// Save settings to localStorage
+	setSettings: function (settings) {
+		try {
+		    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(settings));
+		    return true;
+		} catch (error) {
+		    console.error('Error saving settings:', error);
+		    return false;
+		}
+	}
+};
+
+function initializeTinyMCE(settings = {}, initialContent = '') {
+  //console.log("tinymce init:",settings.language);	
   // scripts/editor.js
   const editorHeight = window.innerHeight - 20; 
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-	// Get saved settings
-	const savedSettings = window.getTinyMCESettings ? window.getTinyMCESettings() : {};
-	const settings = { ...savedSettings, ...customSettings };
-	const PAGE_MARGIN = 40; // Margin in pixels
+  const PAGE_MARGIN = 40; // Margin in pixels
 	
   tinymce.init({
     selector: "textarea#mytextarea",
@@ -24,7 +65,7 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot settings pageview givefeedback speechrecognition pdfImport chart mathjax footnotes",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot pageview givefeedback pdfImport chart mathjax footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | sharefile | exportpdf | preview | print" },
@@ -222,16 +263,22 @@ function initializeTinyMCE(customSettings = {}, initialContent = '') {
     }
   });
  }
+ 
  // Run the function when the document is ready
-document.addEventListener('DOMContentLoaded', initializeTinyMCE);
+document.addEventListener('DOMContentLoaded', function() {
+	const currentSettings = window.settings.getSettings();
+	initializeTinyMCE(currentSettings);
+});
 
 // used to change UI language dynamically
 function changeLanguage(newLang) {
-  localStorage.setItem('tinymce_language', newLang);
+  const currentSettings = window.settings.getSettings();
+  currentSettings.language = newLang;
   tinymce.remove("mytextarea");
-  initializeTinyMCE(); // Reads from localStorage
+  initializeTinyMCE(currentSettings); // Reads from localStorage
 }
 
+/*
 // Optional: Reinitialize TinyMCE when the window is resized
 window.addEventListener('load', function() {
   tinymce.remove("mytextarea"); // Remove the existing instance
@@ -244,7 +291,7 @@ window.addEventListener('load', function() {
 		// console.log("file path: " + filePath);
 		tinymce.activeEditor.execCommand('cmdOpenFile', true, filePath);
 	}  
-});
+});*/
 
 // log all browswer console errors to find hidden bugs
 // Capture all console errors
