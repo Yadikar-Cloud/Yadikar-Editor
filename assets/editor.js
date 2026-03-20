@@ -49,15 +49,16 @@ window.settings = {
 window.titleUpdate = {
 	msgExist: false,
 	fileName: '',
-	message: '*[Unsaved]-',
-	addMsg: function () {
+	unsavedMessage: '*[Unsaved]-',
+	savedMessage: '[Saved]-',
+	addUnsavedMsg: function () {
 		if(this.fileName) {
-			document.title = this.message + this.fileName + document.title;
+			document.title = this.unsavedMessage + this.fileName + document.title;
 		}
 	},
-	removeMsg: function () {
+	addSavedMsg: function () {
 		if(this.fileName) {
-			document.title = document.title.replace(this.message + this.fileName, '');
+			document.title = this.savedMessage + this.fileName + document.title;
 		}
 	}
 };
@@ -92,7 +93,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     toolbar: "undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
-    autosave_interval: "30s",
+    autosave_interval: "3s",
     autosave_prefix: "{path}{query}-{id}-",
     autosave_restore_when_empty: false,
     autosave_retention: "2m",
@@ -268,10 +269,12 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  editor.on('dirty', function() {
 		    // Your custom function here
 		    console.log('Editor is now dirty');
+			window.titleUpdate.addUnsavedMsg();
 		  });
 		  // autosave handler
 		  editor.on('StoreDraft', function() {
 		    editor.saveFile(); // or your custom save logic
+			window.titleUpdate.addSavedMsg();
 		  });		
 		  // inject export2pdf scripts to iframe body
 		  const doc = editor.getDoc();
