@@ -46,6 +46,22 @@ window.settings = {
 	}
 };
 
+window.titleUpdate = {
+	msgExist: false,
+	fileName: '',
+	message: '*[Unsaved]-',
+	addMsg: function () {
+		if(this.fileName) {
+			document.title = this.message + this.fileName + document.title;
+		}
+	},
+	removeMsg: function () {
+		if(this.fileName) {
+			document.title = document.title.replace(this.message + this.fileName, '');
+		}
+	}
+};
+
 function initializeTinyMCE(settings = {}, initialContent = '') {
   //console.log("tinymce init:",settings.language);	
   // scripts/editor.js
@@ -248,6 +264,15 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  if (initialContent) {
 			  editor.setContent(initialContent);
 		  }
+		  // unsaved change handler
+		  editor.on('dirty', function() {
+		    // Your custom function here
+		    console.log('Editor is now dirty');
+		  });
+		  // autosave handler
+		  editor.on('StoreDraft', function() {
+		    editor.saveFile(); // or your custom save logic
+		  });		
 		  // inject export2pdf scripts to iframe body
 		  const doc = editor.getDoc();
 		  const script1 = doc.createElement('script');
