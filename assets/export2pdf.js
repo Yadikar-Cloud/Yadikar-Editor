@@ -119,57 +119,71 @@ window.generatePDF = async function() {
 	const fonts = getFontsUsed(doc);
 	await registerFonts(pdf, fonts);
 	
-	const page = document.getElementsByClassName("page")[0];
+	const pages = document.getElementsByClassName("page");
 	//page.style.margin = "0";
 	// real DOM width in px
-	const windowWidth = page.offsetWidth;
+	const windowWidth = pages[0].offsetWidth;
 	// convert px -> pt
 	const pdfWidth = windowWidth * 0.75;
 	//console.log("PDF width:", pdfWidth);
 	//console.log("Window width:", windowWidth);
 	//downloadFile(document);
-	
-	pdf.html(page, {
-		callback: function(pdf) {
-		  pdf.output("dataurlnewwindow");
-		},
-		x: 0,
-		y: 0,
-		width: pdfWidth,
-		windowWidth: windowWidth,
-		html2canvas: {
-			ignoreElements: function (element) {
-				return element.id === "ignorePDF";
-			},
-			onclone: function(clonedDoc) {
-				const style = clonedDoc.createElement("style");
-				style.innerHTML = `
-				  .page {
-					margin: 0 !important;
-				  }
-				`;
-				clonedDoc.head.appendChild(style);
-				
-				const bidi = pdf.__bidiEngine__;
-				// Apply BiDi only to elements with dir="rtl"
-				applyBidiEngine(clonedDoc, bidi);
-				
-				// Disable default bullets ONLY in cloned DOM
-				const style1 = clonedDoc.createElement("style");
-				style1.innerHTML = `
-					ul { list-style: none !important; padding-right: 1.2em; }
-				`;
-				clonedDoc.head.appendChild(style1);
 
-				// Inject manual bullets
-				clonedDoc.querySelectorAll("li").forEach(li => {
-					if (!li.dataset.bulletAdded) {
-					    li.innerHTML = "• " + li.innerHTML;
-					    li.dataset.bulletAdded = "true";
+	const addPageToPDF = (index) => {
+		return new Promise((resolve) => {	
+			pdf.html(pages[index], {
+				callback: resolve,
+				x: 0,
+				y: 0,
+				width: pdfWidth,
+				windowWidth: windowWidth,
+				autoPaging: false,
+				html2canvas: {
+					ignoreElements: function (element) {
+						return element.id === "ignorePDF";
+					},
+					onclone: function(clonedDoc) {
+						const style = clonedDoc.createElement("style");
+						style.innerHTML = `
+						  .page {
+							margin: 0 !important;
+						  }
+						`;
+						clonedDoc.head.appendChild(style);
+						
+						const bidi = pdf.__bidiEngine__;
+						// Apply BiDi only to elements with dir="rtl"
+						applyBidiEngine(clonedDoc, bidi);
+						
+						// Disable default bullets ONLY in cloned DOM
+						const style1 = clonedDoc.createElement("style");
+						style1.innerHTML = `
+							ul { list-style: none !important; padding-right: 1.2em; }
+						`;
+						clonedDoc.head.appendChild(style1);
+
+						// Inject manual bullets
+						clonedDoc.querySelectorAll("li").forEach(li => {
+							if (!li.dataset.bulletAdded) {
+								li.innerHTML = "• " + li.innerHTML;
+								li.dataset.bulletAdded = "true";
+							}
+						});
 					}
-				});
-			}
-		}		
-	});
+				}		
+			});
+		});
+	};
+	// Process pages sequentially
+	let chain = addPageToPDF(0);
+	for (let i = 1; i < pages.length; i++) {
+		const index = i;
+		chain = chain.then(() => {
+		    pdf.addPage();
+		    return addPageToPDF(index);
+		});
+	}
+
+	chain = chain.then(() => pdf.output("dataurlnewwindow"));	
 }	
 
