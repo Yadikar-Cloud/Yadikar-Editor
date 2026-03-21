@@ -85,7 +85,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot pageview givefeedback pdfImport chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf | preview | print" },
+      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf | information | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
