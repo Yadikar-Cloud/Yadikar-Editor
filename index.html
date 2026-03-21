@@ -5,25 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Yadikar Text Editor</title>
 	<link rel="icon" type="image/png" href="/editor/assets/image/yadikar-editor.png" sizes="48x48">
-	<!-- Add Tesseract.js -->
-	<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-	<!-- Add PDF.js -->
-	<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>	
-	<!-- File conversion libraries -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-	<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
-	<!-- DOCX to HTML converter -->
-	<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>	
-	<!-- html-docx-js from CDN -->
-	<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
-	<!-- Replace html-docx-js with docx -->
-	<script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>    
-	<!-- Shared utilities -->
-	<script src="/editor/assets/file-types.js"></script>
-	<script src="/editor/assets/file-converter.js"></script> 
 	<!-- Google APIs -->
 	<script src="https://apis.google.com/js/api.js"></script>
-	<script src="https://accounts.google.com/gsi/client"></script>   
+	<script src="https://accounts.google.com/gsi/client"></script>  
+	<!-- DOCX to HTML converter -->
+	<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+	<!-- DOCX generation library -->
+	<script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>    
+	<!-- Add Tesseract.js -->
+	<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>	
 	<!-- html2canvas for screenshots -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
 	<!-- insert chart -->
@@ -31,7 +21,6 @@
     <!-- Load MathJax from CDN -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>   
   </head>
-
   <body>
     <form method="post">
       <textarea id="mytextarea">
@@ -44,7 +33,7 @@
 			<li>Extract text from PDF/image using OCR</li>
 			<li>Write meeting/lecture notes with Speech Recognition</li>
 			<li>Supports HTML/TXT/Markdown/DOCX document formats</li>
-			<li>Supports upload/download to cloud drives</li>
+			<li>Export document as high-quality PDF</li>
 			<li>Save/Open documents on local device</li>
 			<li>Spellcheck and grammar check</li>
 			<li>Auto-complete for quicker writing</li>
@@ -60,6 +49,9 @@
     </footer>
 	<!-- TinyMCE and plugins last -->
     <script src="/editor/node_modules/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="/editor/assets/editor.js?v=1.1"></script>	    
+    <script src="/editor/assets/editor.js?v=1.1"></script>
+	<!-- Shared utilities -->
+	<script src="/editor/assets/file-types.js"></script>
+	<script src="/editor/assets/file-converter.js"></script>    	    
   </body>
 </html>

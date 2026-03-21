@@ -217,7 +217,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		});
 		editor.ui.registry.addToggleMenuItem("exportpdf", {
 		    text: 'Export as PDF',
-		    icon: 'image',
+		    icon: 'exportpdf',
 			onAction: async function() {
 				var iframeWindow = editor.getWin();
 				await iframeWindow.generatePDF();
