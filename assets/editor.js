@@ -51,12 +51,12 @@ window.titleUpdate = {
 	unsavedMessage: '*[Unsaved]-',
 	savedMessage: '[Saved]-',
 	addUnsavedMsg: function () {
-		if (!document.title.includes(this.unsavedMessage) && this.title) {
+		if (!document.title.includes(this.unsavedMessage) && window.fileHandle) {
 			document.title = this.unsavedMessage + this.title;
 		}
 	},
 	addSavedMsg: function () {
-		if (!document.title.includes(this.savedMessage) && this.title) {
+		if (!document.title.includes(this.savedMessage) && window.fileHandle) {
 			
 			document.title = this.savedMessage + this.title;
 		}
