@@ -82,7 +82,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport chart footnotes settings",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport mathjax chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf | information | print" },
@@ -107,7 +107,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
         lib: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', // Path to MathJax
         symbols: {start: '\\(', end: '\\)'}, // Optional: inline math delimiters
         className: 'math-tex' // Optional: CSS class for math elements
-    },   
+    },
     paste_data_images: true,
     quickbars_selection_toolbar: "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
     noneditable_noneditable_class: "mceNonEditable",
