@@ -47,18 +47,18 @@ window.settings = {
 };
 
 window.titleUpdate = {
-	msgExist: false,
-	fileName: '',
+	title: '',
 	unsavedMessage: '*[Unsaved]-',
 	savedMessage: '[Saved]-',
 	addUnsavedMsg: function () {
-		if(this.fileName) {
-			document.title = this.unsavedMessage + this.fileName + document.title;
+		if (!document.title.includes(this.unsavedMessage) && this.title) {
+			document.title = this.unsavedMessage + this.title;
 		}
 	},
 	addSavedMsg: function () {
-		if(this.fileName) {
-			document.title = this.savedMessage + this.fileName + document.title;
+		if (!document.title.includes(this.savedMessage) && this.title) {
+			
+			document.title = this.savedMessage + this.title;
 		}
 	}
 };
@@ -82,15 +82,15 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot pageview givefeedback pdfImport chart mathjax footnotes settings",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot pageview givefeedback pdfImport chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | opensubmenu | savesubmenu | pdfImport | sharefile | exportpdf | preview | print" },
+      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf | preview | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
-    toolbar: "undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
+    toolbar: "open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: "3s",
@@ -265,17 +265,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  if (initialContent) {
 			  editor.setContent(initialContent);
 		  }
-		  // unsaved change handler
-		  editor.on('dirty', function() {
-		    // Your custom function here
-		    console.log('Editor is now dirty');
-			window.titleUpdate.addUnsavedMsg();
-		  });
-		  // autosave handler
-		  editor.on('StoreDraft', function() {
-		    editor.saveFile(); // or your custom save logic
-			window.titleUpdate.addSavedMsg();
-		  });		
+		  
 		  // inject export2pdf scripts to iframe body
 		  const doc = editor.getDoc();
 		  const script1 = doc.createElement('script');
