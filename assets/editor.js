@@ -90,7 +90,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
-    toolbar: "open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
+    toolbar: "pageview open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: "3s",
