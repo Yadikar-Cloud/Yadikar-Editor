@@ -85,7 +85,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport mathjax chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf | information | print" },
+      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf exportepub | information | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
@@ -222,7 +222,15 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 				var iframeWindow = editor.getWin();
 				await iframeWindow.generatePDF();
 			}
-		});		
+		});
+		editor.ui.registry.addToggleMenuItem("exportepub", {
+		    text: 'Export as ePUB',
+		    icon: 'exportpdf',
+			onAction: async function() {
+				var iframeWindow = editor.getWin();
+				await iframeWindow.generateEPUB();
+			}
+		});
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {
@@ -276,7 +284,12 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  doc.body.appendChild(script2);
 		  const script3 = doc.createElement('script');
 		  script3.src = '/editor/assets/export2pdf.js';
-		  doc.body.appendChild(script3);		  		  		  
+		  doc.body.appendChild(script3);
+		  
+		  // inject export2epub scripts to iframe body
+		  const script4 = doc.createElement('script');
+		  script4.src = '/editor/assets/export2epub.js';
+		  doc.body.appendChild(script4);	  		  		  		  
 		});      
     }
   });
