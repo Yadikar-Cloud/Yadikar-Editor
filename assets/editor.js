@@ -225,7 +225,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		});
 		editor.ui.registry.addToggleMenuItem("exportepub", {
 		    text: 'Export as ePUB',
-		    icon: 'exportpdf',
+		    icon: 'exportepub',
 			onAction: async function() {
 				var iframeWindow = editor.getWin();
 				await iframeWindow.generateEPUB();
