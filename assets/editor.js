@@ -289,7 +289,10 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  // inject export2epub scripts to iframe body
 		  const script4 = doc.createElement('script');
 		  script4.src = '/editor/assets/export2epub.js';
-		  doc.body.appendChild(script4);	  		  		  		  
+		  doc.body.appendChild(script4);	
+		  const script5 = doc.createElement('script');
+		  script5.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+		  doc.body.appendChild(script5);		    		  		  		  
 		});      
     }
   });

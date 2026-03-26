@@ -24,7 +24,8 @@ class EPUBGenerator {
             .replace(/'/g, '&apos;');
     }
 
-    htmlToXHTML(html) {
+    htmlToXHTML(doc) {
+    	const html = doc.getElementById("tinymce").innerHTML;
         const xhtml = `<?xml version="1.0" encoding="UTF-8"?>
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${this.language}">
@@ -79,13 +80,13 @@ class EPUBGenerator {
 	// Posted by Ateş Göral, modified by community. See post 'Timeline' for change history
 	// Retrieved 2026-03-26, License - CC BY-SA 4.0
 
-	getEditorTocNCX() {
+	getEditorTocNCX(doc) {
 		var toc = "";
 		var level = 0;
 		var maxLevel = 3;
 
-		document.getElementById("tinymce").innerHTML =
-		    document.getElementById("tinymce").innerHTML.replace(
+		doc.getElementById("tinymce").innerHTML =
+		    doc.getElementById("tinymce").innerHTML.replace(
 		        /<h([\d])>([^<]+)<\/h([\d])>/gi,
 		        function (str, openLevel, titleText, closeLevel) {
 		            if (openLevel != closeLevel) {
@@ -140,19 +141,19 @@ class EPUBGenerator {
 				</ncx>`;
     }
     
-	extractCSS() {
+	extractCSS(doc) {
 	  const styles = document.querySelectorAll('style');
 	  let css = '';
 
 	  styles.forEach(styleTag => {
 		css += styleTag.textContent + '\n\n';
-		styleTag.remove(); // remove from HTML
+		//styleTag.remove(); // remove from HTML
 	  });
 
 	  return css;
 	}
 	
-    async generate(htmlContent) {
+    async generate(doc) {
         const zip = new JSZip();
 
         // 1. Add mimetype (must be first, uncompressed)
@@ -163,11 +164,12 @@ class EPUBGenerator {
 
         // 3. Add OEBPS folder with content files
         const oebps = zip.folder('OEBPS');
-        oebps.file('content.xhtml', this.htmlToXHTML(htmlContent));
         oebps.file('content.opf', this.getContentOPF());
+        oebps.file('content.xhtml', this.htmlToXHTML(doc));
         oebps.file('toc.ncx', this.getTocNCX());
         oebps.file('styles.css', this.extractCSS());
         // add other external stylesheets
+        /*
         const links = document.querySelectorAll('link[rel="stylesheet"]');
         for (const link of links) {
 			const href = link.getAttribute('href');
@@ -190,7 +192,7 @@ class EPUBGenerator {
 			  console.error('Failed to fetch CSS:', href, err);
 			}			    
         }
-
+		*/
         // 4. Generate the zip file
         const blob = await zip.generateAsync({ type: 'blob' });
         return blob;
@@ -261,15 +263,23 @@ function downloadFile(doc) {
 }
 
 window.generateEPUB = async function() {
+	var documentCopy = document.cloneNode(true);
+	
     const generator = new EPUBGenerator(
         'The Art of JavaScript Programming',
         'Jane Developer',
         'en'
     );
+    // Generate EPUB
+    const epubBlob = await generator.generate(documentCopy);
 	
-	var toc = generator.getEditorTocNCX();
-	
-	console.log(toc);
+    // Download the file
+    const url = URL.createObjectURL(epubBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'document.epub';
+    document.body.appendChild(a);
+    a.click();
 	// downloadFile(doc);
 }	
 
