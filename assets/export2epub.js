@@ -74,6 +74,48 @@ class EPUBGenerator {
 				</spine>
 				</package>`;
     }
+    
+	// Source - https://stackoverflow.com/a/187946
+	// Posted by Ateş Göral, modified by community. See post 'Timeline' for change history
+	// Retrieved 2026-03-26, License - CC BY-SA 4.0
+
+	getEditorTocNCX() {
+		var toc = "";
+		var level = 0;
+		var maxLevel = 3;
+
+		document.getElementById("tinymce").innerHTML =
+		    document.getElementById("tinymce").innerHTML.replace(
+		        /<h([\d])>([^<]+)<\/h([\d])>/gi,
+		        function (str, openLevel, titleText, closeLevel) {
+		            if (openLevel != closeLevel) {
+					 c.log(openLevel)
+		                return str + ' - ' + openLevel;
+		            }
+
+		            if (openLevel > level) {
+		                toc += (new Array(openLevel - level + 1)).join("<ol>");
+		            } else if (openLevel < level) {
+		                toc += (new Array(level - openLevel + 1)).join("</ol>");
+		            }
+
+		            level = parseInt(openLevel);
+
+		            var anchor = titleText.replace(/ /g, "_");
+		            toc += "<li><a href=\"#" + anchor + "\">" + titleText
+		                + "</a></li>";
+
+		            return "<h" + openLevel + "><a name=\"" + anchor + "\">"
+		                + titleText + "</a></h" + closeLevel + ">";
+		        }
+		    );
+
+		if (level) {
+		    toc += (new Array(level + 1)).join("</ol>");
+		}
+
+		return toc;
+	}
 
     getTocNCX() {
         return `<?xml version="1.0" encoding="UTF-8"?>
@@ -98,7 +140,7 @@ class EPUBGenerator {
 				</ncx>`;
     }
     
-	function extractCSS() {
+	extractCSS() {
 	  const styles = document.querySelectorAll('style');
 	  let css = '';
 
@@ -219,9 +261,15 @@ function downloadFile(doc) {
 }
 
 window.generateEPUB = async function() {
-	const doc = document;
-	//console.log(doc);
+    const generator = new EPUBGenerator(
+        'The Art of JavaScript Programming',
+        'Jane Developer',
+        'en'
+    );
 	
-	downloadFile(doc);
+	var toc = generator.getEditorTocNCX();
+	
+	console.log(toc);
+	// downloadFile(doc);
 }	
 
