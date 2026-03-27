@@ -66,7 +66,7 @@ class EPUBGenerator {
 				<meta property="dcterms:modified">${this.date}</meta>
 				</metadata>
 				<manifest>
-				<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+				<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
 				<item id="content" href="content.xhtml" media-type="application/xhtml+xml"/>
 				<item id="css" href="styles.css" media-type="text/css"/>
 				</manifest>
@@ -81,26 +81,22 @@ class EPUBGenerator {
 	// Retrieved 2026-03-26, License - CC BY-SA 4.0
 
 	getEditorTocNCX(doc) {
-		var toc = "";
+		var toc = "<ol>";
 		var level = 0;
-		var maxLevel = 3;
+		var maxLevel = 2;
 
 		doc.getElementById("tinymce").innerHTML =
 		    doc.getElementById("tinymce").innerHTML.replace(
 		        /<h([\d])>([^<]+)<\/h([\d])>/gi,
 		        function (str, openLevel, titleText, closeLevel) {
 		            if (openLevel != closeLevel) {
-					 c.log(openLevel)
-		                return str + ' - ' + openLevel;
+		                return str;
 		            }
-
-		            if (openLevel > level) {
-		                toc += (new Array(openLevel - level + 1)).join("<ol>");
-		            } else if (openLevel < level) {
-		                toc += (new Array(level - openLevel + 1)).join("</ol>");
+		            
+		            // Skip headings deeper than maxLevel
+		            if (parseInt(openLevel) > maxLevel) {
+		                return str;
 		            }
-
-		            level = parseInt(openLevel);
 
 		            var anchor = titleText.replace(/ /g, "_");
 		            toc += "<li><a href=\"#" + anchor + "\">" + titleText
@@ -111,11 +107,21 @@ class EPUBGenerator {
 		        }
 		    );
 
-		if (level) {
-		    toc += (new Array(level + 1)).join("</ol>");
-		}
+		toc += "</ol>";
 
-		return toc;
+		return `<?xml version="1.0" encoding="UTF-8"?>
+				<!DOCTYPE html>
+				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en" lang="en">
+				<head>
+					<meta charset="utf-8"/>
+					<title>Table of Contents</title>
+				</head>
+				<body>
+					<nav epub:type="toc" id="toc">
+						${toc}
+					</nav>
+				</body>
+				</html>`;
 	}
 
     getTocNCX() {
@@ -166,33 +172,29 @@ class EPUBGenerator {
         const oebps = zip.folder('OEBPS');
         oebps.file('content.opf', this.getContentOPF());
         oebps.file('content.xhtml', this.htmlToXHTML(doc));
-        oebps.file('toc.ncx', this.getTocNCX());
-        oebps.file('styles.css', this.extractCSS());
-        // add other external stylesheets
-        /*
-        const links = document.querySelectorAll('link[rel="stylesheet"]');
-        for (const link of links) {
+        oebps.file('nav.xhtml', this.getEditorTocNCX(doc));
+		// Collect all CSS: start with extracted styles
+		let allCSS = this.extractCSS();
+
+		// Append external stylesheets
+		const links = doc.querySelectorAll('link[rel="stylesheet"]');
+		for (const link of links) {
 			const href = link.getAttribute('href');
-			if (!href) continue;    
-			
+			if (!href) continue;
+
 			try {
-			  const response = await fetch(href);
-			  const cssText = await response.text();
-
-			  // Extract filename
-			  const fileName = href.split('/').pop().split('?')[0];
-
-			  // Save into OEBPS
-			  oebps.file(`styles/${fileName}`, cssText);
-
-			  // Update HTML to point to local file (important for EPUB)
-			  link.setAttribute('href', `styles/${fileName}`);
-
+				const response = await fetch(href);
+				const cssText = await response.text();
+				allCSS += '\n' + cssText;
+				// Point all links to the single bundled stylesheet
+				link.setAttribute('href', 'styles.css');
 			} catch (err) {
-			  console.error('Failed to fetch CSS:', href, err);
-			}			    
-        }
-		*/
+				console.error('Failed to fetch CSS:', href, err);
+			}
+		}
+
+		oebps.file('styles.css', allCSS);
+		
         // 4. Generate the zip file
         const blob = await zip.generateAsync({ type: 'blob' });
         return blob;
@@ -274,12 +276,11 @@ window.generateEPUB = async function() {
     const epubBlob = await generator.generate(documentCopy);
 	
     // Download the file
-    const url = URL.createObjectURL(epubBlob);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = URL.createObjectURL(epubBlob);
     a.download = 'document.epub';
-    document.body.appendChild(a);
     a.click();
+    URL.revokeObjectURL(a.href);
 	// downloadFile(doc);
 }	
 
