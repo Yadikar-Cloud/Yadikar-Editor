@@ -100,6 +100,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     save_onsavecallback: function () { tinymce.activeEditor.saveFile(); },
     help_version_major: '3',
     help_version_minor: '3.1',
+    last_release_date: '2026-03-28', // format example: 1987-07-22
     image_advtab: true,
     height: editorHeight,
     image_caption: true,
@@ -341,13 +342,54 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 		  doc.body.appendChild(script4);	
 		  const script5 = doc.createElement('script');
 		  script5.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-		  doc.body.appendChild(script5);		    		  		  		  
+		  doc.body.appendChild(script5);
+		  
+		  whatsnew();		    		  		  		  
 		});      
     }
   });
  }
- 
- // Run the function when the document is ready
+
+function whatsnew() {
+	var version = tinymce.activeEditor.getParam('help_version_major') + '.' + tinymce.activeEditor.getParam('help_version_minor');
+	const MS_PER_DAY = 24 * 60 * 60 * 1000;
+	const lastRelaseDate = new Date(tinymce.activeEditor.getParam('last_release_date'));
+	const rightNow = new Date();
+	
+	if(Math.floor(lastRelaseDate - rightNow) < 7) // show "what's new" dialog for first week of last release!
+	{
+		tinymce.activeEditor.windowManager.open({
+		  title: `Version ${version} is released!`, // The dialog's title - displayed in the dialog header
+		  body: {
+			type: 'panel', // The root body type - a Panel or TabPanel
+			items: [ // A list of panel components
+			  {
+				type: 'htmlpanel', // an HTML panel component
+				html: `
+						<h2>What's New:</h2>
+						<ul>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Better file operation across the board</span></li>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Auto-save document on local device</span></li>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Show change/save status on browser tab</span></li>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Precise page size for printing on A4 paper</span></li>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Export to high-quality PDF using jsPDF engine</span></li>
+						<li style="line-height: 2;"><span style="font-family: 'andale mono', times;">Export document to ePUB 3.2 compliant ebook</span></li>
+						</ul>
+						`
+			  }
+			]
+		  },
+		  buttons: [ // A list of footer buttons
+			{
+			  type: 'cancel',
+			  text: 'Close'
+			}
+		  ]
+		});
+	}
+}
+
+// Run the function when the document is ready
 document.addEventListener('DOMContentLoaded', function() {
 	const currentSettings = window.settings.getSettings();
 	initializeTinyMCE(currentSettings);
