@@ -125,8 +125,26 @@ class EPUBGenerator {
 				</rootfiles>
 				</container>`;
     }
-
-    getContentOPF() {
+	// Helper method to get MIME type
+	getFontMimeType(format) {
+		const mimeTypes = {
+		    'woff': 'font/woff',
+		    'woff2': 'font/woff2',
+		    'ttf': 'font/ttf',
+		    'otf': 'font/otf',
+		    'eot': 'application/vnd.ms-fontobject',
+		    'svg': 'image/svg+xml'
+		};
+		return mimeTypes[format] || 'application/octet-stream';
+	}
+    getContentOPF(fontManifestItems = []) {
+		// Generate font manifest entries
+		let fontManifest = '';
+		
+		fontManifestItems.forEach((font, index) => {
+		    const mimeType = this.getFontMimeType(font.format);
+		    fontManifest += `\n        <item id="font-${index}" href="${font.href}" media-type="${mimeType}"/>`;
+		});    
         return `<?xml version="1.0" encoding="UTF-8"?>
 				<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="uuid_id">
 				<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
@@ -142,7 +160,7 @@ class EPUBGenerator {
 				<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
 				<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
 				<item id="content" href="content.xhtml" media-type="application/xhtml+xml"/>
-				<item id="css" href="styles.css" media-type="text/css"/>
+				<item id="css" href="styles.css" media-type="text/css"/>${fontManifest}
 				</manifest>
 				<spine toc="ncx">
 				<itemref idref="content"/>
@@ -241,6 +259,45 @@ class EPUBGenerator {
 	  return css;
 	}
 	
+	getFontsUsed(root) {
+		const fonts = new Set();
+
+		root.querySelectorAll("*").forEach(el => {
+			const style = window.getComputedStyle(el);
+			const family = style.fontFamily.split(",")[0].replace(/['"]/g, "").trim();
+			if (family) fonts.add(family);
+		});
+
+		return [...fonts];
+	}
+	
+	async fontToBase64(url) {
+		const res = await fetch(url);
+		const buffer = await res.arrayBuffer();
+
+		let binary = "";
+		const bytes = new Uint8Array(buffer);
+		const len = bytes.byteLength;
+
+		for (let i = 0; i < len; i++) {
+			binary += String.fromCharCode(bytes[i]);
+		}
+
+		return btoa(binary);
+	}
+
+	async getSystemFontBase64(family) {
+		if (!window.queryLocalFonts) return null;
+		const font = (await window.queryLocalFonts()).find(f => f.fullName === family);
+		if (!font) return null;
+		const blob = await font.blob();
+		return await new Promise(r => {
+			const fr = new FileReader();
+			fr.onloadend = () => r(fr.result.split(",")[1]);
+			fr.readAsDataURL(blob);
+		});
+	}	
+	
     async generate(doc) {
         const zip = new JSZip();
 
@@ -252,7 +309,6 @@ class EPUBGenerator {
 
         // 3. Add OEBPS folder with content files
         const oebps = zip.folder('OEBPS');
-        oebps.file('content.opf', this.getContentOPF());
         this.buildToc(doc); 
         oebps.file('nav.xhtml', this.getEditorNav());
         oebps.file('toc.ncx', this.getTocNCX());
@@ -278,9 +334,50 @@ class EPUBGenerator {
 		}
 		// Strip ALL @font-face rules
 		allCSS = allCSS.replace(/@font-face\s*(\/\*.*?\*\/\s*)?{[^}]*}/gis, '');
-			
-		oebps.file('styles.css', allCSS);
 		
+		// add used fonts
+		const fonts = getFontsUsed(doc);
+		const fontManifestItems = [];
+		//console.log(fonts);
+		for (const family of fonts) {
+		    let base64 = null;
+		    let format = 'woff'; // default, can adjust if needed		
+			const url = FONT_REGISTRY[family];
+			if (url) {
+		        try {
+		            base64 = await fontToBase64(url);
+		        } catch (err) {
+		            console.warn(`Failed to fetch hosted font: ${family}`, err);
+		        }
+			} else {
+		        try {
+		            base64 = await getSystemFontBase64(family);
+		        } catch (err) {
+		            console.warn(`Failed to get system font: ${family}`, err);
+		        }
+			}
+		    // If we got the font, add it to the EPUB
+		    if (base64) {
+		        const fontFileName = `fonts/${family.replace(/\s+/g, "_")}.${format}`;
+		        oebps.file(fontFileName, base64, { base64: true });
+		        // Add @font-face to CSS
+				allCSS =
+				`@font-face {
+					font-family: "${family}";
+					src: url('${fontFileName}') format('${format}');
+				}
+				` + allCSS;				
+		        // Track font for manifest
+		        fontManifestItems.push({
+		            family: family,
+		            href: fontFileName,
+		            format: format
+		        });
+				
+		    }
+	    }
+	    oebps.file('styles.css', allCSS);
+	    oebps.file('content.opf', this.getContentOPF(fontManifestItems));
         // 4. Generate the zip file
         const blob = await zip.generateAsync({ type: 'blob' });
         return blob;
