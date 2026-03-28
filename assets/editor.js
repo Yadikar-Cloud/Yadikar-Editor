@@ -85,7 +85,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport mathjax chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | open | save saveas | pdfImport | share | exportpdf exportepub | information | print" },
+      custom: { title: "File", items: "pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback | privacy terms" },
     },
@@ -99,7 +99,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     autosave_retention: "2m",
     save_onsavecallback: function () { tinymce.activeEditor.saveFile(); },
     help_version_major: '3',
-    help_version_minor: '2.1',
+    help_version_minor: '3.1',
     image_advtab: true,
     height: editorHeight,
     image_caption: true,
