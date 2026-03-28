@@ -224,13 +224,62 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 			}
 		});
 		editor.ui.registry.addToggleMenuItem("exportepub", {
-		    text: 'Export as ePUB',
-		    icon: 'exportepub',
+			text: 'Export as ePUB',
+			icon: 'exportepub',
 			onAction: async function() {
-				var iframeWindow = editor.getWin();
-				await iframeWindow.generateEPUB();
+				// Open a simple TinyMCE dialog
+				const result = await editor.windowManager.open({
+				    title: 'Add Book Metadata',
+				    body: {
+				        type: 'panel',
+				        items: [
+				            {
+				                type: 'input',
+				                name: 'title',
+				                label: 'Title',
+				            },
+				            {
+				                type: 'input',
+				                name: 'author',
+				                label: 'Author'
+				            },
+				            {
+				                type: 'textarea',
+				                name: 'description',
+				                label: 'Description',
+				                height: '300px',
+				            },				            
+				            {
+				                type: 'input',
+				                name: 'language',
+				                label: 'Language (e.g., en)'
+				            }
+				        ]
+				    },
+				    buttons: [
+				        {
+				            type: 'cancel',
+				            text: 'Cancel'
+				        },
+				        {
+				            type: 'submit',
+				            text: 'Export'
+				        }
+				    ],
+				    onSubmit: async function(api) {
+				        const data = api.getData(); // { title, author, language }
+
+				        // Get the iframe window
+				        const iframeWindow = editor.getWin();
+
+				        // Call your EPUB generation function, passing the metadata object
+				        await iframeWindow.generateEPUB(data);
+
+				        api.close();
+				    }
+				});
 			}
-		});
+		});		
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {
