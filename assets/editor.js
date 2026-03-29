@@ -118,7 +118,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     content_css: [ useDarkMode ? "dark" : "default", './assets/style.css' ],
     content_style: `body { font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } .page { padding: ${(settings.topBottomPadding || 40) + 'px'} ${(settings.leftRightPadding || 40 ) + 'px'}; background-color: ${settings.pageBackgroundColor || '#FFFFFF'}} .page::after {left: ${settings.pageNumberPosition || '50%'} }`,
     spellchecker_languages: "Bulgarian=bg,Catalan=ca,Czech=cs,Croatian=hr,Danish=da,Dutch=nl,English=en,French=fr_FR,German=de,Georgian=ka,Greek=el,Hebrew=he,Hungarian=hu,Italian=it,Korean=ko,Lithuanian=lt,Polish=pl,Portuguese=pt_PT,Persian=fa,Romanian=ro,Russian=ru,Spanish=es,Swedish=sv,Slovak=sk,Slovenian=sl,Turkish=tr,Uyghur=ug,Ukrainian=uk",
-    spellchecker_rpc_url: window.location.origin+'./tinymce_spellchecker/spellchecker.php',
+    spellchecker_rpc_url: 'https://deveditor.yadikar.it/tinymce_spellchecker/spellchecker.php',
     webspeechapi_languages: stt_languages,
     webspeechapi_language: settings.sttlanguage || 'en_US',
     ocr_languages: ocr_languages,
