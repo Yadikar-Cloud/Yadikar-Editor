@@ -1,8 +1,26 @@
 {
+  "name": "Yadikar-Editor",
+  "version": "1.0.0",
+  "description": "Yadikar Text Editor is a free, modern and privacy-first text editor with document generation and editing capabilities. Freatures: * Mobile-friendly design * Share document with others * Extract text from PDF/image using OCR * Write meeting/lecture notes with Speech Recognition * Supports HTML/TXT/Markdown/DOCX document formats * Supports upload/download to cloud drives * Save/Open documents on local device * Spellcheck and grammar check * Auto-complete for quicker writing * Screenshot text area * Supports over 40 languages * Best for privacy and security",
+  "main": "index.js",
+  "scripts": {
+    "tauri": "tauri"
+  },
   "dependencies": {
     "tinymce": "^5.10.9"
   },
-  "scripts": {
-    "build": "esbuild assets/editor.js --bundle --outfile=assets/out.js"
-  }
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yadikar-Cloud/Yadikar-Editor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yadikar-Cloud/Yadikar-Editor/issues"
+  },
+  "homepage": "https://github.com/Yadikar-Cloud/Yadikar-Editor#readme"
 }
