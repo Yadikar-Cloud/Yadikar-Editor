@@ -50,15 +50,30 @@ window.titleUpdate = {
 	title: '',
 	unsavedMessage: '*[Unsaved]-',
 	savedMessage: '[Saved]-',
-	addUnsavedMsg: function () {
-		if (!document.title.includes(this.unsavedMessage) && window.fileHandle) {
-			document.title = this.unsavedMessage + this.title;
+
+	_isTauri: () => typeof window.__TAURI__ !== 'undefined',
+
+	_setTitle: async function (fullTitle) {
+		document.title = fullTitle;
+		if (this._isTauri()) {
+			try {
+				const { getCurrentWindow } = window.__TAURI__.window;
+				await getCurrentWindow().setTitle(fullTitle);
+			} catch (e) {
+				console.warn('Tauri setTitle failed:', e);
+			}
 		}
 	},
+
+	addUnsavedMsg: function () {
+		if (!document.title.includes(this.unsavedMessage) && window.fileHandle) {
+			this._setTitle(this.unsavedMessage + this.title);
+		}
+	},
+
 	addSavedMsg: function () {
 		if (!document.title.includes(this.savedMessage) && window.fileHandle) {
-			
-			document.title = this.savedMessage + this.title;
+			this._setTitle(this.savedMessage + this.title);
 		}
 	}
 };
@@ -82,7 +97,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport mathjax chart footnotes settings",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print" },
