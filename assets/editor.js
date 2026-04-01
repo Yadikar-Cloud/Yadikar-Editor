@@ -125,74 +125,54 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     ocr_language: settings.ocrlanguage || 'eng',
     site_languages: site_languages,
     grammerchecker_language: "auto",
-	grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
-	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJ Ekran=UKIJEkranRegular; UKIJ Chiwer Kesme=UKIJChiwerKesmeRegular; UKIJ CJK=UKIJCJKRegular; UKIJ Kufi=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats;"+settings.systemFonts,
-    language: settings.language !== 'en_US' ? settings.language : undefined,
-    language_url: settings.language !== 'en_US' ? '/langs/' + settings.language + '.js' : undefined,
-	search_function: settings.language === 'en_US' ? async (keyword) => {
-	  const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
-	  if (response.ok) {
-		const jsonResponse = await response.json();
-		return Object.values(jsonResponse)[0]["name"];
-	  }
-	} : undefined,
-	file_picker_callback: async function(callback, value, meta) {
-		try {
-		    // Modern File System Access API (Chrome 86+, Edge 86+)
-		    const [fileHandle] = await window.showOpenFilePicker({
-		        types: [
-		            {
-		                description: 'PDF file',
-		                accept: { 'application/pdf': ['.pdf'] }
-		            },		        
-		            {
-		                description: 'PNG file',
-		                accept: { 'image/png': ['.png'] }
-		            },		        
-		            {
-		                description: 'JPEG file',
-		                accept: { 'image/jpeg': ['.jpeg'] }
-		            },
-		            {
-		                description: 'WebP file',
-		                accept: { 'image/webp': ['.webp'] }
-		            },
-		            {
-		                description: 'TIFF file',
-		                accept: { 'image/tiff': ['.tiff'] }
-		            }
-		        ],
-		        multiple: false,
-		        excludeAcceptAllOption: true
-		    });
-		    
-		    const file = await fileHandle.getFile();
-		    
-		    processedFileData = {
-		        name: file.name,
-		        path: fileHandle.name, // Still only filename
-		        size: file.size,
-		        type: file.type,
-		        file: file,
-		        handle: fileHandle // Keep handle for future access
+		grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
+		font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJ Ekran=UKIJEkranRegular; UKIJ Chiwer Kesme=UKIJChiwerKesmeRegular; UKIJ CJK=UKIJCJKRegular; UKIJ Kufi=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats;"+settings.systemFonts,
+		  language: settings.language !== 'en_US' ? settings.language : undefined,
+		  language_url: settings.language !== 'en_US' ? '/langs/' + settings.language + '.js' : undefined,
+		search_function: settings.language === 'en_US' ? async (keyword) => {
+			const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
+			if (response.ok) {
+			const jsonResponse = await response.json();
+			return Object.values(jsonResponse)[0]["name"];
+			}
+		} : undefined,
+		file_picker_callback: function (cb, value, meta) {
+		  var input = document.createElement('input');
+		  input.setAttribute('type', 'file');
+		  input.setAttribute('accept', 'image/*');
+
+		  /*
+		    Note: In modern browsers input[type="file"] is functional without
+		    even adding it to the DOM, but that might not be the case in some older
+		    or quirky browsers like IE, so you might want to add it to the DOM
+		    just in case, and visually hide it. And do not forget do remove it
+		    once you do not need it anymore.
+		  */
+
+		  input.onchange = function () {
+		    var file = this.files[0];
+
+		    var reader = new FileReader();
+		    reader.onload = function () {
+		      /*
+		        Note: Now we need to register the blob in TinyMCEs image blob
+		        registry. In the next release this part hopefully won't be
+		        necessary, as we are looking to handle it internally.
+		      */
+		      var id = 'blobid' + (new Date()).getTime();
+		      var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+		      var base64 = reader.result.split(',')[1];
+		      var blobInfo = blobCache.create(id, file, base64);
+		      blobCache.add(blobInfo);
+
+		      /* call the callback and populate the Title field with the file name */
+		      cb(blobInfo.blobUri(), { title: file.name });
 		    };
-		    
-		    // Read content
-		    const reader = new FileReader();
-		    reader.onload = function(e) {
-		        processedFileData.content = e.target.result;
-		    };
-		    reader.readAsBinaryString(file);
-		    
-		    callback(file.name, {
-		        title: file.name,
-		        text: file.name
-		    });
-		    
-		} catch (err) {
-		    console.log('User cancelled or API not supported');
-		}
-	},	    
+		    reader.readAsDataURL(file);
+		  };
+
+		  input.click();
+		},	    
     setup: function(editor) {
 		editor.ui.registry.addNestedMenuItem('opensubmenu', {
 			text: 'Open',
