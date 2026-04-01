@@ -384,22 +384,6 @@ class EPUBGenerator {
     }
 }
 
-// used to debug
-function downloadFile(doc) {
-	// Convert the document to full HTML
-	var source = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
-
-	// Create file
-	var blob = new Blob([source], { type: "text/html;charset=utf-8" });
-
-	var a = document.createElement("a");
-	a.href = URL.createObjectURL(blob);
-	a.download = "index.html";
-	a.click();
-
-	URL.revokeObjectURL(a.href);
-}
-
 window.generateEPUB = async function(info) {
 	var documentCopy = document.cloneNode(true);
 	
@@ -414,11 +398,6 @@ window.generateEPUB = async function(info) {
     const epubBlob = await generator.generate(documentCopy);
 	
     // Download the file
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(epubBlob);
-    a.download = 'document.epub';
-    a.click();
-    URL.revokeObjectURL(a.href);
-	// downloadFile(doc);
-}	
+    exportFile(epubBlob,".epub");
+}
 

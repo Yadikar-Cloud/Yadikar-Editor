@@ -94,19 +94,56 @@ function applyBidiEngine(root, bidi) {
 	});
 }
 
-function downloadFile(doc) {
-	// Convert the document to full HTML
-	var source = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
-
-	// Create file
-	var blob = new Blob([source], { type: "text/html;charset=utf-8" });
-
+function downloadFile(blob, extension) {
 	var a = document.createElement("a");
 	a.href = URL.createObjectURL(blob);
-	a.download = "index.html";
+	a.download = "Untitled"+extension;
 	a.click();
 
 	URL.revokeObjectURL(a.href);
+}
+
+async function exportFile(blob, extension) {
+	if (!window.showSaveFilePicker) {
+		 await downloadFile(blob, extension);
+		 return;
+	}
+	let docType=null;
+	let desc=null;
+	if(extension === ".pdf")
+	{
+		docType = "application/pdf";
+		desc = "PDF document"
+	}
+	else if(extension === ".epub")
+	{
+		docType = "application/epub+zip";
+		desc = "EPUB ebook";
+	}
+	else 
+	{
+		console.error('Unsupported file type!');
+		return;
+	}
+	const opts = {
+		types: [
+		  {
+			description: desc,
+			accept: { [docType]: [extension] },
+		  },
+		],
+	};
+	// create a new handle
+	const newHandle = await window.showSaveFilePicker(opts);
+
+	// create a FileSystemWritableFileStream to write to
+	const writableStream = await newHandle.createWritable();
+
+	// write our file
+	await writableStream.write(blob);
+
+	// close the file and write the contents to disk.
+	await writableStream.close();
 }
 
 window.generatePDF = async function() {
@@ -184,6 +221,9 @@ window.generatePDF = async function() {
 		});
 	}
 
-	chain = chain.then(() => pdf.output("dataurlnewwindow"));	
+	chain = chain.then(() => {
+		const pdfBlob = pdf.output("blob");
+		exportFile(pdfBlob,".pdf");
+	});	
 }	
 
