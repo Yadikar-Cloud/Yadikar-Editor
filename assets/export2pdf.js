@@ -221,10 +221,12 @@ window.generatePDF = async function() {
 		});
 	}
 
-	chain = chain.then(() => {
-		const pdfBlob = pdf.output("blob");
+	chain = chain.then(async () => {
+		const arrayBuffer = pdf.output("arraybuffer");	
+		const uint8 = new Uint8Array(arrayBuffer);
 		// exportFile(pdfBlob,".pdf");
-		saveBlob(true, pdfBlob, "Untitle.pdf", types[4]);
+		const types = window.parent.getFilePickerOption();
+		window.parent.saveBlob(true, uint8, true, "Untitle.pdf", types[4]);
 	});	
 }	
 

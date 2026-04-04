@@ -396,8 +396,11 @@ window.generateEPUB = async function(info) {
     
     // Generate EPUB
     const epubBlob = await generator.generate(documentCopy);
-	
+	const arrayBuffer = await epubBlob.arrayBuffer();
+	const uint8Array = new Uint8Array(arrayBuffer);		
     // Download the file
-    exportFile(epubBlob,".epub");
+    //exportFile(epubBlob,".epub");
+	const types = window.parent.getFilePickerOption();
+	window.parent.saveBlob(true, uint8Array, true, "Untitle.epub", types[5]);    
 }
 
