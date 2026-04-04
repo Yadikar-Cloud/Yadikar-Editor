@@ -7,6 +7,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@tauri-apps/plugin-dialog": "^2.6.0",
+    "@tauri-apps/plugin-fs": "^2.4.5",
     "tinymce": "^5.10.9"
   },
   "devDependencies": {
