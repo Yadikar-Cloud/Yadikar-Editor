@@ -223,7 +223,8 @@ window.generatePDF = async function() {
 
 	chain = chain.then(() => {
 		const pdfBlob = pdf.output("blob");
-		exportFile(pdfBlob,".pdf");
+		// exportFile(pdfBlob,".pdf");
+		saveBlob(true, pdfBlob, "Untitle.pdf", types[4]);
 	});	
 }	
 

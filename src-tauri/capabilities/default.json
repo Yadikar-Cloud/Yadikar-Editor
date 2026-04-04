@@ -7,7 +7,12 @@
   ],
   "permissions": [
     "core:default",
-    "dialog:default",
-    "fs:default"
+    "core:window:allow-set-title",
+    "dialog:allow-save",
+    "dialog:allow-open",
+    "fs:allow-write-text-file",
+    "fs:allow-read-text-file",
+    "fs:scope-home-recursive",
+    "fs:scope-download-recursive"
   ]
 }

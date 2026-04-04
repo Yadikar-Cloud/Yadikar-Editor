@@ -23,7 +23,19 @@ const FILE_TYPES = [
         name: 'Word Document',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         description: 'Word file'
-    }
+    },
+    {
+        extension: '.pdf',
+        name: 'PDF',
+        mimeType: 'application/pdf',
+        description: 'PDF document'
+    },
+    {
+        extension: '.epub',
+        name: 'EPUB',
+        mimeType: 'application/epub+zip',
+        description: 'EPUB ebook'
+    },
 ];
 
 // Helper functions
@@ -34,16 +46,30 @@ window.getSelectOptions = function() {
     }));
 };
 
-window.getFilePickerTypes = function() {
+window.getFilePickerOption = function() {
     return FILE_TYPES.map(type => ({
-        description: type.description,
-        accept: {
-            [type.mimeType]: [type.extension]
-        }
+        types: [
+            {
+                description: type.description,
+                accept: {
+                    [type.mimeType]: [type.extension]
+                }
+            }
+        ],
+        multiple: false,
+        excludeAcceptAllOption: true
     }));
 };
 
+window.getName = function(extension) {
+    const fileType = FILE_TYPES.find(type => type.extension === extension);
+    return fileType ? fileType.name : 'Document';
+};
 window.getMimeType = function(extension) {
     const fileType = FILE_TYPES.find(type => type.extension === extension);
     return fileType ? fileType.mimeType : 'text/plain';
+};
+window.getDescription = function(extension) {
+    const fileType = FILE_TYPES.find(type => type.extension === extension);
+    return fileType ? fileType.description : 'Document';
 };
