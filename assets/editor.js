@@ -46,34 +46,17 @@ window.settings = {
 	}
 };
 
-window.titleUpdate = {
-	title: '',
-	unsavedMessage: '*[Unsaved]-',
-	savedMessage: '[Saved]-',
-	addUnsavedMsg: function () {
-		if (!document.title.includes(this.unsavedMessage) && window.fileHandle) {
-			document.title = this.unsavedMessage + this.title;
-		}
-	},
-	addSavedMsg: function () {
-		if (!document.title.includes(this.savedMessage) && window.fileHandle) {
-			
-			document.title = this.savedMessage + this.title;
-		}
-	}
-};
-
 function initializeTinyMCE(settings = {}, initialContent = '') {
   //console.log("tinymce init:",settings.language);	
   // scripts/editor.js
   const editorHeight = window.innerHeight - 20; 
   var useDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const PAGE_MARGIN = 40; // Margin in pixels
-	
+
   tinymce.init({
     selector: "textarea#mytextarea",
     mobile: {
-      plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker cloudsignin openfromcomputer savetocomputer universaldrive screenshot givefeedback settings",
+      plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker cloudsignin screenshot givefeedback settings",
       menubar: "custom edit insert format tools help", // Mobile-specific menubar
       menu: {
         custom: { title: "File", items: "newdocument | opensubmenu | savesubmenu | preview | print" },
@@ -82,7 +65,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
       },
       content_style: `html {background: #ffffff; margin: 0;} body { padding: 0 10px; font-family: ${settings.contentFontType || 'arial'}; font-size: ${settings.contentFontSize || '16px'}; } `,    
     },
-    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport mathjax chart footnotes settings",
+    plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: "pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print" },
@@ -127,160 +110,60 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     grammerchecker_language: "auto",
 	grammerchecker_rpc_url: 'https://api.languagetool.org/v2/check',
 	font_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Microsoft Uighur=Microsoft Uighur; UKIJ Ekran=UKIJEkranRegular; UKIJ Chiwer Kesme=UKIJChiwerKesmeRegular; UKIJ CJK=UKIJCJKRegular; UKIJ Kufi=UKIJKufiRegular; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats;"+settings.systemFonts,
-    language: settings.language !== 'en_US' ? settings.language : undefined,
-    language_url: settings.language !== 'en_US' ? '/langs/' + settings.language + '.js' : undefined,
+	  language: settings.language !== 'en_US' ? settings.language : undefined,
+	  language_url: settings.language !== 'en_US' ? '/langs/' + settings.language + '.js' : undefined,
 	search_function: settings.language === 'en_US' ? async (keyword) => {
-	  const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
-	  if (response.ok) {
+		const response = await fetch(`https://restcountries.com/v2/name/${keyword}?fields=name`);
+		if (response.ok) {
 		const jsonResponse = await response.json();
 		return Object.values(jsonResponse)[0]["name"];
-	  }
-	} : undefined,
-	file_picker_callback: async function(callback, value, meta) {
-		try {
-		    // Modern File System Access API (Chrome 86+, Edge 86+)
-		    const [fileHandle] = await window.showOpenFilePicker({
-		        types: [
-		            {
-		                description: 'PDF file',
-		                accept: { 'application/pdf': ['.pdf'] }
-		            },		        
-		            {
-		                description: 'PNG file',
-		                accept: { 'image/png': ['.png'] }
-		            },		        
-		            {
-		                description: 'JPEG file',
-		                accept: { 'image/jpeg': ['.jpeg'] }
-		            },
-		            {
-		                description: 'WebP file',
-		                accept: { 'image/webp': ['.webp'] }
-		            },
-		            {
-		                description: 'TIFF file',
-		                accept: { 'image/tiff': ['.tiff'] }
-		            }
-		        ],
-		        multiple: false,
-		        excludeAcceptAllOption: true
-		    });
-		    
-		    const file = await fileHandle.getFile();
-		    
-		    processedFileData = {
-		        name: file.name,
-		        path: fileHandle.name, // Still only filename
-		        size: file.size,
-		        type: file.type,
-		        file: file,
-		        handle: fileHandle // Keep handle for future access
-		    };
-		    
-		    // Read content
-		    const reader = new FileReader();
-		    reader.onload = function(e) {
-		        processedFileData.content = e.target.result;
-		    };
-		    reader.readAsBinaryString(file);
-		    
-		    callback(file.name, {
-		        title: file.name,
-		        text: file.name
-		    });
-		    
-		} catch (err) {
-		    console.log('User cancelled or API not supported');
 		}
+	} : undefined,
+	file_picker_callback: function (cb, value, meta) {
+	  var input = document.createElement('input');
+	  input.setAttribute('type', 'file');
+	  input.setAttribute('accept', 'image/*');
+
+	  /*
+	    Note: In modern browsers input[type="file"] is functional without
+	    even adding it to the DOM, but that might not be the case in some older
+	    or quirky browsers like IE, so you might want to add it to the DOM
+	    just in case, and visually hide it. And do not forget do remove it
+	    once you do not need it anymore.
+	  */
+
+	  input.onchange = function () {
+	    var file = this.files[0];
+
+	    var reader = new FileReader();
+	    reader.onload = function () {
+	      /*
+	        Note: Now we need to register the blob in TinyMCEs image blob
+	        registry. In the next release this part hopefully won't be
+	        necessary, as we are looking to handle it internally.
+	      */
+	      var id = 'blobid' + (new Date()).getTime();
+	      var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+	      var base64 = reader.result.split(',')[1];
+	      var blobInfo = blobCache.create(id, file, base64);
+	      blobCache.add(blobInfo);
+
+	      /* call the callback and populate the Title field with the file name */
+	      cb(blobInfo.blobUri(), { title: file.name });
+	    };
+	    reader.readAsDataURL(file);
+	  };
+
+	  input.click();
 	},	    
-    setup: function(editor) {
-		editor.ui.registry.addNestedMenuItem('opensubmenu', {
-			text: 'Open',
-			icon: "browse",
-			getSubmenuItems: function() {
-				  return 'openfromcomputer googledriveopen onedriveopen';
-			}
-		});
-		// Save submenu
-		editor.ui.registry.addNestedMenuItem('savesubmenu', {
-		  text: 'Save',
-		  icon: "save",
-		  getSubmenuItems: function() {
-			  return 'savetocomputer googledrivesave onedrivesave';
-		  }
-		});			      
+    setup: function(editor) {	      
 		editor.ui.registry.addToggleMenuItem("screenshot", {
 			text: "Screenshot",
 			icon: "edit-image",
 			onAction: function() {
 			  saveAsImage();
 			}
-		});
-		editor.ui.registry.addToggleMenuItem("exportpdf", {
-		    text: 'Export as PDF',
-		    icon: 'exportpdf',
-			onAction: async function() {
-				var iframeWindow = editor.getWin();
-				await iframeWindow.generatePDF();
-			}
-		});
-		editor.ui.registry.addToggleMenuItem("exportepub", {
-			text: 'Export as ePUB',
-			icon: 'exportepub',
-			onAction: async function() {
-				// Open a simple TinyMCE dialog
-				const result = await editor.windowManager.open({
-				    title: 'Add Book Metadata',
-				    body: {
-				        type: 'panel',
-				        items: [
-				            {
-				                type: 'input',
-				                name: 'title',
-				                label: 'Title',
-				            },
-				            {
-				                type: 'input',
-				                name: 'author',
-				                label: 'Author'
-				            },
-				            {
-				                type: 'textarea',
-				                name: 'description',
-				                label: 'Description',
-				                height: '300px',
-				            },				            
-				            {
-				                type: 'input',
-				                name: 'language',
-				                label: 'Language (e.g., en)'
-				            }
-				        ]
-				    },
-				    buttons: [
-				        {
-				            type: 'cancel',
-				            text: 'Cancel'
-				        },
-				        {
-				            type: 'submit',
-				            text: 'Export'
-				        }
-				    ],
-				    onSubmit: async function(api) {
-				        const data = api.getData(); // { title, author, language }
-
-				        // Get the iframe window
-				        const iframeWindow = editor.getWin();
-
-				        // Call your EPUB generation function, passing the metadata object
-				        await iframeWindow.generateEPUB(data);
-
-				        api.close();
-				    }
-				});
-			}
-		});		
+		});	
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {
