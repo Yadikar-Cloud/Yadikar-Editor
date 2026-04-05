@@ -3,39 +3,52 @@ const FILE_TYPES = [
     {
         extension: '.html',
         name: 'HTML Document',
+        suggestedName: 'Untitle.html',
         mimeType: 'text/html',
         description: 'HTML file'
     },
     {
         extension: '.txt',
         name: 'Text Document',
+        suggestedName: 'Untitle.txt',
         mimeType: 'text/plain',
         description: 'Text file'
     },
     {
         extension: '.md',
         name: 'Markdown',
+        suggestedName: 'Untitle.md',
         mimeType: 'text/markdown',
         description: 'Markdown file'
     },
     {
         extension: '.docx',
         name: 'Word Document',
+        suggestedName: 'Untitle.docx',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         description: 'Word file'
     },
     {
         extension: '.pdf',
         name: 'PDF',
+        suggestedName: 'Untitle.pdf',
         mimeType: 'application/pdf',
         description: 'PDF document'
     },
     {
         extension: '.epub',
         name: 'EPUB',
+        suggestedName: 'Untitle.epub',
         mimeType: 'application/epub+zip',
         description: 'EPUB ebook'
     },
+    {
+        extension: '.png',
+        name: 'PNG Image',
+        suggestedName: 'Untitle.png',
+        mimeType: 'image/png',
+        description: 'PNG Image file'
+    },    
 ];
 
 // Helper functions
@@ -48,6 +61,7 @@ window.getSelectOptions = function() {
 
 window.getFilePickerOption = function() {
     return FILE_TYPES.map(type => ({
+    	suggestedName: type.suggestedName,
         types: [
             {
                 description: type.description,

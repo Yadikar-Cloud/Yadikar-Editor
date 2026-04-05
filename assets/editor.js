@@ -156,14 +156,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 
 	  input.click();
 	},	    
-    setup: function(editor) {	      
-		editor.ui.registry.addToggleMenuItem("screenshot", {
-			text: "Screenshot",
-			icon: "edit-image",
-			onAction: function() {
-			  saveAsImage();
-			}
-		});	
+    setup: function(editor) {	      	
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {

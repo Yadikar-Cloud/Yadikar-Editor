@@ -226,7 +226,7 @@ window.generatePDF = async function() {
 		const uint8 = new Uint8Array(arrayBuffer);
 		// exportFile(pdfBlob,".pdf");
 		const types = window.parent.getFilePickerOption();
-		window.parent.saveBlob(true, uint8, true, "Untitle.pdf", types[4]);
+		window.parent.saveBlob(true, uint8, true, types[4]);
 	});	
 }	
 
