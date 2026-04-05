@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Yadikar Text Editor</title>
-	<link rel="icon" type="image/png" href="/assets/image/yadikar-editor.png" sizes="48x48">
-	<!-- Google APIs -->
-	<script src="https://apis.google.com/js/api.js"></script>
-	<script src="https://accounts.google.com/gsi/client"></script>  
-	<!-- DOCX to HTML converter -->
-	<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
-	<!-- DOCX generation library -->
-	<script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>    
+	<link rel="icon" type="image/png" href="/assets/image/yadikar-editor.png" sizes="48x48"> 
+	<!-- Add PDF.js -->
+	<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>		 
 	<!-- Add Tesseract.js -->
 	<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>	
 	<!-- html2canvas for screenshots -->
@@ -19,7 +14,7 @@
 	<!-- insert chart -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <!-- Load MathJax from CDN -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>   
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>       
   </head>
   <body>
     <form method="post">

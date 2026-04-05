@@ -122,7 +122,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 	file_picker_callback: function (cb, value, meta) {
 	  var input = document.createElement('input');
 	  input.setAttribute('type', 'file');
-	  input.setAttribute('accept', 'image/*');
+	  input.setAttribute('accept', 'image/*,application/pdf');
 
 	  /*
 	    Note: In modern browsers input[type="file"] is functional without
@@ -132,9 +132,12 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 	    once you do not need it anymore.
 	  */
 
-	  input.onchange = function () {
+	  input.onchange = async function () {
 	    var file = this.files[0];
-
+	    var isImage = true;
+			if (file.type === 'application/pdf') {
+				isImage = false;
+			}
 	    var reader = new FileReader();
 	    reader.onload = function () {
 	      /*
@@ -147,11 +150,23 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 	      var base64 = reader.result.split(',')[1];
 	      var blobInfo = blobCache.create(id, file, base64);
 	      blobCache.add(blobInfo);
+	      let binaryString=null;
+	      if(!isImage)
+	      	binaryString = reader.result;
 
 	      /* call the callback and populate the Title field with the file name */
+				processedFileData = {
+					name: file.name,
+					type: file.type,
+					file: file,
+					content: binaryString
+				};
 	      cb(blobInfo.blobUri(), { title: file.name });
 	    };
-	    reader.readAsDataURL(file);
+	    if(isImage)
+	    	reader.readAsDataURL(file);
+	    else
+	    	reader.readAsBinaryString(file);
 	  };
 
 	  input.click();

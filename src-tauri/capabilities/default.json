@@ -16,6 +16,7 @@
     "fs:allow-read-text-file",
     "fs:scope-home-recursive",
     "fs:scope-desktop-recursive",
-    "fs:scope-download-recursive"
+    "fs:scope-download-recursive",
+    "fs:allow-app-meta"
   ]
 }
