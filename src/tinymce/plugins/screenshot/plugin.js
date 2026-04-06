@@ -51,10 +51,12 @@ tinymce.PluginManager.add('screenshot', function(editor, url) {
             editor.setContent(originalContent);
 
             // Convert canvas to blob and download
-            canvas.toBlob(function(blob) {
+            canvas.toBlob(async function(blob) {
                 if (blob) {
+					const buffer = await blob.arrayBuffer();
+					const uint8 = new Uint8Array(buffer);                	
 					const types = window.parent.getFilePickerOption();
-					window.parent.saveBlob(true, blob, true, types[6]);
+					window.parent.saveBlob(true, uint8, true, types[6]);
                 } else {
                     editor.notificationManager.open({
                         text: 'Failed to create screenshot',
