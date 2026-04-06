@@ -1,0 +1,336 @@
+tinymce.PluginManager.add('openfromonedrive', function(editor, url) {
+    let pickerOpen = false;
+    let openAuthInProgress = false;
+    
+    editor.ui.registry.addButton('openfromonedrive', {
+        text: 'Open from OneDrive',
+        onAction: function() {
+            openOneDrivePicker();
+        }
+    });
+
+    editor.ui.registry.addMenuItem('openfromonedrive', {
+        text: 'OneDrive',
+        onAction: function() {
+            openOneDrivePicker();
+        }
+    });
+
+	async function openOneDrivePicker() {
+		let pickerLoaded = false;
+		openAuthInProgress = true;
+		
+		// Use the global authentication system
+		const authenticated = await window.requireCloudAuth('onedrive', function(provider) {
+		    // This callback runs after successful authentication
+		    showFileSelectionDialog(provider.token);
+		    pickerLoaded = true;
+		    openAuthInProgress = false;
+		});
+		
+		// If already authenticated and callback didn't load the picker, load it now
+		if (authenticated && !pickerLoaded) {
+		    showFileSelectionDialog(window.cloudProviders.onedrive.token);
+		    openAuthInProgress = false;
+		}
+	}
+
+	function showFileSelectionDialog(token) {
+		// Clean up any previous dialog state
+		if (window.selectOneDriveFileToOpen) {
+		    delete window.selectOneDriveFileToOpen;
+		}
+		if (window.openOneDriveFolderInOpenDialog) {
+		    delete window.openOneDriveFolderInOpenDialog;
+		}
+		if (window.navigateToOneDriveBreadcrumbInOpen) {
+		    delete window.navigateToOneDriveBreadcrumbInOpen;
+		}
+
+		// Initialize folder navigation
+		let currentFolderId = 'root';
+		let folderStack = [{id: 'root', name: 'My OneDrive'}];
+		let dialogInstance = null;
+
+		const dialogConfig = {
+		    title: 'Open from OneDrive',
+		    size: 'medium',
+		    body: {
+		        type: 'panel',
+		        items: [
+		            {
+		                type: 'htmlpanel',
+		                html: `
+		                    <div id="onedrive-open-dialog-container" style="min-height: auto !important;">
+		                        <div id="onedrive-open-breadcrumb" style="padding: 10px; background: #f5f5f5; border-bottom: 1px solid #ddd; font-size: 13px;">
+		                            <span>☁️ My OneDrive</span>
+		                        </div>
+		                        <div id="onedrive-open-item-list" style="padding: 10px; max-height: 400px; overflow-y: auto;">
+		                            <div style="text-align: center; padding: 20px; color: #666;">
+		                                Loading...
+		                            </div>
+		                        </div>
+		                    </div>
+		                `
+		            }
+		        ]
+		    },
+		    buttons: [
+		        {
+		            type: 'cancel',
+		            text: 'Cancel'
+		        }
+		    ],
+		    onClose: function() {
+		        pickerOpen = false;
+		        if (window.selectOneDriveFileToOpen) {
+		            delete window.selectOneDriveFileToOpen;
+		        }
+		        if (window.openOneDriveFolderInOpenDialog) {
+		            delete window.openOneDriveFolderInOpenDialog;
+		        }
+		        if (window.navigateToOneDriveBreadcrumbInOpen) {
+		            delete window.navigateToOneDriveBreadcrumbInOpen;
+		        }
+		    }
+		};
+
+		dialogInstance = editor.windowManager.open(dialogConfig);
+
+		// Load items after dialog opens
+		setTimeout(() => {
+		    if (dialogInstance) {
+		        loadOneDriveItems(token, currentFolderId);
+		    }
+		}, 100);
+
+		// Helper function to load items (files and folders)
+		async function loadOneDriveItems(token, folderId) {
+		    const itemListEl = document.getElementById('onedrive-open-item-list');
+		    if (!itemListEl) return;
+
+		    itemListEl.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Loading...</div>';
+
+		    try {
+		        const url = folderId === 'root' 
+		            ? 'https://graph.microsoft.com/v1.0/me/drive/root/children'
+		            : `https://graph.microsoft.com/v1.0/me/drive/items/${folderId}/children`;
+
+		        const response = await fetch(url, {
+		            headers: {
+		                'Authorization': 'Bearer ' + token
+		            }
+		        });
+
+		        if (!response.ok) {
+		            throw new Error('Failed to load items');
+		        }
+
+		        const data = await response.json();
+		        renderItems(data.value || []);
+
+		    } catch (error) {
+		        console.error('Error loading items:', error);
+		        itemListEl.innerHTML = `<div style="text-align: center; padding: 20px; color: #ea4335;">Failed to load items: ${error.message}</div>`;
+		    }
+		}
+
+		function renderItems(items) {
+		    const itemListEl = document.getElementById('onedrive-open-item-list');
+		    if (!itemListEl) return;
+
+		    // Separate folders and supported files
+		    const folders = items.filter(item => item.folder);
+		    const textFiles = items.filter(item => 
+		        item.file && (
+		            item.name.endsWith('.txt') || 
+		            item.name.endsWith('.html') || 
+		            item.name.endsWith('.htm') ||
+		            item.name.endsWith('.md') ||
+		            item.name.endsWith('.json') ||
+		            item.name.endsWith('.doc') ||
+		            item.name.endsWith('.docx')
+		        )
+		    );
+
+		    if (folders.length === 0 && textFiles.length === 0) {
+		        itemListEl.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No folders or supported files in this location</div>';
+		        return;
+		    }
+
+		    let html = '<div style="display: flex; flex-direction: column; gap: 5px;">';
+		    
+		    // Add folders first
+		    folders.forEach(folder => {
+		        html += `
+		            <div class="onedrive-item" data-id="${folder.id}" data-name="${escapeHtml(folder.name)}" data-is-folder="true"
+		                 style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s;"
+		                 onmouseover="this.style.background='#f0f0f0'" 
+		                 onmouseout="this.style.background='white'"
+		                 ondblclick="window.openOneDriveFolderInOpenDialog('${folder.id}', '${escapeHtml(folder.name)}')">
+		                <span style="font-size: 24px;">📁</span>
+		                <div>
+		                    <div style="font-weight: 500; color: #333;">${escapeHtml(folder.name)}</div>
+		                    <div style="font-size: 11px; color: #666;">Folder</div>
+		                </div>
+		            </div>
+		        `;
+		    });
+		    
+		    // Add files
+		    textFiles.forEach(file => {
+		        html += `
+		            <div class="onedrive-item" data-id="${file.id}" data-name="${escapeHtml(file.name)}" data-is-folder="false"
+		                 style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s;"
+		                 onmouseover="this.style.background='#f0f0f0'" 
+		                 onmouseout="this.style.background='white'"
+		                 onclick="window.selectOneDriveFileToOpen('${file.id}', '${escapeHtml(file.name)}')">
+		                <span style="font-size: 24px;">📄</span>
+		                <div>
+		                    <div style="font-weight: 500; color: #333;">${escapeHtml(file.name)}</div>
+		                    <div style="font-size: 11px; color: #666;">${formatFileSize(file.size)}</div>
+		                </div>
+		            </div>
+		        `;
+		    });
+		    
+		    html += '</div>';
+
+		    itemListEl.innerHTML = html;
+		}
+
+		// Global function for selecting and opening a file
+		window.selectOneDriveFileToOpen = function(fileId, fileName) {
+		    dialogInstance.close();
+		    const file = { id: fileId, name: fileName };
+		    loadFileContent(file, token);
+		};
+
+		// Global function for double-click to open folder
+		window.openOneDriveFolderInOpenDialog = function(folderId, folderName) {
+		    currentFolderId = folderId;
+		    folderStack.push({id: folderId, name: folderName});
+		    updateBreadcrumb();
+		    loadOneDriveItems(token, folderId);
+		};
+
+		function updateBreadcrumb() {
+		    const breadcrumbEl = document.getElementById('onedrive-open-breadcrumb');
+		    if (!breadcrumbEl) return;
+
+		    let html = '<span>☁️</span> ';
+		    folderStack.forEach((folder, index) => {
+		        if (index > 0) html += ' / ';
+		        html += `<a href="#" onclick="window.navigateToOneDriveBreadcrumbInOpen(${index}); return false;" style="color: #0078d4; text-decoration: none;">${escapeHtml(folder.name)}</a>`;
+		    });
+
+		    breadcrumbEl.innerHTML = html;
+		}
+
+		window.navigateToOneDriveBreadcrumbInOpen = function(index) {
+		    folderStack = folderStack.slice(0, index + 1);
+		    currentFolderId = folderStack[index].id;
+		    updateBreadcrumb();
+		    loadOneDriveItems(token, currentFolderId);
+		};
+	}
+
+    async function loadFileContent(file, token) {
+        try {
+            // Get download URL
+            const response = await fetch(`https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download file');
+            }
+
+			const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+		    // Convert to HTML based on file type
+		    if (extension === '.html') {
+		    	const content = await response.text();
+		    	editor.setContent(content);
+		    } else {
+				if (extension === '.docx') {
+				    // For binary files, pass the blob
+				    const blob = await response.blob();
+				    htmlContent = await window.fileConverter.convertToHtml(blob, extension);
+				} else {
+				    // For text files, read as text first
+				    const content = await response.text();
+				    htmlContent = await window.fileConverter.convertToHtml(content, extension);
+				}
+				
+				// Recalculate pages
+				setTimeout(() => {
+				    if (window.reapplyPageView) {
+				        window.reapplyPageView(htmlContent);
+				    }
+				}, 100);		    
+		    }			
+            
+            window.currentOneDriveFile = {
+                id: file.id,
+                name: file.name
+            };
+
+            editor.notificationManager.open({
+                text: 'Opened: ' + file.name,
+                type: 'success',
+                timeout: 3000
+            });
+
+        } catch (error) {
+            console.error('Error loading file:', error);
+            editor.notificationManager.open({
+                text: 'Failed to open file: ' + error.message,
+                type: 'error',
+                timeout: 5000
+            });
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    // Listen for auth success
+    window.addEventListener('message', async function(event) {
+        if (event.data.type === 'onedrive-auth-success' && openAuthInProgress) {
+        	openAuthInProgress = false;
+            editor.notificationManager.open({
+                text: 'Successfully signed in to OneDrive!',
+                type: 'success',
+                timeout: 3000
+            });
+            
+            // Retry opening picker
+            const response = await fetch('/api/onedrive/token');
+            const data = await response.json();
+		    if (data.authenticated && window.cloudProviders.onedrive) {
+		    	window.cloudProviders.onedrive.token = data.token;
+		        showFileSelectionDialog(window.cloudProviders.onedrive.token);
+		    }
+        }
+    });
+
+    return {
+        getMetadata: function() {
+            return {
+                name: 'Open from OneDrive',
+                url: 'http://yoursite.com'
+            };
+        }
+    };
+});

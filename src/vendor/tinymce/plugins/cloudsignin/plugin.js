@@ -1,0 +1,260 @@
+tinymce.PluginManager.add('cloudsignin', function(editor, url) {
+    
+    // Global storage for cloud providers
+    window.cloudProviders = {
+        google: {
+            name: 'Google Drive',
+            icon: '<img src="https://www.gstatic.com/images/branding/product/2x/drive_2020q4_64dp.png" alt="Google Drive" style="width: 128px; height: 128px;">',
+            authUrl: '/auth/google',
+            tokenUrl: '/api/google/token',
+            logoutUrl: '/auth/google/logout',
+            authenticated: false,
+            token: null
+        },
+        dropbox: {
+            name: 'Dropbox',
+            icon: '📦',
+            authUrl: '/auth/dropbox',
+            tokenUrl: '/api/dropbox/token',
+            logoutUrl: '/auth/dropbox/logout',
+            authenticated: false,
+            token: null
+        },
+        onedrive: {
+            name: 'OneDrive',
+            icon: '<img src="https://static2.sharepointonline.com/files/fabric/assets/brand-icons/product/svg/onedrive_48x1.svg" alt="OneDrive" style="width: 128px; height: 128px;">',
+            authUrl: '/auth/onedrive',
+            tokenUrl: '/api/onedrive/token',
+            logoutUrl: '/auth/onedrive/logout',
+            authenticated: false,
+            token: null
+        }
+    };
+
+	// Listen for auth messages from popup
+	window.addEventListener('message', async function(event) {
+		if (event.data.type === 'google-auth-success') {
+		    editor.notificationManager.open({
+		        text: 'Successfully signed in to Google Drive!',
+		        type: 'success',
+		        timeout: 3000
+		    });
+		    
+		    // Refresh auth status
+		    await checkAuthentication('google');
+		    
+		    // Trigger pending callback if exists
+		    if (window.pendingAuthCallback) {
+		        window.pendingAuthCallback(window.cloudProviders.google);
+		        window.pendingAuthCallback = null;
+		    }
+		} else if (event.data.type === 'onedrive-auth-success') {
+		    editor.notificationManager.open({
+		        text: 'Successfully signed in to OneDrive!',
+		        type: 'success',
+		        timeout: 3000
+		    });
+		    
+		    // Refresh auth status
+		    await checkAuthentication('onedrive');
+		    
+		    // Trigger pending callback if exists
+		    if (window.pendingAuthCallback) {
+		        window.pendingAuthCallback(window.cloudProviders.onedrive);
+		        window.pendingAuthCallback = null;
+		    }
+		} else if (event.data.type === 'google-auth-error') {
+		    editor.notificationManager.open({
+		        text: 'Authentication failed: ' + event.data.error,
+		        type: 'error',
+		        timeout: 5000
+		    });
+		} else if (event.data.type === 'onedrive-auth-error') {
+		    editor.notificationManager.open({
+		        text: 'Authentication failed: ' + event.data.error,
+		        type: 'error',
+		        timeout: 5000
+		    });
+		}
+	});
+
+    // Check authentication status for a provider
+    async function checkAuthentication(provider) {
+        try {
+            const response = await fetch(window.cloudProviders[provider].tokenUrl);
+            const data = await response.json();
+            
+            window.cloudProviders[provider].authenticated = data.authenticated || false;
+            window.cloudProviders[provider].token = data.token || null;
+            window.cloudProviders[provider].apiKey = data.api_key || null;
+            
+            return data.authenticated;
+        } catch (error) {
+            console.error('Error checking authentication:', error);
+            return false;
+        }
+    }
+
+    // Open authentication popup
+    function openAuthPopup(provider, callback) {
+        const providerInfo = window.cloudProviders[provider];
+        
+        // Store callback for after auth
+        window.pendingAuthCallback = callback;
+        
+        // Open popup
+        const width = 600;
+        const height = 700;
+        const left = (screen.width - width) / 2;
+        const top = (screen.height - height) / 2;
+        
+        const popup = window.open(
+            providerInfo.authUrl,
+            'CloudAuth',
+            `width=${width},height=${height},left=${left},top=${top},toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes`
+        );
+        
+        if (!popup) {
+            editor.notificationManager.open({
+                text: 'Popup blocked! Please allow popups for this site.',
+                type: 'error',
+                timeout: 5000
+            });
+        }
+    }
+
+    // Show sign-in dialog
+    function showSignInDialog(provider, callback) {
+        const providerInfo = window.cloudProviders[provider];
+        
+        const dialogConfig = {
+            title: 'Sign In Required',
+            body: {
+                type: 'panel',
+                items: [
+                    {
+                        type: 'htmlpanel',
+                        html: `
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">
+                                    ${providerInfo.icon}
+                                </div>
+                            </div>
+                        `
+                    }
+                ]
+            },
+            buttons: [
+                {
+                    type: 'cancel',
+                    text: 'Cancel'
+                },
+                {
+                    type: 'custom',
+                    text: 'Sign In with ' + providerInfo.name,
+                    name: 'signin',
+                    primary: true
+                }
+            ],
+            onAction: function(api, details) {
+                if (details.name === 'signin') {
+                    api.close();
+                    // Open popup instead of redirect
+                    openAuthPopup(provider, callback);
+                }
+            }
+        };
+
+        editor.windowManager.open(dialogConfig);
+    }
+
+    // Main function to request authentication
+    window.requireCloudAuth = async function(provider, callback) {
+        const isAuthenticated = await checkAuthentication(provider);
+        
+        if (isAuthenticated) {
+            // Already authenticated, execute callback
+            if (callback) {
+                callback(window.cloudProviders[provider]);
+            }
+            return true;
+        } else {
+            // Show sign-in dialog
+            showSignInDialog(provider, callback);
+            return false;
+        }
+    };
+
+    // Add sign-in/sign-out buttons to toolbar
+    editor.ui.registry.addButton('googlesignin', {
+        text: 'Google Drive',
+        icon: 'browse',
+        onAction: async function() {
+            const isAuth = await checkAuthentication('google');
+            if (isAuth) {
+                const signOut = confirm('You are signed in to Google Drive. Sign out?');
+                if (signOut) {
+                    window.location.href = window.cloudProviders.google.logoutUrl;
+                }
+            } else {
+                showSignInDialog('google');
+            }
+        }
+    });
+
+	// Initialize Google API
+	function gapiLoaded() {
+		gapi.load('client:picker', async () => {
+		    // Get API key from backend
+		    const response = await fetch('/api/google/token');
+		    const data = await response.json();
+		    
+		    // Update cloudProviders
+		    window.cloudProviders.google.token = data.token;
+		    window.cloudProviders.google.apiKey = data.api_key;
+		    window.cloudProviders.google.authenticated = data.authenticated || false;
+		    
+		    await gapi.client.init({
+		        apiKey: data.api_key,
+		        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+		    });
+		    
+		    if (data.token) {
+		        gapi.client.setToken({ access_token: data.token });
+		    }
+		});
+	}
+
+	// Initialize OneDrive (fetch token on page load)
+	async function onedriveLoaded() {
+		try {
+		    const response = await fetch('/api/onedrive/token');
+		    const data = await response.json();
+		    
+		    // Update cloudProviders
+		    window.cloudProviders.onedrive.token = data.token;
+		    window.cloudProviders.onedrive.authenticated = data.authenticated || false;
+		} catch (error) {
+		    console.error('Error initializing OneDrive:', error);
+		    window.cloudProviders.onedrive.authenticated = false;
+		    window.cloudProviders.onedrive.token = null;
+		}
+	}
+
+    // Initialize - check auth status on load
+    editor.on('init', async function() {
+    	// init gapi
+    	gapiLoaded();
+		// Initialize OneDrive (simple token fetch)
+		onedriveLoaded();    	
+    });
+
+    return {
+        getMetadata: function() {
+            return {
+                name: 'Cloud Sign-In Manager',
+                url: 'http://yoursite.com'
+            };
+        }
+    };
+});

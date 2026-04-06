@@ -1,0 +1,260 @@
+tinymce.PluginManager.add('pdfImport', function(editor, url) {
+    
+    let fileHandle = null;
+	var pdfjsLib = window["pdfjs-dist/build/pdf"];
+	var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    // Add button to toolbar
+    editor.ui.registry.addButton('pdfimport', {
+        text: 'OCR',
+        icon: 'importpdf',
+        onAction: function() {
+            pdf2text(editor);
+        }
+    });
+
+    // Add menu item
+    editor.ui.registry.addMenuItem('pdfimport', {
+        text: 'OCR',
+        icon: 'importpdf',
+        onAction: function() {
+            pdf2text(editor);
+        }
+    });
+	
+	async function runOCR(url, lang, dialogInstance) {
+		try {
+		    // Create worker with logger included
+		    const worker = await Tesseract.createWorker(lang, 1, {
+		        logger: (m) => {
+		            //console.log(m);
+		            if (m.status === 'recognizing text') {
+		                const progress = Math.round(m.progress * 100);
+						if (dialogInstance) {
+							dialogInstance.redial({
+								title: 'Scanning PDF with Tesseract OCR...',
+								body: {
+									type: 'panel',
+									items: [
+										{
+											type: 'htmlpanel',
+											html: `
+				                                    <div style="padding: 10px;">
+				                                        <label for="ocr-progress">OCR Progress: ${progress}%</label>
+				                                        <progress id="ocr-progress" max="100" value="${progress}" style="width: 100%; height: 20px;"></progress>
+				                                    </div>
+											`
+										}
+									]
+								},
+								buttons: []
+							});
+						}
+		            }
+		        }
+		    });
+		    
+		    // Recognize text
+		    const result = await worker.recognize(url);
+		    //console.log("result", result);
+		    
+		    // Terminate worker
+		    await worker.terminate();
+		    
+		    return result.data.text;
+		    
+		} catch (error) {
+		    console.error('OCR Error:', error);
+		    throw error;
+		}
+	}
+
+	async function pdfToImage(pdfBinary, lang) {
+	  try {
+        const dialogConfig = {
+            title: 'Loading PDF...',
+            body: {
+                type: 'panel',
+                items: [
+                    {
+                        type: 'htmlpanel',
+                        html: `
+                            <p>Loading PDF in progress</p>
+                        `
+                    }
+                ]
+            },
+            buttons: []
+        };
+        var dialogInstance = editor.windowManager.open(dialogConfig);
+		// 1. Load the PDF document
+		const loadingTask = pdfjsLib.getDocument({ data: pdfBinary });
+		const pdf = await loadingTask.promise;
+		//console.log("PDF loaded");
+		// 2. Fetch the first page
+		const totalPages = pdf.numPages;
+		var alltext = "";
+		for(let i=1;i<totalPages+1;i++)
+		{
+			const page = await pdf.getPage(i);
+			//console.log("Page loaded");
+			
+			const progressPercent = Math.round((i/totalPages)*100);
+		    dialogInstance.redial({
+		        title: 'Scanning PDF with Tesseract OCR...',
+		        body: {
+		            type: 'panel',
+		            items: [
+		                {
+		                    type: 'htmlpanel',
+		                    html: `
+						            <div style="padding: 10px;">
+						                <label for="file-progress">File progress: ${progressPercent}%</label>
+						                <progress id="file-progress" max="100" value="${progressPercent}" style="width: 100%; height: 20px;"></progress>
+						                <p>Processing page ${i} of ${totalPages}</p>
+						            </div>
+		                    `
+		                }
+		            ]
+		        },
+		        buttons: []
+		    });
+		    
+			const scale = 1.5;
+			const viewport = page.getViewport({ scale: scale });
+
+			// 3. Prepare canvas
+			const canvas = document.createElement("canvas");
+			const context = canvas.getContext("2d");
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			// 4. Render PDF page into canvas
+			const renderContext = {
+			  canvasContext: context,
+			  viewport: viewport
+			};
+			
+			await page.render(renderContext).promise;
+			//console.log("Page rendered");
+
+			// 5. Run OCR and return the final result
+			alltext += '<p>' + await runOCR(canvas, lang) + '</p>';
+		}
+		dialogInstance.close();
+		return alltext;
+	  } catch (reason) {
+		console.error("Error processing PDF:", reason);
+		throw reason; // Re-throw so the caller knows it failed
+	  }
+	}
+
+    var getLanguage = function (editor) {
+      var defaultLanguage = editor.getParam('language', 'en-US');
+      return editor.getParam('ocr_language', defaultLanguage);
+    };   
+    var getLanguages = function (editor) {
+      var defaultLanguages = 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr_FR,German=de,Italian=it,Polish=pl,Portuguese=pt_BR,Spanish=es,Swedish=sv';
+      return editor.getParam('ocr_languages', defaultLanguages);
+    };
+	var buildMenuItems = function (listName, languageValues) {
+	  var items = [];
+	  global$2.each(languageValues, function (languageValue) {
+		items.push({
+		  text: languageValue.name,
+		  value: languageValue.value
+		});
+	  });
+	  return items;
+	};
+    var getItems = function (editor) {
+      return global$2.map(getLanguages(editor).split(','), function (langPair) {
+        var langPairs = langPair.split('=');
+        return {
+          name: langPairs[0],
+          value: langPairs[1]
+        };
+      });
+    };
+    
+	async function pdf2text(editor)
+	{
+		var content = '';
+		var currentLanguage = getLanguage(editor);
+		var languageOptions = buildMenuItems('Language', getItems(editor));	
+		const dialogConfig = {
+		    title: 'Select a file',
+		    size: 'normal',
+		    body: {
+		        type: 'panel',
+		        items: [
+		            {
+		                type: 'selectbox',
+		                name: 'language',
+		                label: 'File Language',
+		                items: languageOptions
+		            },
+		            {
+		                type: 'urlinput',
+		                name: 'file',
+		                label: 'Choose File',
+		                filetype: 'file'
+		            }
+		        ]
+		    },
+			initialData: {
+				language: currentLanguage
+			},		    
+		    buttons: [
+		        {
+		            type: 'cancel',
+		            text: 'Cancel'
+		        },
+		        {
+		            type: 'submit',
+		            text: 'Confirm',
+		            primary: true
+		        }
+		    ],
+		    onSubmit: async function(api) {
+		        const data = api.getData();
+		        
+		        // Access the processed file data
+		        if (processedFileData) {
+		            // console.log('File type:', processedFileData.type);
+		            // console.log('File content:', processedFileData.content);
+		            // console.log('Selected language:', data.language);
+		            	            
+					if (processedFileData.type.indexOf("image") !== -1) {
+						content = await runOCR(processedFileData.file, data.language, dialogInstance);
+						//console.log("OCR Result:", content);
+						//editor.execCommand('pasteText', content);
+					}
+					if (processedFileData.type.indexOf("pdf") !== -1) {
+						//console.log(reader.result);
+						content = await pdfToImage(processedFileData.content, data.language, dialogInstance);
+						//console.log("OCR Result:", content);
+						//editor.execCommand('pasteText', content);	
+					}
+					if(content) {
+						window.reapplyPageView(content);					
+					}	            
+		            // Reset for next use
+		            processedFileData = null;
+		        }
+		        
+		        api.close();
+		    }
+		};
+		
+		var dialogInstance = editor.windowManager.open(dialogConfig);
+	}
+    
+	return {
+	  getMetadata: function() {
+		  return {
+		      name: 'Open from Computer',
+		      url: 'http://yoursite.com'
+		  };
+	  }
+	};
+});

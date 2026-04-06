@@ -1,0 +1,347 @@
+tinymce.PluginManager.add('savetoonedrive', function(editor, url) {
+    let saveAuthInProgress = false;
+    
+    editor.ui.registry.addButton('savetoonedrive', {
+        text: 'Save to OneDrive',
+        onAction: function() {
+            saveToOneDrive();
+        }
+    });
+
+    editor.ui.registry.addMenuItem('savetoonedrive', {
+        text: 'OneDrive',
+        onAction: function() {
+            saveToOneDrive();
+        }
+    });
+
+	async function saveToOneDrive() {
+		let dialogShown = false;
+		saveAuthInProgress = true;
+		
+		// Use the global authentication system
+		const authenticated = await window.requireCloudAuth('onedrive', function(provider) {
+		    // This callback runs after successful authentication
+		    showSaveDialog(provider.token);
+		    dialogShown = true;
+		    saveAuthInProgress = false;
+		});
+		
+		// If already authenticated and callback didn't show the dialog, show it now
+		if (authenticated && !dialogShown) {
+		    showSaveDialog(window.cloudProviders.onedrive.token);
+		    saveAuthInProgress = false;
+		}
+	}
+
+    function showSaveDialog(token) {
+    	
+        // Clean up any previous dialog state
+        if (window.openOneDriveFolderInSaveDialog) {
+            delete window.openOneDriveFolderInSaveDialog;
+        }
+        if (window.navigateToOneDriveBreadcrumb) {
+            delete window.navigateToOneDriveBreadcrumb;
+        }
+
+        // Initialize folder navigation
+        let currentFolderId = 'root';
+        let folderStack = [{id: 'root', name: 'My OneDrive'}];
+        let selectedFolderId = 'root';
+        let dialogInstance = null;
+
+        // Build file type options dynamically
+        const fileTypeOptions = window.getSelectOptions()
+            .map(opt => `<option value="${opt.value}">${opt.text}</option>`)
+            .join('');
+
+        const dialogConfig = {
+            title: 'Save to OneDrive',
+            size: 'medium',
+            body: {
+                type: 'panel',
+                items: [
+                    {
+                        type: 'htmlpanel',
+                        html: `
+                            <div id="onedrive-save-dialog-container" style="min-height: auto !important;">
+                                <div id="onedrive-breadcrumb" style="padding: 10px; background: #f5f5f5; border-bottom: 1px solid #ddd; font-size: 13px;">
+                                    <span>☁️ My OneDrive</span>
+                                </div>
+                                <div id="onedrive-item-list" style="padding: 10px; max-height: 360px; overflow-y: auto; border-bottom: 1px solid #ddd;">
+                                    <div style="text-align: center; padding: 20px; color: #666;">
+                                        Loading...
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; background: #f9f9f9;">
+                                    <!-- File Name Row -->
+                                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                        <label for="onedrive-filename" style="width: 90px; font-weight: bold;">
+                                            File Name:
+                                        </label>
+                                        <input type="text" id="onedrive-filename" value="Untitled" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    </div>
+                                    <!-- File Type Row -->
+                                    <div style="display: flex; align-items: center;">
+                                        <label for="onedrive-extension" style="width: 90px; font-weight: bold;">
+                                            File type:
+                                        </label>
+                                        <select id="onedrive-extension" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                            ${fileTypeOptions}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ]
+            },
+            buttons: [
+                {
+                    type: 'cancel',
+                    text: 'Cancel'
+                },
+                {
+                    type: 'submit',
+                    text: 'Save',
+                    primary: true
+                }
+            ],
+            onSubmit: function(api) {
+                performSave(token, selectedFolderId, api);
+            },
+            onClose: function() {
+                if (window.openOneDriveFolderInSaveDialog) {
+                    delete window.openOneDriveFolderInSaveDialog;
+                }
+                if (window.navigateToOneDriveBreadcrumb) {
+                    delete window.navigateToOneDriveBreadcrumb;
+                }
+            }
+        };
+
+        dialogInstance = editor.windowManager.open(dialogConfig);
+
+        // Load items after dialog opens
+        setTimeout(() => {
+            if (dialogInstance) {
+                loadOneDriveItems(token, currentFolderId);
+            }
+        }, 100);
+
+        // Helper function to load items (files and folders)
+        async function loadOneDriveItems(token, folderId) {
+            const itemListEl = document.getElementById('onedrive-item-list');
+            if (!itemListEl) return;
+
+            itemListEl.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Loading...</div>';
+
+            try {
+                const url = folderId === 'root' 
+                    ? 'https://graph.microsoft.com/v1.0/me/drive/root/children'
+                    : `https://graph.microsoft.com/v1.0/me/drive/items/${folderId}/children`;
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load items');
+                }
+
+                const data = await response.json();
+                renderItems(data.value || []);
+
+            } catch (error) {
+                console.error('Error loading items:', error);
+                itemListEl.innerHTML = `<div style="text-align: center; padding: 20px; color: #ea4335;">Failed to load items: ${error.message}</div>`;
+            }
+        }
+
+        function renderItems(items) {
+            const itemListEl = document.getElementById('onedrive-item-list');
+            if (!itemListEl) return;
+
+            if (items.length === 0) {
+                itemListEl.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No items in this location<br><small>You can still save the file here</small></div>';
+                return;
+            }
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 5px;">';
+            items.forEach(item => {
+                const isFolder = item.folder !== undefined;
+                const icon = isFolder ? '📁' : '📄';
+                const ondblclick = isFolder ? `window.openOneDriveFolderInSaveDialog('${item.id}', '${escapeHtml(item.name)}')` : '';
+                
+                html += `
+                    <div class="onedrive-item" data-id="${item.id}" data-name="${escapeHtml(item.name)}" data-is-folder="${isFolder}"
+                         style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s;"
+                         onmouseover="this.style.background='#f0f0f0'" 
+                         onmouseout="this.style.background='white'"
+                         onclick="selectOneDriveItem(this)"
+                         ondblclick="${ondblclick}">
+                        <span style="font-size: 24px;">${icon}</span>
+                        <span>${escapeHtml(item.name)}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            itemListEl.innerHTML = html;
+        }
+
+        // Global function for selecting an item
+        window.selectOneDriveItem = function(element) {
+            document.querySelectorAll('.onedrive-item').forEach(el => {
+                el.classList.remove('selected');
+                el.style.background = 'white';
+            });
+            element.classList.add('selected');
+            element.style.background = '#e3f2fd';
+            
+            const isFolder = element.dataset.isFolder === 'true';
+            if (isFolder) {
+                selectedFolderId = element.dataset.id;
+            }
+        };
+
+        // Global function for double-click to open folder
+        window.openOneDriveFolderInSaveDialog = function(folderId, folderName) {
+            currentFolderId = folderId;
+            selectedFolderId = folderId;
+            folderStack.push({id: folderId, name: folderName});
+            updateBreadcrumb();
+            loadOneDriveItems(token, folderId);
+        };
+
+        function updateBreadcrumb() {
+            const breadcrumbEl = document.getElementById('onedrive-breadcrumb');
+            if (!breadcrumbEl) return;
+
+            let html = '<span>☁️</span> ';
+            folderStack.forEach((folder, index) => {
+                if (index > 0) html += ' / ';
+                html += `<a href="#" onclick="window.navigateToOneDriveBreadcrumb(${index}); return false;" style="color: #0078d4; text-decoration: none;">${escapeHtml(folder.name)}</a>`;
+            });
+
+            breadcrumbEl.innerHTML = html;
+        }
+
+        window.navigateToOneDriveBreadcrumb = function(index) {
+            folderStack = folderStack.slice(0, index + 1);
+            currentFolderId = folderStack[index].id;
+            selectedFolderId = currentFolderId;
+            updateBreadcrumb();
+            loadOneDriveItems(token, currentFolderId);
+        };
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    async function performSave(token, folderId, dialogApi) {
+        const fileName = document.getElementById('onedrive-filename').value.trim();
+        const extension = document.getElementById('onedrive-extension').value;
+
+        if (!fileName) {
+            editor.notificationManager.open({
+                text: 'Please enter a file name',
+                type: 'error',
+                timeout: 3000
+            });
+            return;
+        }
+
+        const fullFileName = fileName + extension;
+        const htmlContent = editor.getContent();
+
+        dialogApi.close();
+
+        try {
+            // Convert content
+            const content = await window.fileConverter.convert(htmlContent, extension);
+            
+            // Create blob
+            let blob;
+            if (content instanceof Blob) {
+                blob = content;
+            } else {
+                blob = new Blob([content], { type: window.getMimeType(extension) });
+            }
+
+            // Upload to OneDrive
+            const uploadUrl = folderId === 'root'
+                ? `https://graph.microsoft.com/v1.0/me/drive/root:/${fullFileName}:/content`
+                : `https://graph.microsoft.com/v1.0/me/drive/items/${folderId}:/${fullFileName}:/content`;
+            
+            const response = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': window.getMimeType(extension)
+                },
+                body: blob
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                
+                window.currentOneDriveFile = {
+                    id: result.id,
+                    name: fullFileName
+                };
+
+                editor.notificationManager.open({
+                    text: '✅ Saved: ' + fullFileName,
+                    type: 'success',
+                    timeout: 3000
+                });
+            } else {
+                const error = await response.json();
+                throw new Error(error.error.message || 'Unknown error');
+            }
+
+        } catch (error) {
+            console.error('Error saving file:', error);
+            editor.notificationManager.open({
+                text: 'Failed to save: ' + error.message,
+                type: 'error',
+                timeout: 5000
+            });
+        }
+    }
+
+    // Listen for auth success
+    window.addEventListener('message', async function(event) {
+        if (event.data.type === 'onedrive-auth-success' && saveAuthInProgress) {
+        	saveAuthInProgress = false;
+            editor.notificationManager.open({
+                text: 'Successfully signed in to OneDrive!',
+                type: 'success',
+                timeout: 3000
+            });
+            
+            // Retry save
+            const response = await fetch('/api/onedrive/token');
+            const data = await response.json();
+		    if (data.authenticated && window.cloudProviders.onedrive) {
+		    	window.cloudProviders.onedrive.token = data.token;
+		        showSaveDialog(window.cloudProviders.onedrive.token);
+		    }
+        }
+    });
+
+    return {
+        getMetadata: function() {
+            return {
+                name: 'Save to OneDrive',
+                url: 'http://yoursite.com'
+            };
+        }
+    };
+});

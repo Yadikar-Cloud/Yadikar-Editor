@@ -6,7 +6,7 @@
   "build": {
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
-    "frontendDist": ".."
+    "frontendDist": "../src"
   },
   "app": {
     "windows": [
@@ -28,10 +28,10 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "../assets/image/yadikar-editor-64x64.png",
-      "../assets/image/yadikar-editor-128x128.png",
-      "../assets/image/yadikar-editor-256x256.png",
-      "../assets/image/yadikar-editor.ico"
+      "../src/assets/image/yadikar-editor-64x64.png",
+      "../src/assets/image/yadikar-editor-128x128.png",
+      "../src/assets/image/yadikar-editor-256x256.png",
+      "../src/assets/image/yadikar-editor.ico"
     ]
   }
 }

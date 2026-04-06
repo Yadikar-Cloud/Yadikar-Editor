@@ -1,0 +1,336 @@
+tinymce.PluginManager.add('settings', function(editor, url) {
+    // Apply settings and reinitialize editor
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    function applySettings(newSettings) {
+    	//console.log(newSettings);
+        // Save settings
+        if (!window.settings.setSettings(newSettings)) {
+            editor.notificationManager.open({
+                text: 'Failed to save settings',
+                type: 'error',
+                timeout: 3000
+            });
+            return;
+        }
+
+        // Show notification
+        editor.notificationManager.open({
+            text: 'The Editor must be reloaded to apply new settings. Reloading...',
+            type: 'info',
+            timeout: 2000
+        });
+
+        // Reinitialize editor after a short delay
+        setTimeout(() => {
+            // Store current content
+            const content = editor.getContent();
+            
+            // Get editor selector
+            const selector = editor.settings.selector;
+            
+            // Remove current instance
+            tinymce.remove("mytextarea");
+            
+            // Reinitialize with new settings
+            const currentSettings = window.settings.getSettings();
+            //console.log("new settings:",currentSettings);
+            window.initializeTinyMCE(currentSettings, content);
+            location.reload();
+        }, 500);
+    }
+
+    var getLanguages = function (editor, parameter) {
+      var defaultLanguages = 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr_FR,German=de,Italian=it,Polish=pl,Portuguese=pt_BR,Spanish=es,Swedish=sv';
+      return editor.getParam(parameter, defaultLanguages);
+    };
+	var buildMenuItems = function (listName) {
+	  var languageValues = getItems(editor, listName);
+	  var items = [];
+	  global$2.each(languageValues, function (languageValue) {
+		items.push({
+		  text: languageValue.name,
+		  value: languageValue.value
+		});
+	  });
+	  return items;
+	};
+    var getItems = function (editor, parameter) {
+      return global$2.map(getLanguages(editor, parameter).split(','), function (langPair) {
+        var langPairs = langPair.split('=');
+        return {
+          name: langPairs[0],
+          value: langPairs[1]
+        };
+      });
+    };
+    
+    // Show settings dialog
+    function showSettingsDialog() {
+        const currentSettings = window.settings.getSettings();
+		//console.log('Current settings:', currentSettings); 
+		
+        // Build language options for dropdown
+		const languageOptions = buildMenuItems('site_languages');	
+		const languageOptionsSTT = buildMenuItems('webspeechapi_languages');
+		const languageOptionsOCR = buildMenuItems('ocr_languages');
+		
+        // Build skin options
+        const skinOptions = [
+            { text: 'Light (Oxide)', value: 'oxide' },
+            { text: 'Dark (Oxide)', value: 'oxide-dark' },
+            { text: 'Polaris (Classic)', value: 'polaris' }
+        ];
+
+        // Build font size options
+        const fontSizeOptions = [
+            { text: '12px', value: '12px' },
+            { text: '14px', value: '14px' },
+            { text: '16px', value: '16px' },
+            { text: '18px', value: '18px' }
+        ];
+
+        // Build skin options
+		const fontTypeOptions = [
+			{ text: 'Andale Mono', value: 'andale mono,times' },
+			{ text: 'Arial', value: 'arial,helvetica,sans-serif' },
+			{ text: 'Arial Black', value: 'arial black,avant garde' },
+			{ text: 'Book Antiqua', value: 'book antiqua,palatino' },
+			{ text: 'Comic Sans MS', value: 'comic sans ms,sans-serif' },
+			{ text: 'Courier New', value: 'courier new,courier' },
+			{ text: 'Georgia', value: 'georgia,palatino' },
+			{ text: 'Helvetica', value: 'helvetica' },
+			{ text: 'Impact', value: 'impact,chicago' },
+			{ text: 'Microsoft Uighur', value: 'Microsoft Uighur' },
+			{ text: 'UKIJ Ekran', value: 'UKIJEkranRegular' },
+			{ text: 'UKIJ Chiwer Kesme', value: 'UKIJChiwerKesmeRegular' },
+			{ text: 'UKIJ CJK', value: 'UKIJCJKRegular' },
+			{ text: 'UKIJ Kufi', value: 'UKIJKufiRegular' },
+			{ text: 'Symbol', value: 'symbol' },
+			{ text: 'Tahoma', value: 'tahoma,arial,helvetica,sans-serif' },
+			{ text: 'Terminal', value: 'terminal,monaco' },
+			{ text: 'Times New Roman', value: 'times new roman,times' },
+			{ text: 'Trebuchet MS', value: 'trebuchet ms,geneva' },
+			{ text: 'Verdana', value: 'verdana,geneva' },
+			{ text: 'Webdings', value: 'webdings' },
+			{ text: 'Wingdings', value: 'wingdings,zapf dingbats' }
+		];
+
+        // Build page number position options
+        const pageNumberPositionOptions = [
+            { text: 'Left', value: '40px' },
+            { text: 'Center', value: '50%' },
+            { text: 'Right', value: '726px' }
+        ];
+
+		const pageBackgroundOptions = [
+			{ text: 'White (default)', value: '#FFFFFF', style: 'background-color: #FFFFFF;' },
+			{ text: 'Warm white', value: '#FEFCF3', style: 'background-color: #FEFCF3;' },
+			{ text: 'Light Blue', value: '#EFF7FA', style: 'background-color: #EFF7FA;' },
+			{ text: 'Light Tan', value: '#FAF4E8', style: 'background-color: #FAF4E8;' },
+			{ text: 'Cream', value: '#FFFFF0', style: 'background-color: #FFFFF0;' }
+		];        
+        const dialogConfig = {
+            title: 'Editor Settings',
+            size: 'normal',
+            body: {
+                type: 'tabpanel',
+                tabs: [
+                    {
+                        name: 'general',
+                        title: 'General',
+                        items: [
+                            {
+                                type: 'selectbox',
+                                name: 'language',
+                                label: 'Language',
+                                items: languageOptions
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'skin',
+                                label: 'Theme',
+                                items: skinOptions
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'fontSize',
+                                label: 'UI Font Size',
+                                items: fontSizeOptions
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'contentFontSize',
+                                label: 'Default Font Size',
+                                items: fontSizeOptions
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'contentFontType',
+                                label: 'Default Font Type',
+                                items: fontTypeOptions
+                            }
+                        ]
+                    },
+                    {
+                        name: 'page',
+                        title: 'Page',
+                        items: [
+                            {
+                                type: 'input',
+                                name: 'topBottomPadding',
+                                label: 'Top/bottom padding',
+                                inputMode: 'numeric',
+                                disabled: tinymce.Env.desktop === false 
+                            },
+                            {
+                                type: 'input',
+                                name: 'leftRightPadding',
+                                label: 'Left/right padding',
+                                inputMode: 'numeric',
+                                disabled: tinymce.Env.desktop === false 
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'pageNumberPosition',
+                                label: 'Page number position',
+                                items: pageNumberPositionOptions,
+                                disabled: tinymce.Env.desktop === false 
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'pageBackgroundColor',
+                                label: 'Background color',
+                                items: pageBackgroundOptions,
+                                disabled: tinymce.Env.desktop === false 
+                            }
+                        ]
+                    },
+					{
+						name: 'tools',
+                        title: 'Tools',
+                        items: [
+                            {
+                                type: 'selectbox',
+                                name: 'sttlanguage',
+                                label: 'Default Speech Recognition Language',
+                                items: languageOptionsSTT
+                            },
+                            {
+                                type: 'selectbox',
+                                name: 'ocrlanguage',
+                                label: 'Default OCR Language',
+                                items: languageOptionsOCR
+                            },
+                            {
+                                type: 'checkbox',
+                                name: 'loadSystemFonts',
+                                label: 'Load system fonts'
+                            }                                                       							
+						]
+					}
+                ]
+            },
+            buttons: [
+                {
+                    type: 'cancel',
+                    text: 'Cancel'
+                },
+                {
+                    type: 'submit',
+                    text: 'Apply',
+                    primary: true
+                }
+            ],
+            initialData: currentSettings,
+            onSubmit: async function(api) {
+                const data = api.getData();
+                // allign page number padding to the righ/left page padding
+                const cleanValue = data.pageNumberPosition.replace(/[^0-9]/g, '');
+                if(cleanValue <= (766/2) && data.pageNumberPosition !== '50%')
+                	data.pageNumberPosition = data.leftRightPadding + 'px';
+                else if(cleanValue >= (766/2) && data.pageNumberPosition !== '50%')
+                	data.pageNumberPosition = (766 - data.leftRightPadding) + 'px';
+                // Validate autosave interval
+                if (data.autosave && (!data.autosaveInterval || data.autosaveInterval < 10)) {
+                    editor.notificationManager.open({
+                        text: 'Auto-save interval must be at least 10 seconds',
+                        type: 'warning',
+                        timeout: 3000
+                    });
+                    return;
+                }
+            	if(data.loadSystemFonts)
+            	{
+					data.systemFonts = await loadFontData();      	
+            	} else
+            	{
+            		data.systemFonts = null;
+            	}           
+                //console.log("all data: ", data);
+				//console.log("font data: ", tempFonts);
+                api.close();
+                applySettings(data);
+            }
+        };
+
+        editor.windowManager.open(dialogConfig);
+    }
+	async function loadFontData(editor) {
+		if (!window.queryLocalFonts) {
+		    editor.notificationManager.open({
+		        text: 'Local Font Access API not supported in this browser.',
+		        type: 'info',
+		        timeout: 3000
+		    });		    					
+			return;
+		}	
+		try {
+			const availableFonts = await window.queryLocalFonts();
+			let systemFonts = '';	
+			for (const fontData of availableFonts) {
+			  systemFonts += fontData.fullName + '=' + fontData.family + ';';
+			}
+			return systemFonts;
+		} catch (err) {
+			console.error(err.name, err.message);
+		}
+	}
+	// Add toolbar button
+	editor.ui.registry.addButton('addSystemFonts', {
+		tooltip: 'Load system fonts',
+	    icon: 'sharpen',
+	    onAction: async function() {		    
+	    	const currentSettings = window.settings.getSettings();
+	    	currentSettings.systemFonts = await loadFontData(editor);
+	    	if(currentSettings.systemFonts)
+	    		applySettings(currentSettings);		        
+	    }
+	});
+    // Add toolbar button
+    editor.ui.registry.addButton('settings', {
+        text: 'Settings',
+        icon: 'settings',
+        tooltip: 'Editor Settings',
+        onAction: function() {
+            showSettingsDialog();
+        }
+    });
+
+    // Add menu item
+    editor.ui.registry.addMenuItem('settings', {
+        text: 'Settings',
+        icon: 'settings',
+        onAction: function() {
+            showSettingsDialog();
+        }
+    });
+
+    return {
+        getMetadata: function() {
+            return {
+                name: 'Settings',
+                url: 'http://yoursite.com'
+            };
+        }
+    };
+});
