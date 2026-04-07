@@ -83,7 +83,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     save_onsavecallback: function () { tinymce.activeEditor.saveFile(); },
     help_version_major: '3',
     help_version_minor: '3.1',
-    last_release_date: '2026-03-28', // format example: 1987-07-22
+    last_release_date: '2026-04-06', // format example: 1987-07-22
     image_advtab: true,
     height: editorHeight,
     image_caption: true,
@@ -246,8 +246,8 @@ function whatsnew() {
 	const MS_PER_DAY = 24 * 60 * 60 * 1000;
 	const lastRelaseDate = new Date(tinymce.activeEditor.getParam('last_release_date'));
 	const rightNow = new Date();
-	
-	if(Math.floor(lastRelaseDate - rightNow) < 7) // show "what's new" dialog for first week of last release!
+	//console.log(Math.floor((rightNow -lastRelaseDate)/MS_PER_DAY));
+	if(Math.floor((rightNow -lastRelaseDate)/MS_PER_DAY) < 7) // show "what's new" dialog for first week of last release!
 	{
 		tinymce.activeEditor.windowManager.open({
 		  title: `Version ${version} is released!`, // The dialog's title - displayed in the dialog header

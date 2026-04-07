@@ -422,17 +422,17 @@ tinymce.PluginManager.add('file', function(editor, url) {
 		},
 
 		addUnsavedMsg: function () {
-			if (!document.title.includes(this.unsavedMessage) && window.fileHandle) {
+			if (!document.title.includes(this.unsavedMessage) && (window.fileHandle || window.tauriFilePath)) {
 				this._setTitle(this.unsavedMessage + this._getTitle() + '-Yadikar Editor');
 			}
 		},
 
 		addSavedMsg: function () {
-			if (!document.title.includes(this.savedMessage) && window.fileHandle) {
+			if (!document.title.includes(this.savedMessage) && (window.fileHandle || window.tauriFilePath)) {
 				this._setTitle(this.savedMessage + this._getTitle() + '-Yadikar Editor');
 			}
 		}
-	};	
+	};
 	
 	editor.on('init', function() {
 		editor.saveFile = saveFile;
