@@ -449,7 +449,7 @@ tinymce.PluginManager.add('file', function(editor, url) {
 	
 	// autosave handler
 	editor.on('StoreDraft', function() {
-		if(window.fileHandle && editor.isDirty()) {
+		if((window.fileHandle || window.tauriFilePath) && editor.isDirty()) {
 			editor.execCommand('mceSave'); // or your custom save logic
 		}
 		titleUpdate.addSavedMsg();
