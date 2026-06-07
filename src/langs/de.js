@@ -498,5 +498,6 @@ tinymce.addI18n('de',{
 "OCR": "OCR",
 "Share": "Teilen",
 "File Information": "Dateiinformationen",
-"Speech Recognition": "Spracherkennung"
+"Speech Recognition": "Spracherkennung",
+"New": "Neu"
 });

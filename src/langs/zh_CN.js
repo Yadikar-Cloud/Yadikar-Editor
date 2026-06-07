@@ -498,5 +498,6 @@ tinymce.addI18n('zh_CN',{
 "OCR": "\u5149\u5b66\u5b57\u7b26\u8bc6\u522b",
 "Share": "\u5206\u4eab",
 "File Information": "\u6587\u4ef6\u4fe1\u606f",
-"Speech Recognition": "\u8bed\u97f3\u8bc6\u522b"
+"Speech Recognition": "\u8bed\u97f3\u8bc6\u522b",
+"New": "\u65b0\u5efa"
 });
