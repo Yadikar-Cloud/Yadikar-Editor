@@ -491,5 +491,12 @@ tinymce.addI18n('de',{
 "Message": "Nachricht",
 "Send": "Senden",
 "Privacy Policy": "Datenschutzrichtlinie",
-"Terms and Conditions": "Allgemeine Geschäftsbedingungen"
+"Terms and Conditions": "Allgemeine Geschäftsbedingungen",
+"Save As...": "Speichern unter...",
+"Export as PDF": "Als PDF exportieren",
+"Export as ePUB": "Als ePUB exportieren",
+"OCR": "OCR",
+"Share": "Teilen",
+"File Information": "Dateiinformationen",
+"Speech Recognition": "Spracherkennung"
 });

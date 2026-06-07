@@ -400,5 +400,12 @@ tinymce.addI18n('it_IT',{
 "Message": "Messaggio",
 "Send": "Invia",
 "Privacy Policy": "Informativa sulla privacy",
-"Terms and Conditions": "Termini e condizioni"
+"Terms and Conditions": "Termini e condizioni",
+"Save As...": "Salva con nome...",
+"Export as PDF": "Esporta come PDF",
+"Export as ePUB": "Esporta come ePUB",
+"OCR": "OCR",
+"Share": "Condividi",
+"File Information": "Informazioni sul file",
+"Speech Recognition": "Riconoscimento vocale"
 });

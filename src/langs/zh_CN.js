@@ -491,5 +491,12 @@ tinymce.addI18n('zh_CN',{
 "Message": "\u6d88\u606f",
 "Send": "\u53d1\u9001",
 "Privacy Policy": "\u9690\u79c1\u653f\u7b56",
-"Terms and Conditions": "\u6761\u6b3e\u548c\u6761\u4ef6"
+"Terms and Conditions": "\u6761\u6b3e\u548c\u6761\u4ef6",
+"Save As...": "\u53e6\u5b58\u4e3a...",
+"Export as PDF": "\u5bfc\u51fa\u4e3a PDF",
+"Export as ePUB": "\u5bfc\u51fa\u4e3a ePUB",
+"OCR": "\u5149\u5b66\u5b57\u7b26\u8bc6\u522b",
+"Share": "\u5206\u4eab",
+"File Information": "\u6587\u4ef6\u4fe1\u606f",
+"Speech Recognition": "\u8bed\u97f3\u8bc6\u522b"
 });

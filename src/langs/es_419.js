@@ -462,5 +462,11 @@ tinymce.addI18n('es_419',{
 "Find and replace": "Find and replace",
 "Whole words": "Whole words",
 "Insert template": "Insert template",
-
+"Save As...": "Guardar como...",
+"Export as PDF": "Exportar como PDF",
+"Export as ePUB": "Exportar como ePUB",
+"OCR": "OCR",
+"Share": "Compartir",
+"File Information": "Información del archivo",
+"Speech Recognition": "Reconocimiento de voz"
 });
