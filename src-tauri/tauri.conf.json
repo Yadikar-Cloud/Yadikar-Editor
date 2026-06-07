@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Yadikar-Editor",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "identifier": "it.yadikar.editor",
   "build": {
     "beforeDevCommand": "",
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "Yadikar Text Editor",
+        "title": "Yadikar Editor",
         "width": 800,
         "height": 600,
         "resizable": true,
@@ -27,6 +27,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "category": "Productivity",
     "icon": [
       "../src/assets/image/yadikar-editor-64x64.png",
       "../src/assets/image/yadikar-editor-128x128.png",
