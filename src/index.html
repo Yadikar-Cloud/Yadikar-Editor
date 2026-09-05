@@ -14,7 +14,8 @@
 	<!-- insert chart -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <!-- Load MathJax from CDN -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>       
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script> 
+	<link href="./promo/promotion.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <form method="post">
@@ -42,6 +43,33 @@
     <footer style="display: none;">
         <p><a href="privacy_policy.html">Privacy Policy</a> | <a href="terms_and_conditions.html">Terms &amp; Conditions</a></p>
     </footer>
+<dialog class="promo-dialog" id="promoDialog">
+  <button class="promo-close" id="promoCloseBtn" aria-label="Close">&times;</button>
+
+  <div class="promo-content">
+    <h4>«ئۇيغۇر تائاملىرى» ئاندروئىد ئەپ نەشىردىن چىقتى!</h4>
+
+    <p class="description">
+      ئۇيغۇر تائاملىرى ئۇيغۇر ئەجدادلىرىنىڭ تارىختىن بۇيانقى ياشاش ئېھتىياجىنى تەمىن ئېتىپ ، ھەر قايسى تارىخ ۋە ئېكولوگىيىلىك ئۆزگىرىشلەرگە ماشلىشىش يۈزىسىدىن خىلمۇ خىل ئېتىلىپ ، پەسىل ئۆزگىرىش ، كۈندىلىك ئوزۇقلۇق ئېھتىياجى ۋە مىجەزنى تەڭشەشكە ئۇيغۇنلاشتۇرغان .
+    </p>
+
+	<a class="download-link" href="https://play.google.com/store/apps/details?id=com.example.wayfarer" target="_blank" rel="noopener">
+      <img class="download-badge" src="./promo/images/google-play-app-store.png" alt="Google Play">
+      <span>ئەپنى ئاندروئىد دۇكىنىدىن چۈشۈرۈڭ</span>
+    </a>
+
+
+    <div class="gallery">
+      <div class="gallery-viewport">
+        <button class="gallery-nav prev" id="galleryPrevBtn" aria-label="Previous image">&#10094;</button>
+        <img id="galleryMainImage" src="" alt="">
+        <button class="gallery-nav next" id="galleryNextBtn" aria-label="Next image">&#10095;</button>
+      </div>
+      <div class="gallery-dots" id="galleryDots"></div>
+    </div>
+  </div>
+</dialog>  
+<script type="text/javascript" src="./promo/promotion.js"></script>	
 	<!-- TinyMCE and plugins last -->
     <script src="/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="/assets/editor.js"></script>
