@@ -1,11 +1,23 @@
 function initWayfarerPromo() {
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const lastReleaseDate = new Date('2026-09-10'); // format example: 1987-07-22
+const rightNow = new Date();
+const daysSinceRelease = Math.floor((rightNow - lastReleaseDate) / MS_PER_DAY);
+//console.log(daysSinceRelease);
+
+if (daysSinceRelease > 30) {
+	// release is older than 30 days — don't show the "what's new" dialog
+	return;
+}
   // Replace this array with your own image URLs.
   const images = [
-    "https://picsum.photos/id/1015/900/600",
-    "https://picsum.photos/id/1025/900/600",
-    "https://picsum.photos/id/1035/900/600",
-    "https://picsum.photos/id/1045/900/600",
-    "https://picsum.photos/id/1055/900/600"
+    "./promo/promo-images/Screenshot_20260906_090840_Uyghur Cusine.jpg",
+    "./promo/promo-images/Screenshot_20260906_090926_Uyghur Cusine.jpg",
+    "./promo/promo-images/Screenshot_20260906_090942_Uyghur Cusine.jpg",
+    "./promo/promo-images/Screenshot_20260906_090950_Uyghur Cusine.jpg",
+    "./promo/promo-images/Screenshot_20260906_091002_Uyghur Cusine.jpg",
+	"./promo/promo-images/Screenshot_20260906_091012_Uyghur Cusine.jpg",
+	"./promo/promo-images/Screenshot_20260906_091029_Uyghur Cusine.jpg"
   ];
 
   let currentIndex = 0;
