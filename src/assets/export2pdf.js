@@ -1,8 +1,8 @@
 const FONT_REGISTRY = {
-	"UKIJEkranRegular": "/editor/assets/fonts/UKIJEkran.ttf",
-	"UKIJChiwerKesmeRegular": "/editor/assets/fonts/UKIJKesme.ttf",
-	"UKIJCJKRegular": "/editor/assets/fonts/UKIJCJK.ttf",
-	"UKIJKufiRegular": "/editor/assets/fonts/UKIJKu.ttf"
+	"UKIJEkranRegular": "/assets/fonts/UKIJEkran.ttf",
+	"UKIJChiwerKesmeRegular": "/assets/fonts/UKIJKesme.ttf",
+	"UKIJCJKRegular": "/assets/fonts/UKIJCJK.ttf",
+	"UKIJKufiRegular": "/assets/fonts/UKIJKu.ttf"
 };
 function getFontsUsed(root) {
 	const fonts = new Set();
