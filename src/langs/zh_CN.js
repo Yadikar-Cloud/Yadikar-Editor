@@ -499,5 +499,8 @@ tinymce.addI18n('zh_CN',{
 "Share": "\u5206\u4eab",
 "File Information": "\u6587\u4ef6\u4fe1\u606f",
 "Speech Recognition": "\u8bed\u97f3\u8bc6\u522b",
+"Language (e.g., en)": "\u8BED\u8A00\uFF08\u4F8B\u5982\uFF1Azh\uFF09",
+"Add Book Metadata": "\u6DFB\u52A0\u56FE\u4E66\u5143\u6570\u636E",
+"Export": "\u51FA\u53E3",
 "New": "\u65b0\u5efa"
 });

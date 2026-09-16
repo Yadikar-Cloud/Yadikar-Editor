@@ -499,5 +499,8 @@ tinymce.addI18n('fr_FR',{
 "Share": "Partager",
 "File Information": "Informations sur le fichier",
 "Speech Recognition": "Reconnaissance vocale",
+"Language (e.g., en)": "Langue (par ex. fr)",
+"Add Book Metadata": "Ajouter des métadonnées au livre",
+"Export": "Exporter",
 "New": "Nouveau"
 });
