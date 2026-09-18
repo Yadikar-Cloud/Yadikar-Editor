@@ -1,6 +1,6 @@
 function initWayfarerPromo() {
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const lastReleaseDate = new Date('2026-09-10'); // format example: 1987-07-22
+const lastReleaseDate = new Date('2026-09-18'); // format example: 1987-07-22
 const rightNow = new Date();
 const daysSinceRelease = Math.floor((rightNow - lastReleaseDate) / MS_PER_DAY);
 //console.log(daysSinceRelease);
