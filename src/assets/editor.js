@@ -82,7 +82,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     autosave_retention: "2m",
     save_onsavecallback: function () { tinymce.activeEditor.saveFile(); },
     help_version_major: '3',
-    help_version_minor: '3.1',
+    help_version_minor: '3.2',
     last_release_date: '2026-04-06', // format example: 1987-07-22
     image_advtab: true,
     height: editorHeight,
