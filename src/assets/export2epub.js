@@ -270,11 +270,23 @@ class EPUBGenerator {
 
 		return [...fonts];
 	}
+
+	detectFontFormat(buffer) {
+		const bytes = new Uint8Array(buffer.slice(0, 4));
+		const tag = String.fromCharCode(...bytes);
+		if (tag === 'wOFF') return 'woff';
+		if (tag === 'wOF2') return 'woff2';
+		if (tag === 'OTTO') return 'otf';
+		if (bytes[0] === 0x00 && bytes[1] === 0x01 && bytes[2] === 0x00 && bytes[3] === 0x00) return 'ttf'; // sfnt v1 (TrueType)
+		if (tag === 'true' || tag === 'typ1') return 'ttf';
+		return 'ttf'; // safest fallback for raw sfnt data
+	}
 	
 	async fontToBase64(url) {
 		const res = await fetch(url);
 		const buffer = await res.arrayBuffer();
-
+		const format = this.detectFontFormat(buffer);
+		//console.log("detected format:" + format);
 		let binary = "";
 		const bytes = new Uint8Array(buffer);
 		const len = bytes.byteLength;
@@ -283,7 +295,21 @@ class EPUBGenerator {
 			binary += String.fromCharCode(bytes[i]);
 		}
 
-		return btoa(binary);
+		return { base64: btoa(binary), format };
+	}
+
+	mimeToFormat(mime) {
+		const map = {
+			'font/woff': 'woff',
+			'font/woff2': 'woff2',
+			'font/ttf': 'ttf',
+			'font/otf': 'otf',
+			'font/sfnt': null, // ambiguous, needs byte-sniffing
+			'application/font-sfnt': null,
+			'application/x-font-ttf': 'ttf',
+			'application/octet-stream': null,
+		};
+		return map[mime] ?? null;
 	}
 
 	async getSystemFontBase64(family) {
@@ -291,11 +317,24 @@ class EPUBGenerator {
 		const font = (await window.queryLocalFonts()).find(f => f.fullName === family);
 		if (!font) return null;
 		const blob = await font.blob();
-		return await new Promise(r => {
+
+		const base64 = await new Promise((resolve, reject) => {
 			const fr = new FileReader();
-			fr.onloadend = () => r(fr.result.split(",")[1]);
+			fr.onloadend = () => resolve(fr.result.split(",")[1]);
+			fr.onerror = reject;
 			fr.readAsDataURL(blob);
 		});
+
+		// blob.type is something like "font/ttf", "font/otf", "font/woff2" — but don't trust it blindly,
+		// some platforms report a generic type (e.g. "application/octet-stream" or "font/sfnt")
+		let format = this.mimeToFormat(blob.type);
+		if (!format) {
+			// fall back to sniffing the actual bytes, same as fontToBase64
+			const buffer = await blob.arrayBuffer();
+			format = detectFontFormat(buffer);
+		}
+
+		return { base64, format };
 	}	
 	
     async generate(doc) {
@@ -338,33 +377,41 @@ class EPUBGenerator {
 		// add used fonts
 		const fonts = getFontsUsed(doc);
 		const fontManifestItems = [];
+		const cssFormatMap = {
+			ttf: 'truetype',
+			otf: 'opentype',
+			woff: 'woff',
+			woff2: 'woff2',
+		};		
 		//console.log(fonts);
 		for (const family of fonts) {
-		    let base64 = null;
-		    let format = 'woff'; // default, can adjust if needed		
+		    let result = null;
+		    let format = 'ttf'; // default, can adjust if needed		
 			const url = FONT_REGISTRY[family];
 			if (url) {
 		        try {
-		            base64 = await fontToBase64(url);
+		            result = await this.fontToBase64(url);
 		        } catch (err) {
 		            console.warn(`Failed to fetch hosted font: ${family}`, err);
 		        }
 			} else {
 		        try {
-		            base64 = await getSystemFontBase64(family);
+		            result = await this.getSystemFontBase64(family);
 		        } catch (err) {
 		            console.warn(`Failed to get system font: ${family}`, err);
 		        }
 			}
 		    // If we got the font, add it to the EPUB
-		    if (base64) {
+		    if (result) {
+				const { base64, format } = result;
 		        const fontFileName = `fonts/${family.replace(/\s+/g, "_")}.${format}`;
 		        oebps.file(fontFileName, base64, { base64: true });
+				const cssFormat = cssFormatMap[format] || format;
 		        // Add @font-face to CSS
 				allCSS =
 				`@font-face {
 					font-family: "${family}";
-					src: url('${fontFileName}') format('${format}');
+					src: url('${fontFileName}') format('${cssFormat}');
 				}
 				` + allCSS;				
 		        // Track font for manifest
