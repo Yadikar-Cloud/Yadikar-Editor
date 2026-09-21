@@ -46,6 +46,12 @@ window.settings = {
 	}
 };
 
+var DOWNLOAD_LINKS = {
+	windows: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_x64-setup.exe',
+	mac: 'downloads/app-setup-mac.dmg',
+	linux: 'downloads/app-setup-linux.AppImage'
+};
+
 function initializeTinyMCE(settings = {}, initialContent = '') {
   //console.log("tinymce init:",settings.language);	
   // scripts/editor.js
@@ -70,7 +76,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     menu: {
       custom: { title: "File", items: "pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print" },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
-      help: { title: "help", items: "help givefeedback | privacy terms" },
+      help: { title: "help", items: "help givefeedback download | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
     toolbar: "pageview open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
@@ -170,8 +176,40 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 	  };
 
 	  input.click();
-	},	    
-    setup: function(editor) {	      	
+	},
+    setup: function(editor) {	
+		editor.ui.registry.addNestedMenuItem('download', {
+            text: 'Download for desktop',
+			icon: 'download',
+			getSubmenuItems: function () {
+				return [
+					{
+						type: 'menuitem',
+						text: 'Microsoft Windows',
+						icon: 'windows',
+						onAction: function () {
+							window.open(DOWNLOAD_LINKS.windows, '_blank');
+						}
+					},
+					{
+						type: 'menuitem',
+						text: 'Apple macOS',
+						icon: 'macos',
+						onAction: function () {
+							window.open(DOWNLOAD_LINKS.mac, '_blank');
+						}
+					},
+					{
+						type: 'menuitem',
+						text: 'GNU Linux',
+						icon: 'linux',
+						onAction: function () {
+							window.open(DOWNLOAD_LINKS.linux, '_blank');
+						}
+					}
+				];
+			  }
+        });
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
             onAction: function() {
