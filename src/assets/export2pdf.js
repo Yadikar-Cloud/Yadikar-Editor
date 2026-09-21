@@ -184,6 +184,8 @@ window.generatePDF = async function() {
 						style.innerHTML = `
 						  .page {
 							margin: 0 !important;
+							border: none !important;
+							box-shadow: none !important;
 						  }
 						`;
 						clonedDoc.head.appendChild(style);

@@ -131,6 +131,8 @@ body {
     }
     .page {
         margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;		
     }
 }
 
