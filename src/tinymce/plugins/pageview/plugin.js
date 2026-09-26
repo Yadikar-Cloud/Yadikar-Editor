@@ -479,7 +479,11 @@ tinymce.PluginManager.add('pageview', function(editor, url) {
 		}
 		
 		// Set initial cursor position
-		ensureCursorInPage();	
+		ensureCursorInPage();
+		editor.focus();
+		// Select the <p> element
+		var p = editor.getBody().querySelector('p');
+        editor.selection.setCursorLocation(p, 0);
 	});
 
 	// Add custom command for manual page break
