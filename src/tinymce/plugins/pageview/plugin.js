@@ -287,6 +287,55 @@ tinymce.PluginManager.add('pageview', function(editor, url) {
 		pageCount = pages.length;
 	}
 
+	function isCaretAtStartOfPage(page, rng) {
+		if (!rng.collapsed) return false;
+		const doc = editor.getDoc();
+		const pre = doc.createRange();
+		pre.selectNodeContents(page);
+		pre.setEnd(rng.startContainer, rng.startOffset);
+		const frag = pre.cloneContents();
+		// nothing (no text, no images/tables) before the caret inside this page
+		return pre.toString() === '' && !frag.querySelector('img,table,hr,iframe');
+	}
+
+	// Invisible/whitespace characters that shouldn't count as "content"
+	const IGNORABLE = /[\s\u00A0\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g;
+
+	function isRangeEmpty(r) {
+		if (r.collapsed) return true;
+		const frag = r.cloneContents();
+		return frag.textContent.replace(IGNORABLE, '') === '' &&
+			   !frag.querySelector('img,table,hr,iframe,video,object');
+	}
+
+	function coversWholePage(page, rng) {
+		if (rng.collapsed || !rng.intersectsNode(page)) return false;
+
+		const doc  = editor.getDoc();
+		const full = doc.createRange();
+		full.selectNodeContents(page);
+
+		// page start -> selection start (clamped to the page)
+		const before = doc.createRange();
+		before.selectNodeContents(page);
+		if (rng.compareBoundaryPoints(Range.START_TO_START, full) > 0) {
+			before.setEnd(rng.startContainer, rng.startOffset);
+		} else {
+			before.collapse(true);
+		}
+
+		// selection end -> page end (clamped to the page)
+		const after = doc.createRange();
+		after.selectNodeContents(page);
+		if (rng.compareBoundaryPoints(Range.END_TO_END, full) < 0) {
+			after.setStart(rng.endContainer, rng.endOffset);
+		} else {
+			after.collapse(false);
+		}
+
+		return isRangeEmpty(before) && isRangeEmpty(after);
+	}
+
 	// Handle Enter key - create new page if content is at bottom
 	editor.on('keydown', function(e) {
 		if (e.keyCode === 13) { // Enter key
@@ -352,10 +401,12 @@ tinymce.PluginManager.add('pageview', function(editor, url) {
 		        const range = selection.getRng();
 		        
 		        // Check if cursor is at the very beginning of the page
-		        const isAtStart = range.startOffset === 0 && range.endOffset === 0 && currentPage.childElementCount === 1;
+				// const isAtStart = range.startOffset === 0 && range.endOffset === 0 && currentPage.childElementCount === 1;
+		        const isAtStart = isCaretAtStartOfPage(currentPage, range);
 		        
 		        // Check if all content is selected (check if selection is not collapsed and covers whole body)
-		       const isAllSelected = !selection.isCollapsed() && selection.getNode() === currentPage;
+		       // const isAllSelected = !selection.isCollapsed() && selection.getNode() === currentPage;
+			   const isAllSelected = coversWholePage(currentPage, range);
 
 		        if (isAtStart || isAllSelected) {
 		            e.preventDefault();
