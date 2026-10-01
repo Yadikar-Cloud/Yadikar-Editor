@@ -136,3 +136,5 @@ body {
     }
 }
 
+/* fixes the page flicker issue of export2pdf script */
+.html2pdf__overlay { opacity: 0 !important; pointer-events: none; }
