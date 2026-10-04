@@ -60,6 +60,20 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
+      - name: List build output
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: Get-ChildItem src-tauri/target/release -Filter *.exe
+        
+      - name: Stage MSIX content
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force msix-staging | Out-Null
+          Copy-Item src-tauri/target/release/yadikar-editor.exe msix-staging/
+          # copy any resources/DLLs your app needs next to the exe, for example:
+          # Copy-Item src-tauri/target/release/*.dll msix-staging/
+          
       - name: MSIX Build
         id: msix-build
         if: matrix.platform == 'windows-latest'
