@@ -79,7 +79,15 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: BHznJNs/msix-build@v0.9
         with:
-          app-build-path: src-tauri/target/release
+          app-build-path: msix-staging/
           icon-path: src/assets/image/yadikar-editor-256x256.png
           appx-manifest-path: AppxManifest.xml
           priconfig-path: priconfig.xml
+      
+      - name: Inspect staged package folder
+        if: always() && matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          $root = "$env:RUNNER_TEMP\msix-build"
+          Get-ChildItem $root -Recurse -File |
+            ForEach-Object { $_.FullName.Substring($root.Length + 1) }      
