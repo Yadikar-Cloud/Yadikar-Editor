@@ -5,9 +5,6 @@ on:
     branches:
       - release
 
-# This is the example from the readme.
-# On each push to the `release` branch it will create or update a GitHub release, build your app, and upload the artifacts to the release.
-
 jobs:
   publish-tauri:
     permissions:
@@ -20,7 +17,7 @@ jobs:
             args: '--target aarch64-apple-darwin'
           - platform: 'macos-latest' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
+          - platform: 'ubuntu-22.04'
             args: ''
           - platform: 'windows-latest'
             args: ''
@@ -37,34 +34,29 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: install frontend dependencies
-        run: npm install # change this to npm, pnpm or bun depending on which one you use.
+        run: npm install
 
       - uses: tauri-apps/tauri-action@v0
+        id: tauri
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+          tagName: app-v__VERSION__
           releaseName: 'App v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
 
-      - name: List build output
-        if: matrix.platform == 'windows-latest'
-        shell: pwsh
-        run: Get-ChildItem src-tauri/target/release -Filter *.exe
-        
       - name: Stage MSIX content
         if: matrix.platform == 'windows-latest'
         shell: pwsh
@@ -73,7 +65,7 @@ jobs:
           Copy-Item src-tauri/target/release/yadikar-editor.exe msix-staging/
           # copy any resources/DLLs your app needs next to the exe, for example:
           # Copy-Item src-tauri/target/release/*.dll msix-staging/
-          
+
       - name: MSIX Build
         id: msix-build
         if: matrix.platform == 'windows-latest'
@@ -83,11 +75,22 @@ jobs:
           icon-path: src/assets/image/yadikar-editor-256x256.png
           appx-manifest-path: AppxManifest.xml
           priconfig-path: priconfig.xml
-      
-      - name: Inspect staged package folder
-        if: always() && matrix.platform == 'windows-latest'
+
+      - name: Rename MSIX
+        id: msix-rename
+        if: matrix.platform == 'windows-latest'
         shell: pwsh
         run: |
-          $root = "$env:RUNNER_TEMP\msix-build"
-          Get-ChildItem $root -Recurse -File |
-            ForEach-Object { $_.FullName.Substring($root.Length + 1) }      
+          $dest = "Yadikar-Editor_${{ steps.tauri.outputs.appVersion }}_x64.msix"
+          Copy-Item "${{ steps.msix-build.outputs.msix-path }}" $dest
+          "file=$dest" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Upload MSIX to release
+        if: matrix.platform == 'windows-latest'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: app-v${{ steps.tauri.outputs.appVersion }}
+          draft: true
+          files: ${{ steps.msix-rename.outputs.file }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
