@@ -59,3 +59,13 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: MSIX Build
+        id: msix-build
+        if: matrix.platform == 'windows-latest'
+        uses: BHznJNs/msix-build@v0.9
+        with:
+          app-build-path: ../src
+          icon-path: ../src/assets/image/yadikar-editor-256x256.png
+          appx-manifest-path: ../AppxManifest.xml
+          priconfig-path: ../priconfig.xml
