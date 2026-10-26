@@ -337,7 +337,7 @@ class EPUBGenerator {
 		return { base64, format };
 	}	
 	
-    async generate(doc) {
+    async generate(doc, fonts) {
         const zip = new JSZip();
 
         // 1. Add mimetype (must be first, uncompressed)
@@ -375,7 +375,7 @@ class EPUBGenerator {
 		allCSS = allCSS.replace(/@font-face\s*(\/\*.*?\*\/\s*)?{[^}]*}/gis, '');
 		
 		// add used fonts
-		const fonts = getFontsUsed(doc);
+		//console.log("Fonts used in document:", fonts);
 		const fontManifestItems = [];
 		const cssFormatMap = {
 			ttf: 'truetype',
@@ -432,17 +432,17 @@ class EPUBGenerator {
 }
 
 window.generateEPUB = async function(info) {
-	var documentCopy = document.cloneNode(true);
-	
     const generator = new EPUBGenerator(
         info.title,
         info.author,
         info.description,
         info.language
     );
+	const fonts = generator.getFontsUsed(document);
+	var documentCopy = document.cloneNode(true);
     
     // Generate EPUB
-    const epubBlob = await generator.generate(documentCopy);
+    const epubBlob = await generator.generate(documentCopy, fonts);
 	const arrayBuffer = await epubBlob.arrayBuffer();
 	const uint8Array = new Uint8Array(arrayBuffer);		
     // Download the file
@@ -450,4 +450,3 @@ window.generateEPUB = async function(info) {
 	const types = window.parent.getFilePickerOption();
 	window.parent.saveBlob(true, uint8Array, true, types[5]);    
 }
-
