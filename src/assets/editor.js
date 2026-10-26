@@ -74,7 +74,7 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     plugins: "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons spellchecker suggestions grammerchecker file screenshot speechrecognition pageview givefeedback pdfImport chart footnotes settings",
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
-      custom: { title: "File", items: "pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print" },
+      custom: { title: "File", items: `pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print${window.__TAURI__ ? " | exit" : ""}` },
       tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
       help: { title: "help", items: "help givefeedback download | privacy terms" },
     },
@@ -212,16 +212,38 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
         });
         editor.ui.registry.addMenuItem('privacy', {
             text: 'Privacy Policy',
-            onAction: function() {
-                window.open('privacy_policy.html', '_blank');
+            onAction: async function() {
+				if (window.__TAURI__) {
+					await window.__TAURI__.core.invoke('plugin:opener|open_url', {
+						url: 'https://editor.yadikar.it/privacy_policy.html'
+					});
+				} else {
+					window.open('privacy_policy.html', '_blank');
+				}
             }
         });
         editor.ui.registry.addMenuItem('terms', {
             text: 'Terms and Conditions',
-            onAction: function() {
-                window.open('terms_and_conditions.html', '_blank');
+            onAction: async function() {
+				if (window.__TAURI__) {
+					await window.__TAURI__.core.invoke('plugin:opener|open_url', {
+						url: 'https://editor.yadikar.it/terms_and_conditions.html'
+					});
+				} else {
+					window.open('terms_and_conditions.html', '_blank');
+				}
             }
-        });		
+        });
+		editor.ui.registry.addMenuItem('exit', {
+            text: 'Exit',
+			icon: 'close',
+            onAction: async function() {
+				if (window.__TAURI__) {
+					const { getCurrentWindow } = window.__TAURI__.window;
+					await getCurrentWindow().close();
+				}
+            }
+        });
 		editor.on('init', function() {
 		    // Apply UI font size
 			// Remove old style if exists

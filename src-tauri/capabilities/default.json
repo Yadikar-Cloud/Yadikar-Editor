@@ -7,9 +7,21 @@
   ],
   "permissions": [
     "core:default",
+    "core:window:allow-close",
     "core:window:allow-set-title",
     "dialog:allow-save",
     "dialog:allow-open",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [
+        {
+          "url": "https://editor.yadikar.it/privacy_policy.html"
+        },
+        {
+          "url": "https://editor.yadikar.it/terms_and_conditions.html"
+        }
+      ]
+    },
     "fs:allow-write-file",
     "fs:allow-write-text-file",
     "fs:allow-read-file",
