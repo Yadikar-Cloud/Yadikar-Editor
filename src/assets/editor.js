@@ -47,10 +47,18 @@ window.settings = {
 };
 
 var DOWNLOAD_LINKS = {
-	windows: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_x64-setup.exe',
-	mac: 'downloads/app-setup-mac.dmg',
-	linux: 'downloads/app-setup-linux.AppImage'
+	windows: 'https://apps.microsoft.com/store/detail/XP89QGXMX3QJMW',
+	mac: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_x64.dmg',
+	linux: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_amd64.AppImage'
 };
+
+async function openExternal(url) {
+    if (window.__TAURI__) {
+        await window.__TAURI__.core.invoke('plugin:opener|open_url', { url });
+    } else {
+        window.open(url, '_blank');
+    }
+}
 
 function initializeTinyMCE(settings = {}, initialContent = '') {
   //console.log("tinymce init:",settings.language);	
@@ -75,11 +83,11 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
     imagetools_cors_hosts: ["picsum.photos"],
     menu: {
       custom: { title: "File", items: `pageview | open | save saveas | exportpdf exportepub | pdfImport | share | information | print${window.__TAURI__ ? " | exit" : ""}` },
-      tools: { title: "Tools", items: "spellchecker grammerchecker | screenshot | code wordcount | speechrecognition | settings" },
+      tools: { title: "Tools", items: `spellchecker grammerchecker | screenshot | code wordcount | ${window.__TAURI__ ? "" : " speechrecognition"} | settings`},
       help: { title: "help", items: "help givefeedback download | privacy terms" },
     },
     menubar: "custom edit view insert format tools table languages help",
-    toolbar: "pageview open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | speechrecognition | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist",
+    toolbar: `pageview open save print | undo redo | bold italic underline strikethrough addSystemFonts | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify  | ltr rtl | spellchecker | ${window.__TAURI__ ? "" : " speechrecognition"} | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen insertfile image media chart mathjax footnotes template link anchor codesample | outdent indent | numlist bullist`,
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: "3s",
@@ -187,24 +195,24 @@ function initializeTinyMCE(settings = {}, initialContent = '') {
 						type: 'menuitem',
 						text: 'Microsoft Windows',
 						icon: 'windows',
-						onAction: function () {
-							window.open(DOWNLOAD_LINKS.windows, '_blank');
+						onAction: async function () {
+							await openExternal(DOWNLOAD_LINKS.windows);							
 						}
 					},
 					{
 						type: 'menuitem',
 						text: 'Apple macOS',
 						icon: 'macos',
-						onAction: function () {
-							window.open(DOWNLOAD_LINKS.mac, '_blank');
+						onAction: async function () {
+							await openExternal(DOWNLOAD_LINKS.mac);	
 						}
 					},
 					{
 						type: 'menuitem',
 						text: 'GNU Linux',
 						icon: 'linux',
-						onAction: function () {
-							window.open(DOWNLOAD_LINKS.linux, '_blank');
+						onAction: async function () {
+							await openExternal(DOWNLOAD_LINKS.linux);	
 						}
 					}
 				];
