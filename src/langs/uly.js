@@ -513,6 +513,5 @@ tinymce.addI18n('uly',{
 "Download for desktop": "üstel yüzi üchün chüshürüsh",
 "Select a file": "bir höjjet tallang",
 "File Language": "höjjet tili",
-"Choose file": "höjjet tallang",
-"_dir": "rtl"
+"Choose file": "höjjet tallang"
 });
