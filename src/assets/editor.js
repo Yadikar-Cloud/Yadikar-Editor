@@ -47,9 +47,9 @@ window.settings = {
 };
 
 var DOWNLOAD_LINKS = {
-	windows: 'https://apps.microsoft.com/store/detail/XP89QGXMX3QJMW',
-	mac: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_x64.dmg',
-	linux: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/app-v3.3.1/Yadikar-Editor_3.3.1_amd64.AppImage'
+	windows: 'https://apps.microsoft.com/detail/9MZ2P06C0LL7',
+	mac: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/untagged-17e13c80accb8a823c9c/Yadikar-Editor_3.3.2_x64.dmg',
+	linux: 'https://github.com/Yadikar-Cloud/Yadikar-Editor/releases/download/untagged-17e13c80accb8a823c9c/Yadikar-Editor_3.3.2_amd64.AppImage'
 };
 
 async function openExternal(url) {
