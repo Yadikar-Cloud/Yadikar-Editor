@@ -26,6 +26,7 @@ tinymce.addI18n('de',{
 "Decrease indent": "Einzug verkleinern",
 "Increase indent": "Einzug vergr\u00f6\u00dfern",
 "Close": "Schlie\u00dfen",
+"Exit": "Beenden",
 "Formats": "Formate",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Ihr Browser unterst\u00fctzt leider keinen direkten Zugriff auf die Zwischenablage. Bitte benutzen Sie die Tastenkombinationen Strg+X\/C\/V.",
 "Headers": "\u00dcberschriften",

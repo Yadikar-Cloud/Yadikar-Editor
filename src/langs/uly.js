@@ -26,6 +26,7 @@ tinymce.addI18n('uly',{
 "Decrease indent": "aldigha sürüsh",
 "Increase indent": "keynige sürüsh",
 "Close": "taqash",
+"Exit": "chiqish",
 "Formats": "format",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "sizning tor körgüchingiz qiyip chaplash taxtisi ziyaret qilishni qollimaydu.  Ctrl+X\/C\/V tézletme kunupkisi arqiliq késip chaplash meshghulati qiling.",
 "Headers": "béshi",

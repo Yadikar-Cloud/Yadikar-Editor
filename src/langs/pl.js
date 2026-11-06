@@ -25,6 +25,7 @@ tinymce.addI18n('pl',{
 "Decrease indent": "Zmniejsz wci\u0119cie",
 "Increase indent": "Zwi\u0119ksz wci\u0119cie",
 "Close": "Zamknij",
+"Exit": "Wyjd\u017a",
 "Formats": "Formaty",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Twoja przegl\u0105darka nie obs\u0142uguje bezpo\u015bredniego dost\u0119pu do schowka. U\u017cyj zamiast tego kombinacji klawiszy Ctrl+X\/C\/V.",
 "Headers": "Nag\u0142\u00f3wki",

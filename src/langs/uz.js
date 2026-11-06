@@ -27,6 +27,7 @@ tinymce.addI18n("uz", {
 "Decrease indent": "Satr boshini kamaytirish",
 "Increase indent": "Satr boshini oshirish",
 "Close": "Yopish",
+"Exit": "Chiqish",
 "Formats": "Formatlar",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.": "Sizning brauzeringiz buferga to\u2018g\u2018ridan-to\u2018g\u2018ri kirish qo\u2018llab-quvvatlamaydi. O\u2018rniga klaviaturaning Ctrl+X/C/V qisqartirishlarni foydalaning.",
 "Headings": "Sarlavhalar",

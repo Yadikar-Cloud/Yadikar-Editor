@@ -27,6 +27,7 @@ tinymce.addI18n("az", {
 "Decrease indent": "Bo\u015flu\u011fu azalt",
 "Increase indent": "Bo\u015flu\u011fu art\u0131r",
 "Close": "Ba\u011fla",
+"Exit": "\u00c7\u0131x\u0131\u015f",
 "Formats": "Formatlar",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.": "Sizin brauzeriniz m\xfcbadil\u0259 buferin\u0259 birba\u015fa yolu d\u0259st\u0259kl\u0259mir. Z\u0259hm\u0259t olmasa, bunun yerin\u0259 klaviaturan\u0131n Ctrl+X/C/V d\xfcym\u0259l\u0259rind\u0259n istifad\u0259 edin.",
 "Headings": "Ba\u015fl\u0131qlar",

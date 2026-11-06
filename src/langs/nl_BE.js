@@ -25,6 +25,7 @@ tinymce.addI18n('nl_BE',{
 "Decrease indent": "Inspringing verkleinen",
 "Increase indent": "Inspringing vergroten",
 "Close": "Sluiten",
+"Exit": "Afsluiten",
 "Formats": "Formaten",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Uw browser ondersteunt geen directe toegang tot het klembord. Gelieve de CTRL+X\/C\/V toetsen te gebruiken.",
 "Headers": "Kopteksten",

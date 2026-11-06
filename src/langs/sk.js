@@ -25,6 +25,7 @@ tinymce.addI18n('sk',{
 "Decrease indent": "Zmen\u0161i\u0165 odsadenie",
 "Increase indent": "Zv\u00e4\u010d\u0161i\u0165 odsadenie",
 "Close": "Zatvori\u0165",
+"Exit": "Ukon\u010di\u0165",
 "Formats": "Form\u00e1ty",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "V\u00e1\u0161 prehliada\u010d nepodporuje priamy pr\u00edstup do schr\u00e1nky. Pou\u017eite kl\u00e1vesov\u00e9 skratky Ctrl+X\/C\/V.",
 "Headers": "Z\u00e1hlavia",

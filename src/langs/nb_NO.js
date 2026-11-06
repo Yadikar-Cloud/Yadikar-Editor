@@ -25,6 +25,7 @@ tinymce.addI18n('nb_NO',{
 "Decrease indent": "Reduser innrykk",
 "Increase indent": "\u00d8k innrykk",
 "Close": "Lukk",
+"Exit": "Avslutt",
 "Formats": "Stiler",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Nettleseren din st\u00f8tter ikke direkte tilgang til utklippsboken. Bruk istedet tastatursnarveiene Ctrl+X\/C\/V.",
 "Headers": "Overskrifter",

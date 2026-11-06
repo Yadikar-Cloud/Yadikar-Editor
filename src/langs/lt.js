@@ -27,6 +27,7 @@ tinymce.addI18n("lt", {
   "Decrease indent": "Ma\u017einti \u012ftrauk\u0105",
   "Increase indent": "Didinti \u012ftrauk\u0105",
   "Close": "U\u017edaryti",
+  "Exit": "I\u0161eiti",
   "Formats": "Formatai",
   "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.": "Nar\u0161ykl\u0117s nustatymai neleid\u017eia redaktoriui tiesiogiai pasiekti laikinosios atminties. Pra\u0161ome naudoti klaviat\u016bros klavi\u0161us Ctrl+X/C/V.",
   "Headings": "Antra\u0161t\u0117s",

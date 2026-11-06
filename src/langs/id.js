@@ -25,6 +25,7 @@ tinymce.addI18n('id',{
 "Decrease indent": "Kurangi inden",
 "Increase indent": "Tambah inden",
 "Close": "Tutup",
+"Exit": "Keluar",
 "Formats": "Format",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Browser anda tidak mendukung akses langsung ke papan klip. Silakan gunakan pintasan Ctrl+X\/C\/V dari keyboard.",
 "Headers": "Judul",

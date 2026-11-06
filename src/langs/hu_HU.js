@@ -25,6 +25,7 @@ tinymce.addI18n('hu_HU',{
 "Decrease indent": "Beh\u00faz\u00e1s cs\u00f6kkent\u00e9se",
 "Increase indent": "Beh\u00faz\u00e1s n\u00f6vel\u00e9se",
 "Close": "Bez\u00e1r",
+"Exit": "Kil\u00e9p\u00e9s",
 "Formats": "Form\u00e1tumok",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "A b\u00f6ng\u00e9sz\u0151d nem t\u00e1mogatja a k\u00f6zvetlen hozz\u00e1f\u00e9r\u00e9st a v\u00e1g\u00f3laphoz. K\u00e9rlek, haszn\u00e1ld a Ctrl+X\/C\/V billenty\u0171ket.",
 "Headers": "C\u00edmsorok",

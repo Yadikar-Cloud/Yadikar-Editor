@@ -25,6 +25,7 @@ tinymce.addI18n('ca',{
 "Decrease indent": "Disminuir sagnat",
 "Increase indent": "Augmentar sagnat",
 "Close": "Tancar",
+"Exit": "Surt",
 "Formats": "Formats",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "El vostre navegador no suporta l'acc\u00e9s directe al portaobjectes. Si us plau, feu servir les dreceres de teclat Ctrl+X\/C\/V.",
 "Headers": "Encap\u00e7alaments",

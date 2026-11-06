@@ -25,6 +25,7 @@ tinymce.addI18n('tr',{
 "Decrease indent": "Girintiyi azalt",
 "Increase indent": "Girintiyi art\u0131r",
 "Close": "Kapat",
+"Exit": "\u00c7\u0131k\u0131\u015f",
 "Formats": "Bi\u00e7imler",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Taray\u0131c\u0131n\u0131z panoya direk eri\u015fimi desteklemiyor. L\u00fctfen Ctrl+X\/C\/V klavye k\u0131sayollar\u0131n\u0131 kullan\u0131n.",
 "Headers": "Ba\u015fl\u0131klar",

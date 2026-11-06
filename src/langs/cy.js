@@ -25,6 +25,7 @@ tinymce.addI18n('cy',{
 "Decrease indent": "Lleihau mewnoliad",
 "Increase indent": "Cynyddu mewnoliad",
 "Close": "Cau",
+"Exit": "Gadael",
 "Formats": "Fformatau",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Dyw eich porwr ddim yn cynnal mynediad uniongyrchol i'r clipfwrdd. Yn hytrach defnyddiwch y bysellau llwybrau byr Ctrl+X\/C\/V.",
 "Headers": "Penawdau",

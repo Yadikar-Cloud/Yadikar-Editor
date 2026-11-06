@@ -27,6 +27,7 @@ tinymce.addI18n("fi", {
   "Decrease indent": "Sisenn\xe4",
   "Increase indent": "Loitonna",
   "Close": "Sulje",
+  "Exit": "Poistu",
   "Formats": "Muotoilut",
   "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.": "Selaimesi ei tue leikep\xf6yd\xe4n suoraa k\xe4ytt\xe4mist\xe4. Ole hyv\xe4 ja k\xe4yt\xe4 n\xe4pp\xe4imist\xf6n Ctrl+X/C/V n\xe4pp\xe4inyhdistelmi\xe4.",
   "Headings": "Otsikot",

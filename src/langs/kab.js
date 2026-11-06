@@ -25,6 +25,7 @@ tinymce.addI18n('kab',{
 "Decrease indent": "Simc\u1e6du\u1e25 asi\u1e93i",
 "Increase indent": "Sim\u0263ur asi\u1e93i",
 "Close": "Mdel",
+"Exit": "Ffe\u0263",
 "Formats": "Imasalen",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.",
 "Headers": "Izwal",

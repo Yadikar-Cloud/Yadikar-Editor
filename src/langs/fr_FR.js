@@ -26,6 +26,7 @@ tinymce.addI18n('fr_FR',{
 "Decrease indent": "R\u00e9duire le retrait",
 "Increase indent": "Augmenter le retrait",
 "Close": "Fermer",
+"Exit": "Quitter",
 "Formats": "Formats",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Votre navigateur ne supporte pas l\u2019acc\u00e8s direct au presse-papiers. Merci d'utiliser les raccourcis clavier Ctrl+X\/C\/V.",
 "Headers": "En-t\u00eates",

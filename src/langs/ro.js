@@ -25,6 +25,7 @@ tinymce.addI18n('ro',{
 "Decrease indent": "Mic\u0219orare indent",
 "Increase indent": "M\u0103rire indent",
 "Close": "\u00cenchidere",
+"Exit": "Ie\u0219ire",
 "Formats": "Formate",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Browser-ul dumneavoastr\u0103 nu are acces direct la clipboard. V\u0103 rug\u0103m s\u0103 folosi\u021bi \u00een schimb scurt\u0103turile de tastatur\u0103 Ctrl+X\/C\/V.",
 "Headers": "Antete",

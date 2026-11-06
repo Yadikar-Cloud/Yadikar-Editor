@@ -8,6 +8,7 @@ tinymce.addI18n('sq',{
 "Heading 2": "titull 2",
 "Paste": "ngjit",
 "Close": "Mbylle",
+"Exit": "Dil",
 "Font Family": "soj g\u00ebrmave",
 "Pre": "para",
 "Align right": "Radhit djathtas",

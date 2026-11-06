@@ -25,6 +25,7 @@ tinymce.addI18n('sv_SE',{
 "Decrease indent": "Minska indrag",
 "Increase indent": "\u00d6ka indrag",
 "Close": "St\u00e4ng",
+"Exit": "Avsluta",
 "Formats": "Format",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Din webbl\u00e4sare st\u00f6djer inte direkt \u00e5tkomst till klippboken. Anv\u00e4nd kortkommandona Ctrl\u00a0+\u00a0X\/C\/V i st\u00e4llet.",
 "Headers": "Rubriker",

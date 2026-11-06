@@ -25,6 +25,7 @@ tinymce.addI18n('pt_BR',{
 "Decrease indent": "Diminuir recuo",
 "Increase indent": "Aumentar recuo",
 "Close": "Fechar",
+"Exit": "Sair",
 "Formats": "Formatos",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Seu navegador n\u00e3o suporta acesso direto \u00e0 \u00e1rea de transfer\u00eancia. Por favor use os atalhos Ctrl+X - C - V do teclado",
 "Headers": "Cabe\u00e7alhos",

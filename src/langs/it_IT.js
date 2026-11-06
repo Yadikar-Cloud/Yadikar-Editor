@@ -26,6 +26,7 @@ tinymce.addI18n('it_IT',{
 "Decrease indent": "Riduci rientro",
 "Increase indent": "Aumenta rientro",
 "Close": "Chiudi",
+"Exit": "Esci",
 "Formats": "Formati",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Il browser non supporta l'accesso diretto alla cartella degli appunti. Usare i tasti di scelta rapida Ctrl+X\/C\/V.",
 "Headers": "Intestazioni",

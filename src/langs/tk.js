@@ -26,6 +26,7 @@ tinymce.addI18n('tk',{
 "Decrease indent": "Gyrany azalt",
 "Increase indent": "Gyrany artdyr",
 "Close": "Ýap",
+"Exit": "Çyk",
 "Formats": "Formatlar",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Brauzeriňiz alyş-çalyş buferine gönüden-göni girmegi goldamaýar. Ýerine Ctrl+X\/C\/V klawiatura gysga ýollaryny ulanyň.",
 "Headers": "Başlyklar",

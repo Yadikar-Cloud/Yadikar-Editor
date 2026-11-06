@@ -25,6 +25,7 @@ tinymce.addI18n('sl_SI',{
 "Decrease indent": "Zmanj\u0161aj zamik",
 "Increase indent": "Pove\u010daj zamik",
 "Close": "Zapri",
+"Exit": "Izhod",
 "Formats": "Oblika",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Varnostne nastavitve brskalnika ne dopu\u0161\u010dajo direktnega dostopa do odlo\u017ei\u0161\u010da. Uporabite kombinacijo tipk Ctrl + X\/C\/V na tipkovnici.",
 "Headers": "Naslovi",

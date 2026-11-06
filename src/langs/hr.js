@@ -25,6 +25,7 @@ tinymce.addI18n('hr',{
 "Decrease indent": "Smanji uvla\u010denje",
 "Increase indent": "Pove\u0107aj uvla\u010denje",
 "Close": "Zatvori",
+"Exit": "Izlaz",
 "Formats": "Formati",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Va\u0161 preglednik ne podr\u017eava izravan pristup me\u0111uspremniku. Umjesto toga upotrijebite tipkovni\u010dke pre\u010dace Ctrl\u00a0+\u00a0X\/C\/V.",
 "Headers": "Zaglavlja",

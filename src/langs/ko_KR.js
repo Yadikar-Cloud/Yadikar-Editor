@@ -27,6 +27,7 @@ tinymce.addI18n("ko_KR", {
   "Decrease indent": "\ub0b4\uc5b4\uc4f0\uae30",
   "Increase indent": "\ub4e4\uc5ec\uc4f0\uae30",
   "Close": "\ub2eb\uae30",
+  "Exit": "\uc885\ub8cc",
   "Formats": "\uc11c\uc2dd",
   "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.": "\ube0c\ub77c\uc6b0\uc800\uac00 \ud074\ub9bd\ubcf4\ub4dc \uc811\uadfc\uc744 \uc9c0\uc6d0\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. Ctrl+X/C/V \ub2e8\ucd95\ud0a4\ub97c \uc774\uc6a9\ud574\uc8fc\uc138\uc694.",
   "Headings": "\uc81c\ubaa9",

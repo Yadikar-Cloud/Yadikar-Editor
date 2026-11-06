@@ -26,6 +26,7 @@ tinymce.addI18n('es_419',{
 "Decrease indent": "Disminuir sangr\u00eda",
 "Increase indent": "Aumentar sangr\u00eda",
 "Close": "Cerrar",
+"Exit": "Salir",
 "Formats": "Formatos",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Tu navegador no soporta acceso directo al portapapeles. Favor usar los comandos de teclado Ctrl+X\/C\/V",
 "Headers": "Encabezados",
